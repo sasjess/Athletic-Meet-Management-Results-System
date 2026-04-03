@@ -1,0 +1,13 @@
+-- Meets table: one row per annual competition edition
+CREATE TABLE meets (
+  meet_id    INT           NOT NULL AUTO_INCREMENT,
+  year       INT           NOT NULL UNIQUE,
+  meet_name  VARCHAR(255)  NOT NULL,
+  start_date DATE          NOT NULL,
+  end_date   DATE          NOT NULL,
+  status     ENUM('Upcoming', 'Ongoing', 'Completed')
+             NOT NULL DEFAULT 'Upcoming',
+  created_at TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (meet_id),
+  CONSTRAINT chk_dates CHECK (end_date >= start_date)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
