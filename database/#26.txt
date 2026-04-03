@@ -1,0 +1,24 @@
+CREATE TABLE IF NOT EXISTS gender (
+  gender_id   INT         NOT NULL AUTO_INCREMENT,
+  gender_name VARCHAR(50) NOT NULL,
+  PRIMARY KEY (gender_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT IGNORE INTO gender (gender_id, gender_name) VALUES
+  (1, 'Male'),
+  (2, 'Female');
+
+
+ALTER TABLE events
+  ADD COLUMN gender_id INT NOT NULL AFTER event_name,
+  ADD CONSTRAINT fk_events_gender
+    FOREIGN KEY (gender_id)
+    REFERENCES gender (gender_id)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT;
+
+
+SELECT e.event_id, e.event_name, g.gender_name
+FROM events e
+JOIN gender g ON e.gender_id = g.gender_id
+WHERE g.gender_name = 'Female';
