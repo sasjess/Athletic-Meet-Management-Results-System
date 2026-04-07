@@ -16,3 +16,8 @@ CREATE TABLE schools (
     location VARCHAR(255) NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE gender (
+    gender_id CHAR(1) PRIMARY KEY,
+    name VARCHAR(10) UNIQUE NOT NULL
+);
