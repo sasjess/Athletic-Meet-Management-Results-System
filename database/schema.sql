@@ -49,4 +49,13 @@ CREATE TABLE meets (
     end_date DATE,
     status ENUM('Upcoming', 'Ongoing', 'Completed') DEFAULT 'Upcoming',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);
+
+CREATE TABLE events (
+    event_id INT AUTO_INCREMENT PRIMARY KEY,
+    event_name VARCHAR(100) NOT NULL,
+    event_type ENUM('Track', 'Field') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+    
+);
