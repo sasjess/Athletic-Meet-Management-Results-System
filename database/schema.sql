@@ -40,3 +40,13 @@ CREATE TABLE athletes (
     FOREIGN KEY (gender_id) REFERENCES gender(gender_id),
     FOREIGN KEY (agegroup_id) REFERENCES age_groups(agegroup_id)
 );
+
+CREATE TABLE meets (
+    meet_id INT AUTO_INCREMENT PRIMARY KEY,
+    year INT NOT NULL UNIQUE,
+    meet_name VARCHAR(100) NOT NULL,
+    start_date DATE,
+    end_date DATE,
+    status ENUM('Upcoming', 'Ongoing', 'Completed') DEFAULT 'Upcoming',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
