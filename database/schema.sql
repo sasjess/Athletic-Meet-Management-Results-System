@@ -59,3 +59,25 @@ CREATE TABLE events (
 
     
 );
+CREATE TABLE results (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    
+    bib_no INT NOT NULL,
+    event_id INT NOT NULL,
+    meet_id INT NOT NULL,
+    agegroup_id INT NOT NULL,
+    gender_id CHAR(1) NOT NULL,
+    
+    position INT,
+    points DECIMAL(5,2),
+    
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (bib_no) REFERENCES athletes(bib_no) ON DELETE CASCADE,
+    FOREIGN KEY (event_id) REFERENCES events(event_id) ON DELETE CASCADE,
+    FOREIGN KEY (meet_id) REFERENCES meets(meet_id) ON DELETE CASCADE,
+    FOREIGN KEY (agegroup_id) REFERENCES age_groups(agegroup_id) ON DELETE CASCADE,
+    FOREIGN KEY (gender_id) REFERENCES gender(gender_id) ON DELETE CASCADE,
+
+    UNIQUE (bib_no, event_id, meet_id)
+);
