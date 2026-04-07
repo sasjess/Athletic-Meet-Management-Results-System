@@ -27,3 +27,16 @@ CREATE TABLE age_groups (
     group_name VARCHAR(10) NOT NULL UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE athletes (
+    bib_no INT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    school_id INT NOT NULL,
+    gender_id CHAR(1) NOT NULL,
+    agegroup_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (school_id) REFERENCES schools(school_id),
+    FOREIGN KEY (gender_id) REFERENCES gender(gender_id),
+    FOREIGN KEY (agegroup_id) REFERENCES age_groups(agegroup_id)
+);
