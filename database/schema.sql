@@ -21,3 +21,9 @@ CREATE TABLE gender (
     gender_id CHAR(1) PRIMARY KEY,
     name VARCHAR(10) UNIQUE NOT NULL
 );
+
+CREATE TABLE age_groups (
+    agegroup_id INT AUTO_INCREMENT PRIMARY KEY,
+    group_name VARCHAR(10) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
