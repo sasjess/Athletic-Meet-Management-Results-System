@@ -72,6 +72,19 @@ CREATE TABLE gender_events (
 
 );
 
+CREATE TABLE meet_events (
+id INT AUTO_INCREMENT PRIMARY KEY,
+meet_id INT NOT NULL,
+event_id INT NOT NULL,
+
+FOREIGN KEY (meet_id) REFERENCES meets(meet_id)
+ON DELETE CASCADE,
+FOREIGN KEY (event_id) REFERENCES events(event_id)
+ON DELETE CASCADE,
+
+UNIQUE (meet_id, event_id)
+);
+
 CREATE TABLE results (
     id INT AUTO_INCREMENT PRIMARY KEY,
     
