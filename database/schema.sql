@@ -81,3 +81,22 @@ CREATE TABLE results (
 
     UNIQUE (bib_no, event_id, meet_id)
 );
+
+CREATE TABLE agegroup_events (
+    agegroup_id INT NOT NULL,
+    event_id INT NOT NULL,
+
+    -- Composite Primary Key to prevent duplicates
+    PRIMARY KEY (agegroup_id, event_id),
+
+    -- Foreign Keys
+    CONSTRAINT fk_agegroup
+        FOREIGN KEY (agegroup_id) REFERENCES age_groups(agegroup_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    CONSTRAINT fk_event
+        FOREIGN KEY (event_id) REFERENCES events(event_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
