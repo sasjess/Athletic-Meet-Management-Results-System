@@ -59,6 +59,19 @@ CREATE TABLE events (
 
     
 );
+
+CREATE TABLE gender_events (
+
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    event_id INT NOT NULL,
+    gender_id char(1) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (event_id) REFERENCES events(event_id) ON DELETE CASCADE,
+    FOREIGN KEY (gender_id) REFERENCES gender(gender_id) ON DELETE CASCADE,
+    UNIQUE (event_id, gender_id)
+
+);
+
 CREATE TABLE results (
     id INT AUTO_INCREMENT PRIMARY KEY,
     
