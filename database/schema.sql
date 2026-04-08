@@ -126,3 +126,25 @@ CREATE TABLE agegroup_events (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+CREATE TABLE athlete_event (
+    bib_no INT NOT NULL,
+    event_id INT NOT NULL,
+
+    registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    lane_number INT,
+    heat_number INT,
+
+    -- Composite Primary Key (prevents duplicates)
+    PRIMARY KEY (bib_no, event_id),
+
+    -- Foreign Keys
+    CONSTRAINT fk_athlete
+        FOREIGN KEY (bib_no) REFERENCES athletes(bib_no)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    CONSTRAINT fk_event_athlete
+        FOREIGN KEY (event_id) REFERENCES events(event_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
