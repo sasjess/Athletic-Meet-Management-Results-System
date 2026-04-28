@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
 
     $stmt = $conn->prepare("INSERT INTO events (event_name, event_type ) VALUES (?, ?)");
-    $stmt->bind_param("ss", $event_name, $event_type,);
+    $stmt->bind_param("ss", $event_name, $event_type);
 
     if ($stmt->execute()) {
         echo "Event created successfully";
