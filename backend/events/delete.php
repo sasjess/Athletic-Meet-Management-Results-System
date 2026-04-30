@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 
 header("Content-Type: application/json");
 
-require_once "event_model.php";
+require_once "events_model.php";
 
 $data = json_decode(file_get_contents("php://input"), true);
 
