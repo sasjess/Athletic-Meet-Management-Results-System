@@ -6,6 +6,11 @@ header("Content-Type: application/json");
 
 require_once "events_model.php";
 
+if ($_SERVER["REQUEST_METHOD"] !== "DELETE") {
+    echo json_encode(["error" => "Use DELETE method"]);
+    exit;
+}
+
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!$data) {
