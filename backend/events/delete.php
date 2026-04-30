@@ -1,14 +1,30 @@
 <?php
-require 'db.php';
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-$id = $_GET['id'];
+header("Content-Type: application/json");
 
-$stmt = $conn->prepare("DELETE FROM events WHERE event_id = ?");
-$stmt->bind_param("i", $id);
+require_once "event_model.php";
 
-if ($stmt->execute()) {
-    echo "Deleted successfully";
+$data = json_decode(file_get_contents("php://input"), true);
+
+if (!$data) {
+    echo json_encode(["error" => "Invalid JSON"]);
+    exit;
+}
+
+if (!isset($data['event_id'])) {
+    echo json_encode(["error" => "Missing event_id"]);
+    exit;
+}
+
+$id = $data['event_id'];
+
+$result = deleteEvent($id);
+
+if ($result) {
+    echo json_encode(["message" => "Event deleted"]);
 } else {
-    echo "Error deleting";
+    echo json_encode(["message" => "Delete failed"]);
 }
 ?>

@@ -1,52 +1,33 @@
 <?php
-require 'db.php';
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-$id = $_GET['id'] ?? null;
+header("Content-Type: application/json");
 
-// FETCH DATA FOR FORM
-if ($id) {
-    $stmt = $conn->prepare("SELECT * FROM events WHERE event_id = ?");
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $event = $result->fetch_assoc();
+require_once "event_model.php";
+
+$data = json_decode(file_get_contents("php://input"), true);
+
+if (!$data) {
+    echo json_encode(["error" => "Invalid JSON"]);
+    exit;
 }
 
-// UPDATE DATA
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (!isset($data['event_id'], $data['event_name'], $data['event_type'], $data['gender_id'])) {
+    echo json_encode(["error" => "Missing fields"]);
+    exit;
+}
 
-    $id = $_POST['event_id'];
-    $name = $_POST['event_name'];
-    $type = $_POST['event_type'];
-    $gender = $_POST['gender'];
+$id = $data['event_id'];
+$name = $data['event_name'];
+$type = $data['event_type'];
+$gender_id = $data['gender_id'];
 
-    $stmt = $conn->prepare("UPDATE events SET event_name=?, event_type=?, gender=? WHERE event_id=?");
-    $stmt->bind_param("sssi", $name, $type, $gender, $id);
+$result = updateEvent($id, $name, $type, $gender_id);
 
-    if ($stmt->execute()) {
-        echo "Updated successfully";
-    } else {
-        echo "Error updating";
-    }
+if ($result) {
+    echo json_encode(["message" => "Event updated"]);
+} else {
+    echo json_encode(["message" => "Update failed"]);
 }
 ?>
-
-<!-- SIMPLE FORM -->
-<form method="POST">
-    <input type="hidden" name="event_id" value="<?= $event['event_id'] ?? '' ?>">
-
-    <input type="text" name="event_name" value="<?= $event['event_name'] ?? '' ?>" required>
-
-    <select name="event_type">
-        <option value="Track" <?= ($event['event_type'] ?? '') == 'Track' ? 'selected' : '' ?>>Track</option>
-        <option value="Field" <?= ($event['event_type'] ?? '') == 'Field' ? 'selected' : '' ?>>Field</option>
-    </select>
-
-    <select name="gender">
-        <option value="Male" <?= ($event['gender'] ?? '') == 'Male' ? 'selected' : '' ?>>Male</option>
-        <option value="Female" <?= ($event['gender'] ?? '') == 'Female' ? 'selected' : '' ?>>Female</option>
-        <option value="Mixed" <?= ($event['gender'] ?? '') == 'Mixed' ? 'selected' : '' ?>>Mixed</option>
-    </select>
-
-    <button type="submit">Update</button>
-</form>

@@ -1,21 +1,32 @@
 <?php
-require 'db.php';
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+header("Content-Type: application/json");
 
-    $event_name = $_POST['event_name'];
-    $event_type = $_POST['event_type'];
-    
+require_once "event_model.php";
 
-    $stmt = $conn->prepare("INSERT INTO events (event_name, event_type ) VALUES (?, ?)");
-    $stmt->bind_param("ss", $event_name, $event_type);
+$data = json_decode(file_get_contents("php://input"), true);
 
-    if ($stmt->execute()) {
-        echo "Event created successfully";
-    } else {
-        echo "Error: " . $stmt->error;
-    }
+if (!$data) {
+    echo json_encode(["error" => "Invalid JSON"]);
+    exit;
+}
 
-    $stmt->close();
+if (!isset($data['event_name'], $data['event_type'], $data['gender_id'])) {
+    echo json_encode(["error" => "Missing fields"]);
+    exit;
+}
+
+$name = $data['event_name'];
+$type = $data['event_type'];
+$gender_id = $data['gender_id'];
+
+$result = createEvent($name, $type, $gender_id);
+
+if ($result) {
+    echo json_encode(["message" => "Event created"]);
+} else {
+    echo json_encode(["message" => "Insert failed"]);
 }
 ?>
