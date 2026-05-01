@@ -148,3 +148,17 @@ CREATE TABLE athlete_event (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
+CREATE TABLE stages (
+    stage_id INT AUTO_INCREMENT PRIMARY KEY,
+    stage_name VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE event_stages (
+    event_stage_id INT AUTO_INCREMENT PRIMARY KEY,
+    event_id INT NOT NULL,
+    stage_id INT NOT NULL,
+
+    FOREIGN KEY (event_id) REFERENCES events(event_id),
+    FOREIGN KEY (stage_id) REFERENCES stages(stage_id)
+);
