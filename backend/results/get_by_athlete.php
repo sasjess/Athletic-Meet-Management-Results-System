@@ -1,14 +1,37 @@
 <?php
 include "../config/db.php";
+include "../helpers/functions.php";
 
+header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+
+/* =========================
+   ALLOW ONLY GET METHOD
+========================= */
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+    sendResponse("error", "Only GET method is allowed");
+}
+
+/* =========================
+   VALIDATE INPUT
+========================= */
 if (!isset($_GET['bib_no'])) {
-    echo json_encode(["error" => "bib_no required"]);
-    exit;
+    sendResponse("error", "bib_no is required");
 }
 
 $bib_no = $_GET['bib_no'];
 
-$stmt = $conn->prepare("SELECT * FROM results WHERE bib_no=?");
+/* =========================
+   GET RESULTS
+========================= */
+$stmt = $conn->prepare("
+SELECT * 
+FROM results 
+WHERE bib_no = ?
+");
+
 $stmt->bind_param("i", $bib_no);
 $stmt->execute();
 
@@ -20,5 +43,13 @@ while ($row = $result->fetch_assoc()) {
     $data[] = $row;
 }
 
-echo json_encode($data);
+/* =========================
+   RESPONSE
+========================= */
+echo json_encode([
+    "status" => "success",
+    "bib_no" => $bib_no,
+    "count" => count($data),
+    "data" => $data
+]);
 ?>
