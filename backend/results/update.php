@@ -1,12 +1,36 @@
 <?php
-require_once("result_model.php");
-require_once("../config/db.php");
-
-header("Content-Type: application/json");
+include "../config/db.php";
+include "../helpers/functions.php";
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-$model = new ResultModel($conn);
-$response = $model->update($data['id'], $data);
+if (!isset($data['id'])) {
+    sendResponse("error", "Result ID required");
+}
 
-echo json_encode($response);
+$points = calculatePoints($data['position']);
+
+$stmt = $conn->prepare("
+UPDATE results SET
+performance_time=?,
+performance_distance=?,
+position=?,
+points=?
+WHERE id=?
+");
+
+$stmt->bind_param(
+    "ddidi",
+    $data['performance_time'],
+    $data['performance_distance'],
+    $data['position'],
+    $points,
+    $data['id']
+);
+
+if ($stmt->execute()) {
+    sendResponse("success", "Result updated successfully");
+} else {
+    sendResponse("error", "Update failed");
+}
+?>
