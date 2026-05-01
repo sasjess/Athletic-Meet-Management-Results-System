@@ -93,6 +93,8 @@ CREATE TABLE results (
     meet_id INT NOT NULL,
     agegroup_id INT NOT NULL,
     gender_id CHAR(1) NOT NULL,
+    performance_time DECIMAL(6,3) NULL,
+    performance_distance DECIMAL(6,2) NULL,
     
     position INT,
     points DECIMAL(5,2),
