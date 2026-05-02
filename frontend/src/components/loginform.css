@@ -1,0 +1,135 @@
+/* loginform.css */
+
+.auth-wrapper {
+  min-height: 100vh;
+  background-color: #1a6fc4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.auth-card {
+  background: #ffffff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 400px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* Tabs */
+.auth-tabs {
+  display: flex;
+  background: #f0f0f0;
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 16px;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #555;
+  border-radius: 0;
+  transition: all 0.2s ease;
+}
+
+.auth-tab.active {
+  background: #1a3a5c;
+  color: #ffffff;
+  border-radius: 12px 12px 0 0;
+}
+
+/* Form Content */
+.auth-form {
+  padding: 30px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 8px 0;
+}
+
+/* Inputs */
+.auth-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #333;
+  background: #fff;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.auth-input:focus {
+  border-color: #1a6fc4;
+}
+
+.auth-input::placeholder {
+  color: #aaa;
+}
+
+/* Forgot password */
+.forgot-link {
+  text-align: right;
+  margin-top: -8px;
+}
+
+.forgot-link a {
+  color: #1a6fc4;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.forgot-link a:hover {
+  text-decoration: underline;
+}
+
+/* Button */
+.auth-btn {
+  width: 100%;
+  padding: 15px;
+  background: #1a3a5c;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  margin-top: 4px;
+}
+
+.auth-btn:hover {
+  background: #142d47;
+}
+
+/* Switch text */
+.switch-text {
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+  margin: 0;
+}
+
+.switch-text .link {
+  color: #1a6fc4;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.switch-text .link:hover {
+  text-decoration: underline;
+}
