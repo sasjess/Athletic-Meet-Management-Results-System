@@ -3,8 +3,8 @@ import "./loginform.css";
 
 const LoginForm = () => {
   const [activeTab, setActiveTab] = useState("login");
-  const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const [signupData, setSignupData] = useState({ email: "", password: "", confirm: "" });
+  const [loginData, setLoginData] = useState({ username: "", password: "" });
+  const [signupData, setSignupData] = useState({ username: "", password: "", confirm: "" });
 
   const handleLogin = () => {
     console.log("Login:", loginData);
@@ -43,11 +43,11 @@ const LoginForm = () => {
           <div className="auth-form">
             <h2 className="form-title">Login Form</h2>
             <input
-              type="email"
+              type="username"
               className="auth-input"
-              placeholder="Email Address"
-              value={loginData.email}
-              onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+              placeholder="Username"
+              value={loginData.username}
+              onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
             />
             <input
               type="password"
@@ -76,11 +76,11 @@ const LoginForm = () => {
           <div className="auth-form">
             <h2 className="form-title">Signup Form</h2>
             <input
-              type="email"
+              type="username"
               className="auth-input"
-              placeholder="Email Address"
-              value={signupData.email}
-              onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
+              placeholder="username"
+              value={signupData.username}
+              onChange={(e) => setSignupData({ ...signupData, username: e.target.value })}
             />
             <input
               type="password"
