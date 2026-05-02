@@ -7,13 +7,18 @@ function calculatePoints($position) {
     return 0;
 }
 
-function sendResponse($status, $message, $data = null) {
+
+
+function sendResponse($status, $message, $data = null)
+{
+    header("Content-Type: application/json");
+
     echo json_encode([
         "status" => $status,
         "message" => $message,
         "data" => $data
     ]);
+
     exit;
 }
-
 ?>

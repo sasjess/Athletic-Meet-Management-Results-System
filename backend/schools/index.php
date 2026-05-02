@@ -1,27 +1,35 @@
 <?php
-include "../config/db.php";
-include "../helpers/functions.php";
 
-// Allow ONLY GET method
-if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
-    sendResponse("error", "Only GET method is allowed");
-}
+require_once "../config/db.php";
 
-// Run query
-$result = $conn->query("SELECT * FROM schools ORDER BY id DESC");
+header("Content-Type: application/json");
 
-// Check query success
+// Fetch data
+$sql = "SELECT id, school_name, province, district, city, created_at 
+        FROM schools 
+        ORDER BY id DESC";
+
+$result = $conn->query($sql);
+
 if (!$result) {
-    sendResponse("error", "Database query failed");
+    echo json_encode([
+        "status" => "error",
+        "message" => "Query failed: " . $conn->error
+    ]);
+    exit();
 }
 
 $schools = [];
 
-// Fetch data
 while ($row = $result->fetch_assoc()) {
     $schools[] = $row;
 }
 
-// Response
-sendResponse("success", "Schools fetched successfully", $schools);
-?>
+// FINAL OUTPUT (no sendResponse, no risk)
+echo json_encode([
+    "status" => "success",
+    "message" => "Schools fetched successfully",
+    "data" => $schools
+]);
+
+exit();
