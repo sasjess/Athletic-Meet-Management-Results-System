@@ -93,7 +93,10 @@ CREATE TABLE results (
     meet_id INT NOT NULL,
     agegroup_id INT NOT NULL,
     gender_id CHAR(1) NOT NULL,
-    
+    performance_time DECIMAL(6,3) NULL,
+    performance_distance DECIMAL(6,2) NULL,
+    stage_id INT NOT NULL,
+    heat_no INT NOT NULL,
     position INT,
     points DECIMAL(5,2),
     
@@ -104,8 +107,10 @@ CREATE TABLE results (
     FOREIGN KEY (meet_id) REFERENCES meets(meet_id) ON DELETE CASCADE,
     FOREIGN KEY (agegroup_id) REFERENCES age_groups(agegroup_id) ON DELETE CASCADE,
     FOREIGN KEY (gender_id) REFERENCES gender(gender_id) ON DELETE CASCADE,
+    FOREIGN KEY (stage_id) REFERENCES stages(stage_id) ON DELETE CASCADE,
 
-    UNIQUE (bib_no, event_id, meet_id)
+
+    UNIQUE (bib_no, event_id, meet_id,stage_id)
 );
 
 CREATE TABLE agegroup_events (
