@@ -1,13 +1,22 @@
 <?php
 
 require_once "../config/db.php";
+require_once "../helpers/functions.php";
+
 
 header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+    sendResponse("error", "Only GET method is allowed");
+}
 
 // Fetch data
-$sql = "SELECT id, school_name, province, district, city, created_at 
+$sql = "SELECT school_id, school_name, province, district, city, created_at 
         FROM schools 
-        ORDER BY id DESC";
+        ORDER BY school_id DESC";
 
 $result = $conn->query($sql);
 
@@ -33,3 +42,4 @@ echo json_encode([
 ]);
 
 exit();
+?>

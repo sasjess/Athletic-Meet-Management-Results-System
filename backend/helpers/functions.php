@@ -6,7 +6,12 @@ function calculatePoints($position) {
     if ($position == 3) return 5;
     return 0;
 }
-
+function isValidSchoolName($value) {
+    return preg_match("/^[a-zA-Z0-9\s\.\'\-]+$/", $value);
+}
+function isValidLocation($value) {
+    return preg_match("/^[a-zA-Z\s]+$/", $value);
+}
 
 
 function sendResponse($status, $message, $data = null)
