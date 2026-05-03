@@ -38,7 +38,7 @@ CREATE TABLE athletes (
     agegroup_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (school_id) REFERENCES schools(id),
+    FOREIGN KEY (school_id) REFERENCES schools(school_id),
     FOREIGN KEY (gender_id) REFERENCES gender(gender_id),
     FOREIGN KEY (agegroup_id) REFERENCES age_groups(agegroup_id)
 );
