@@ -11,9 +11,11 @@ CREATE TABLE users (
 
 
 CREATE TABLE schools (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    school_id INT AUTO_INCREMENT PRIMARY KEY,
     school_name VARCHAR(255) NOT NULL,
-    location VARCHAR(255) NULL,
+    province VARCHAR(255) NOT NULL,
+    district VARCHAR(255) NOT NULL,
+    city VARCHAR(255) NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
