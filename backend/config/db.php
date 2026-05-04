@@ -1,17 +1,22 @@
 <?php
-//define connection details
+// db.php
+
 $host = "localhost";
 $user = "root";
 $password = "";
 $database = "meet_db";
 
-//create connection,$conn = connection object| new mysqli = create connection to mysql
-$conn = new mysqli($host,$user,$password,$database);
+// Create connection
+$conn = new mysqli($host, $user, $password, $database);
 
-//Check if connection failed
-if($conn->connect_error){
-    die("Database connection failed: ". $conn->connect_error);     //die=stop execution immedietly
+// Check connection
+if ($conn->connect_error) {
+    die(json_encode([
+        "status" => "error",
+        "message" => "Database connection failed: " . $conn->connect_error
+    ]));
 }
 
+// Set charset (important for consistency)
 $conn->set_charset("utf8mb4");
 ?>
