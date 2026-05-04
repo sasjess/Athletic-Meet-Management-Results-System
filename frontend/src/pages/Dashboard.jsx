@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Dashboard.css";
+import Layout from "../components/layout/Layout";
 
 const Dashboard = () => {
   const [activeNav, setActiveNav] = useState("Dashboard");
@@ -29,36 +29,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="dashboard-layout">
-      {/* Sidebar */}
-      <aside className="sidebar">
-        <div className="sidebar-logo">
-          <span className="logo-icon">🏅</span>
-          <span className="logo-text">AthleteHub</span>
-        </div>
-        <nav className="sidebar-nav">
-          {navItems.map((item) => (
-            <button
-              key={item}
-              className={`nav-item ${activeNav === item ? "nav-active" : ""}`}
-              onClick={() => setActiveNav(item)}
-            >
-              {item}
-            </button>
-          ))}
-        </nav>
-        <div className="sidebar-footer">
-          <div className="user-avatar">JP</div>
-          <div className="user-info">
-            <span className="user-name">John P.</span>
-            <span className="user-role">Admin</span>
-          </div>
-          <button className="logout-btn" title="Logout">⏻</button>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <main className="main-content">
+    <Layout>
         {/* Header */}
         <header className="dash-header">
           <div>
@@ -133,8 +104,7 @@ const Dashboard = () => {
             </table>
           </div>
         </section>
-      </main>
-    </div>
+    </Layout>
   );
 };
 
