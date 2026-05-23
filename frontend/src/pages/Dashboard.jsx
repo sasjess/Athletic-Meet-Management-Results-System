@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Layout from "../components/layout/Layout";
 import "./Dashboard.css";
 
 const Dashboard = () => {
@@ -29,6 +30,7 @@ const Dashboard = () => {
   };
 
   return (
+    <Layout>
     <div className="dashboard-layout">
       {/* Sidebar */}
       <aside className="sidebar">
@@ -135,6 +137,7 @@ const Dashboard = () => {
         </section>
       </main>
     </div>
+   </Layout>
   );
 };
 

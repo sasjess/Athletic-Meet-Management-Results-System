@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router";
 import Dashboard from "../pages/Dashboard";
 import About from "../pages/About";
 import LoginForm from "../components/loginform";
+import Athletes from "../pages/Athletes";
 
 export const router = createBrowserRouter([
   {
@@ -16,5 +17,9 @@ export const router = createBrowserRouter([
   {
     path:"/login",
     element:<LoginForm/>
+  },
+  {
+    path:"/athletes",
+   element:<Athletes /> ,
   }
 ]);
