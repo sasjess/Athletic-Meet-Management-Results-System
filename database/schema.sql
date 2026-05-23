@@ -11,9 +11,11 @@ CREATE TABLE users (
 
 
 CREATE TABLE schools (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    school_id INT AUTO_INCREMENT PRIMARY KEY,
     school_name VARCHAR(255) NOT NULL,
-    location VARCHAR(255) NULL,
+    province VARCHAR(255) NOT NULL,
+    district VARCHAR(255) NOT NULL,
+    city VARCHAR(255) NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -36,7 +38,7 @@ CREATE TABLE athletes (
     agegroup_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (school_id) REFERENCES schools(id),
+    FOREIGN KEY (school_id) REFERENCES schools(school_id),
     FOREIGN KEY (gender_id) REFERENCES gender(gender_id),
     FOREIGN KEY (agegroup_id) REFERENCES age_groups(agegroup_id)
 );
@@ -152,4 +154,18 @@ CREATE TABLE athlete_event (
         FOREIGN KEY (event_id) REFERENCES events(event_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
+);
+
+CREATE TABLE stages (
+    stage_id INT AUTO_INCREMENT PRIMARY KEY,
+    stage_name VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE event_stages (
+    event_stage_id INT AUTO_INCREMENT PRIMARY KEY,
+    event_id INT NOT NULL,
+    stage_id INT NOT NULL,
+
+    FOREIGN KEY (event_id) REFERENCES events(event_id),
+    FOREIGN KEY (stage_id) REFERENCES stages(stage_id)
 );
