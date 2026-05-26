@@ -31,7 +31,6 @@
       min-height: 100vh;
     }
 
-    /* ===== SIDEBAR ===== */
     .sidebar {
       width: 240px;
       min-height: 100vh;
@@ -103,7 +102,6 @@
     .sidebar-footer .name { font-size: 13px; color: #e2e8f0; font-weight: 500; }
     .sidebar-footer .role { font-size: 11px; color: #64748b; }
 
-    /* ===== MAIN ===== */
     .main-content {
       margin-left: 240px;
       flex: 1;
@@ -111,7 +109,6 @@
       min-height: 100vh;
     }
 
-    /* ===== PAGE HEADER ===== */
     .page-header {
       display: flex;
       justify-content: space-between;
@@ -121,7 +118,6 @@
     .page-title { font-size: 20px; font-weight: 600; color: var(--text); }
     .page-sub { font-size: 13px; color: var(--text-muted); margin-top: 3px; }
 
-    /* ===== STATS ===== */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -136,12 +132,11 @@
     }
     .stat-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
     .stat-value { font-size: 24px; font-weight: 700; }
-    .stat-value.blue  { color: #1a56db; }
-    .stat-value.amber { color: #b45309; }
-    .stat-value.indigo{ color: #4338ca; }
-    .stat-value.green { color: #15803d; }
+    .stat-value.blue   { color: #1a56db; }
+    .stat-value.amber  { color: #b45309; }
+    .stat-value.indigo { color: #4338ca; }
+    .stat-value.green  { color: #15803d; }
 
-    /* ===== CARDS ===== */
     .card {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -160,13 +155,11 @@
     .card-title { font-size: 14px; font-weight: 600; color: var(--text); }
     .card-body { padding: 1.25rem; }
 
-    /* ===== FORM ===== */
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
     }
-    .form-full { grid-column: 1 / -1; }
     .form-group { display: flex; flex-direction: column; gap: 5px; }
     .form-label {
       font-size: 12px;
@@ -203,7 +196,6 @@
       border-top: 1px solid var(--border);
     }
 
-    /* ===== BUTTONS ===== */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -215,30 +207,16 @@
       cursor: pointer;
       border: 1px solid transparent;
       transition: all 0.15s;
-      text-decoration: none;
     }
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-    }
-    .btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
-    .btn-secondary {
-      background: #fff;
-      color: var(--text);
-      border-color: var(--border);
-    }
+    .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-secondary { background: #fff; color: var(--text); border-color: var(--border); }
     .btn-secondary:hover { background: #f1f5f9; }
-    .btn-danger-soft {
-      background: #fef2f2;
-      color: #b91c1c;
-      border-color: #fecaca;
-    }
+    .btn-danger-soft { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
     .btn-danger-soft:hover { background: #fee2e2; }
     .btn-sm { padding: 5px 10px; font-size: 12px; }
     .btn-icon { padding: 6px; border-radius: 6px; }
 
-    /* ===== FILTER BAR ===== */
     .filter-bar {
       display: flex;
       gap: 10px;
@@ -248,134 +226,70 @@
       background: #f8fafc;
       flex-wrap: wrap;
     }
-    .search-wrap {
-      position: relative;
-      flex: 1;
-      min-width: 180px;
-    }
+    .search-wrap { position: relative; flex: 1; min-width: 180px; }
     .search-wrap i {
-      position: absolute;
-      left: 10px;
-      top: 50%;
+      position: absolute; left: 10px; top: 50%;
       transform: translateY(-50%);
-      font-size: 14px;
-      color: var(--text-muted);
-      pointer-events: none;
+      font-size: 14px; color: var(--text-muted); pointer-events: none;
     }
     .search-input {
-      width: 100%;
-      padding: 8px 12px 8px 34px;
-      font-size: 13.5px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: #fff;
-      color: var(--text);
+      width: 100%; padding: 8px 12px 8px 34px;
+      font-size: 13.5px; border: 1px solid var(--border);
+      border-radius: 8px; background: #fff; color: var(--text);
     }
     .search-input:focus { outline: none; border-color: var(--primary); }
     .filter-select {
-      padding: 8px 12px;
-      font-size: 13px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: #fff;
-      color: var(--text);
-      cursor: pointer;
+      padding: 8px 12px; font-size: 13px;
+      border: 1px solid var(--border); border-radius: 8px;
+      background: #fff; color: var(--text); cursor: pointer;
     }
-    .filter-select:focus { outline: none; border-color: var(--primary); }
 
-    /* ===== TABLE ===== */
-    .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
     thead th {
-      text-align: left;
-      padding: 10px 14px;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-muted);
-      border-bottom: 1px solid var(--border);
-      background: #f8fafc;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      white-space: nowrap;
+      text-align: left; padding: 10px 14px;
+      font-size: 11px; font-weight: 600; color: var(--text-muted);
+      border-bottom: 1px solid var(--border); background: #f8fafc;
+      text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;
     }
-    tbody td {
-      padding: 11px 14px;
-      border-bottom: 1px solid #f1f5f9;
-      vertical-align: middle;
-    }
+    tbody td { padding: 11px 14px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
     tbody tr:last-child td { border-bottom: none; }
     tbody tr:hover td { background: #f8fafc; }
     .table-footer {
-      padding: 10px 1.25rem;
-      font-size: 12px;
-      color: var(--text-muted);
-      border-top: 1px solid var(--border);
-      background: #f8fafc;
+      padding: 10px 1.25rem; font-size: 12px;
+      color: var(--text-muted); border-top: 1px solid var(--border); background: #f8fafc;
     }
 
-    /* ===== BADGES ===== */
     .badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 3px 9px;
-      border-radius: 20px;
-      font-size: 11.5px;
-      font-weight: 500;
-      white-space: nowrap;
+      display: inline-flex; align-items: center;
+      padding: 3px 9px; border-radius: 20px;
+      font-size: 11.5px; font-weight: 500; white-space: nowrap;
     }
-    .badge-track    { background: #ede9fe; color: #5b21b6; }
-    .badge-field    { background: #d1fae5; color: #065f46; }
-    .badge-road     { background: #fef3c7; color: #92400e; }
-    .badge-cross    { background: #e0f2fe; color: #075985; }
-    .badge-scheduled  { background: #fef9c3; color: #713f12; }
-    .badge-inprogress { background: #dbeafe; color: #1e40af; }
-    .badge-completed  { background: #dcfce7; color: #14532d; }
-    .badge-cancelled  { background: #fee2e2; color: #7f1d1d; }
+    .badge-track     { background: #ede9fe; color: #5b21b6; }
+    .badge-field     { background: #d1fae5; color: #065f46; }
+    .badge-road      { background: #fef3c7; color: #92400e; }
+    .badge-cross     { background: #e0f2fe; color: #075985; }
+    .badge-scheduled   { background: #fef9c3; color: #713f12; }
+    .badge-inprogress  { background: #dbeafe; color: #1e40af; }
+    .badge-completed   { background: #dcfce7; color: #14532d; }
+    .badge-cancelled   { background: #fee2e2; color: #7f1d1d; }
 
-    /* ===== EMPTY STATE ===== */
-    .empty-state {
-      text-align: center;
-      padding: 3.5rem 2rem;
-      color: var(--text-muted);
-    }
+    .empty-state { text-align: center; padding: 3.5rem 2rem; color: var(--text-muted); }
     .empty-state i { font-size: 36px; display: block; margin-bottom: 10px; opacity: 0.4; }
-    .empty-state p { font-size: 13px; }
 
-    /* ===== TOAST ===== */
-    .toast-container {
-      position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      z-index: 9999;
-    }
+    .toast-container { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999; }
     .toast {
-      display: none;
-      align-items: center;
-      gap: 8px;
-      padding: 11px 18px;
-      border-radius: 10px;
-      font-size: 13.5px;
-      font-weight: 500;
-      color: #fff;
+      display: none; align-items: center; gap: 8px;
+      padding: 11px 18px; border-radius: 10px;
+      font-size: 13.5px; font-weight: 500; color: #fff;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
     .toast.show { display: flex; }
     .toast.success { background: #15803d; }
     .toast.error   { background: #b91c1c; }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 768px) {
-      .sidebar { transform: translateX(-100%); }
-      .main-content { margin-left: 0; padding: 1rem; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .form-grid { grid-template-columns: 1fr; }
-      .form-full { grid-column: 1; }
-    }
   </style>
 </head>
 <body>
 
-<!-- ===== SIDEBAR ===== -->
 <aside class="sidebar">
   <div class="sidebar-logo">
     <div class="logo-title">
@@ -384,20 +298,16 @@
     </div>
     <div class="logo-sub">Management Dashboard</div>
   </div>
-
   <div class="nav-section-label">Main</div>
   <a href="#" class="nav-link"><i class="bi bi-grid-1x2"></i> Dashboard</a>
-
   <div class="nav-section-label">Management</div>
   <a href="#" class="nav-link"><i class="bi bi-calendar-event"></i> Meets</a>
   <a href="#" class="nav-link active"><i class="bi bi-lightning-charge"></i> Events</a>
   <a href="#" class="nav-link"><i class="bi bi-award"></i> Results</a>
   <a href="#" class="nav-link"><i class="bi bi-building"></i> Schools</a>
   <a href="#" class="nav-link"><i class="bi bi-people"></i> Athletes</a>
-
   <div class="nav-section-label">Reports</div>
   <a href="#" class="nav-link"><i class="bi bi-file-earmark-bar-graph"></i> Reports</a>
-
   <div class="sidebar-footer">
     <div class="avatar">DP</div>
     <div>
@@ -407,10 +317,7 @@
   </div>
 </aside>
 
-<!-- ===== MAIN CONTENT ===== -->
 <main class="main-content">
-
-  <!-- Page Header -->
   <div class="page-header">
     <div>
       <div class="page-title">
@@ -424,11 +331,10 @@
     </button>
   </div>
 
-  <!-- Stats -->
   <div class="stats-grid">
     <div class="stat-card">
       <div class="stat-label">Total Events</div>
-      <div class="stat-value blue" id="s-total">5</div>
+      <div class="stat-value blue" id="s-total">0</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Scheduled</div>
@@ -444,20 +350,18 @@
     </div>
   </div>
 
-  <!-- Add / Edit Form -->
   <div class="card" id="form-card" style="display:none">
     <div class="card-header">
       <div class="card-title">
         <i class="bi bi-plus-circle" id="form-icon" style="margin-right:6px;color:#1a56db"></i>
         <span id="form-title">New Event</span>
       </div>
-      <button class="btn btn-secondary btn-sm btn-icon" onclick="closeForm()" title="Close">
+      <button class="btn btn-secondary btn-sm btn-icon" onclick="closeForm()">
         <i class="bi bi-x-lg"></i>
       </button>
     </div>
     <div class="card-body">
       <div class="form-grid">
-
         <div class="form-group">
           <label class="form-label">Meet <span class="req">*</span></label>
           <select class="form-select" id="f-meet">
@@ -468,31 +372,23 @@
           </select>
           <div class="invalid-feedback" id="err-meet">Meet select කරන්න</div>
         </div>
-
         <div class="form-group">
           <label class="form-label">Event Name <span class="req">*</span></label>
           <input type="text" class="form-control" id="f-name" placeholder="e.g. 100m Sprint">
           <div class="invalid-feedback" id="err-name">Event name ඇතුල් කරන්න</div>
         </div>
-
         <div class="form-group">
           <label class="form-label">Category <span class="req">*</span></label>
           <select class="form-select" id="f-cat">
             <option value="">Select category</option>
-            <option>Under 12 Boys</option>
-            <option>Under 12 Girls</option>
-            <option>Under 14 Boys</option>
-            <option>Under 14 Girls</option>
-            <option>Under 16 Boys</option>
-            <option>Under 16 Girls</option>
-            <option>Under 18 Boys</option>
-            <option>Under 18 Girls</option>
-            <option>Open Boys</option>
-            <option>Open Girls</option>
+            <option>Under 12 Boys</option><option>Under 12 Girls</option>
+            <option>Under 14 Boys</option><option>Under 14 Girls</option>
+            <option>Under 16 Boys</option><option>Under 16 Girls</option>
+            <option>Under 18 Boys</option><option>Under 18 Girls</option>
+            <option>Open Boys</option><option>Open Girls</option>
           </select>
           <div class="invalid-feedback" id="err-cat">Category select කරන්න</div>
         </div>
-
         <div class="form-group">
           <label class="form-label">Event Type <span class="req">*</span></label>
           <select class="form-select" id="f-type">
@@ -504,23 +400,19 @@
           </select>
           <div class="invalid-feedback" id="err-type">Event type select කරන්න</div>
         </div>
-
         <div class="form-group">
           <label class="form-label">Date <span class="req">*</span></label>
           <input type="date" class="form-control" id="f-date">
           <div class="invalid-feedback" id="err-date">Date ඇතුල් කරන්න</div>
         </div>
-
         <div class="form-group">
           <label class="form-label">Time</label>
           <input type="time" class="form-control" id="f-time">
         </div>
-
         <div class="form-group">
           <label class="form-label">Venue / Track</label>
           <input type="text" class="form-control" id="f-venue" placeholder="e.g. Track 1, Field A">
         </div>
-
         <div class="form-group">
           <label class="form-label">Status <span class="req">*</span></label>
           <select class="form-select" id="f-status">
@@ -530,20 +422,14 @@
             <option value="Cancelled">Cancelled</option>
           </select>
         </div>
-
       </div>
       <div class="form-actions">
-        <button class="btn btn-secondary" onclick="closeForm()">
-          <i class="bi bi-x"></i> Cancel
-        </button>
-        <button class="btn btn-primary" onclick="saveEvent()">
-          <i class="bi bi-check-lg"></i> Save Event
-        </button>
+        <button class="btn btn-secondary" onclick="closeForm()"><i class="bi bi-x"></i> Cancel</button>
+        <button class="btn btn-primary" onclick="saveEvent()"><i class="bi bi-check-lg"></i> Save Event</button>
       </div>
     </div>
   </div>
 
-  <!-- Events Table -->
   <div class="card">
     <div class="filter-bar">
       <div class="search-wrap">
@@ -572,33 +458,21 @@
         <option value="Cancelled">Cancelled</option>
       </select>
     </div>
-
-    <div class="table-wrap">
+    <div style="overflow-x:auto">
       <table>
         <thead>
           <tr>
-            <th>#</th>
-            <th>Event Name</th>
-            <th>Meet</th>
-            <th>Category</th>
-            <th>Type</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Venue</th>
-            <th>Status</th>
-            <th>Actions</th>
+            <th>#</th><th>Event Name</th><th>Meet</th><th>Category</th>
+            <th>Type</th><th>Date</th><th>Time</th><th>Venue</th><th>Status</th><th>Actions</th>
           </tr>
         </thead>
         <tbody id="events-tbody"></tbody>
       </table>
     </div>
-
-    <div class="table-footer" id="table-footer">5 events</div>
+    <div class="table-footer" id="table-footer">0 events</div>
   </div>
-
 </main>
 
-<!-- Toast -->
 <div class="toast-container">
   <div class="toast" id="toast">
     <i class="bi bi-check-circle-fill" id="toast-icon"></i>
@@ -607,222 +481,126 @@
 </div>
 
 <script>
-  // ===== DATA =====
-  const meetNames = {
-    1: 'All Island School Games 2025',
-    2: 'Western Province Athletic Meet',
-    3: 'Zonal Athletic Meet 2025'
-  };
-  const meetShort = {
-    1: 'All Island 2025',
-    2: 'WP Athletic Meet',
-    3: 'Zonal Meet 2025'
-  };
+  const meetNames = {1:'All Island School Games 2025',2:'Western Province Athletic Meet',3:'Zonal Athletic Meet 2025'};
+  const meetShort = {1:'All Island 2025',2:'WP Athletic Meet',3:'Zonal Meet 2025'};
 
   let events = [
-    { id:1, meetId:1, name:'100m Sprint',    category:'Under 16 Boys', type:'Track', date:'2025-03-15', time:'09:00', venue:'Track 1', status:'Completed'  },
-    { id:2, meetId:1, name:'Long Jump',      category:'Under 14 Girls',type:'Field', date:'2025-03-15', time:'10:30', venue:'Field A', status:'Completed'  },
-    { id:3, meetId:2, name:'400m Run',       category:'Open Boys',     type:'Track', date:'2025-06-10', time:'14:00', venue:'Track 1', status:'In Progress'},
-    { id:4, meetId:2, name:'Shot Put',       category:'Under 18 Boys', type:'Field', date:'2025-06-11', time:'08:00', venue:'Field B', status:'Scheduled'  },
-    { id:5, meetId:3, name:'800m Run',       category:'Open Girls',    type:'Track', date:'2025-08-20', time:'09:30', venue:'Track 2', status:'Scheduled'  }
+    {id:1,meetId:1,name:'100m Sprint',   category:'Under 16 Boys', type:'Track',date:'2025-03-15',time:'09:00',venue:'Track 1',status:'Completed'},
+    {id:2,meetId:1,name:'Long Jump',     category:'Under 14 Girls',type:'Field',date:'2025-03-15',time:'10:30',venue:'Field A',status:'Completed'},
+    {id:3,meetId:2,name:'400m Run',      category:'Open Boys',     type:'Track',date:'2025-06-10',time:'14:00',venue:'Track 1',status:'In Progress'},
+    {id:4,meetId:2,name:'Shot Put',      category:'Under 18 Boys', type:'Field',date:'2025-06-11',time:'08:00',venue:'Field B',status:'Scheduled'},
+    {id:5,meetId:3,name:'800m Run',      category:'Open Girls',    type:'Track',date:'2025-08-20',time:'09:30',venue:'Track 2',status:'Scheduled'}
   ];
+  let nextId=6, editId=null;
 
-  let nextId = 6;
-  let editId = null;
+  function typeBadge(t){const m={Track:'badge-track',Field:'badge-field',Road:'badge-road','Cross Country':'badge-cross'};return`<span class="badge ${m[t]||'badge-cross'}">${t}</span>`}
+  function statusBadge(s){const m={Scheduled:'badge-scheduled','In Progress':'badge-inprogress',Completed:'badge-completed',Cancelled:'badge-cancelled'};return`<span class="badge ${m[s]||''}">${s}</span>`}
 
-  // ===== BADGES =====
-  function typeBadge(t) {
-    const map = { Track:'badge-track', Field:'badge-field', Road:'badge-road', 'Cross Country':'badge-cross' };
-    return `<span class="badge ${map[t] || 'badge-cross'}">${t}</span>`;
-  }
-  function statusBadge(s) {
-    const map = { Scheduled:'badge-scheduled', 'In Progress':'badge-inprogress', Completed:'badge-completed', Cancelled:'badge-cancelled' };
-    return `<span class="badge ${map[s] || ''}">${s}</span>`;
+  function updateStats(){
+    document.getElementById('s-total').textContent=events.length;
+    document.getElementById('s-sched').textContent=events.filter(e=>e.status==='Scheduled').length;
+    document.getElementById('s-prog').textContent=events.filter(e=>e.status==='In Progress').length;
+    document.getElementById('s-done').textContent=events.filter(e=>e.status==='Completed').length;
   }
 
-  // ===== STATS =====
-  function updateStats() {
-    document.getElementById('s-total').textContent = events.length;
-    document.getElementById('s-sched').textContent = events.filter(e => e.status === 'Scheduled').length;
-    document.getElementById('s-prog').textContent  = events.filter(e => e.status === 'In Progress').length;
-    document.getElementById('s-done').textContent  = events.filter(e => e.status === 'Completed').length;
+  function render(list){
+    const tb=document.getElementById('events-tbody');
+    document.getElementById('table-footer').textContent=list.length+' event'+(list.length!==1?'s':'');
+    if(!list.length){tb.innerHTML=`<tr><td colspan="10"><div class="empty-state"><i class="bi bi-inbox"></i><p>Events නැත. "Add Event" click කරන්න.</p></div></td></tr>`;return}
+    tb.innerHTML=list.map((e,i)=>`<tr>
+      <td style="color:#94a3b8;font-size:12px">${i+1}</td>
+      <td><strong>${e.name}</strong></td>
+      <td style="font-size:12.5px;color:#64748b">${meetShort[e.meetId]||'—'}</td>
+      <td style="font-size:12.5px">${e.category}</td>
+      <td>${typeBadge(e.type)}</td>
+      <td style="font-size:12.5px">${e.date}</td>
+      <td style="font-size:12.5px;color:#64748b">${e.time||'—'}</td>
+      <td style="font-size:12.5px;color:#64748b">${e.venue||'—'}</td>
+      <td>${statusBadge(e.status)}</td>
+      <td><div style="display:flex;gap:5px">
+        <button class="btn btn-secondary btn-sm btn-icon" onclick="editEvent(${e.id})"><i class="bi bi-pencil"></i></button>
+        <button class="btn btn-danger-soft btn-sm btn-icon" onclick="deleteEvent(${e.id})"><i class="bi bi-trash"></i></button>
+      </div></td>
+    </tr>`).join('');
   }
 
-  // ===== RENDER TABLE =====
-  function render(list) {
-    const tb = document.getElementById('events-tbody');
-    document.getElementById('table-footer').textContent = list.length + ' event' + (list.length !== 1 ? 's' : '');
-
-    if (!list.length) {
-      tb.innerHTML = `<tr><td colspan="10">
-        <div class="empty-state">
-          <i class="bi bi-inbox"></i>
-          <p>Events නැත. "Add Event" click කරන්න.</p>
-        </div>
-      </td></tr>`;
-      return;
-    }
-
-    tb.innerHTML = list.map((e, i) => `
-      <tr>
-        <td style="color:#94a3b8;font-size:12px">${i + 1}</td>
-        <td><strong style="font-weight:600">${e.name}</strong></td>
-        <td style="font-size:12.5px;color:#64748b;max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${meetShort[e.meetId] || '—'}</td>
-        <td style="font-size:12.5px">${e.category}</td>
-        <td>${typeBadge(e.type)}</td>
-        <td style="font-size:12.5px;white-space:nowrap">${e.date}</td>
-        <td style="font-size:12.5px;color:#64748b">${e.time || '—'}</td>
-        <td style="font-size:12.5px;color:#64748b">${e.venue || '—'}</td>
-        <td>${statusBadge(e.status)}</td>
-        <td>
-          <div style="display:flex;gap:5px">
-            <button class="btn btn-secondary btn-sm btn-icon" onclick="editEvent(${e.id})" title="Edit">
-              <i class="bi bi-pencil"></i>
-            </button>
-            <button class="btn btn-danger-soft btn-sm btn-icon" onclick="deleteEvent(${e.id})" title="Delete">
-              <i class="bi bi-trash"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
-    `).join('');
+  function applyFilters(){
+    const q=document.getElementById('q-search').value.toLowerCase();
+    const m=document.getElementById('q-meet').value;
+    const c=document.getElementById('q-cat').value;
+    const s=document.getElementById('q-status').value;
+    render(events.filter(e=>(!q||e.name.toLowerCase().includes(q))&&(!m||e.meetId===parseInt(m))&&(!c||e.category===c)&&(!s||e.status===s)));
   }
 
-  // ===== FILTERS =====
-  function applyFilters() {
-    const q  = document.getElementById('q-search').value.toLowerCase();
-    const m  = document.getElementById('q-meet').value;
-    const c  = document.getElementById('q-cat').value;
-    const s  = document.getElementById('q-status').value;
-    render(events.filter(e =>
-      (!q || e.name.toLowerCase().includes(q)) &&
-      (!m || e.meetId === parseInt(m)) &&
-      (!c || e.category === c) &&
-      (!s || e.status === s)
-    ));
-  }
-
-  // ===== FORM OPEN/CLOSE =====
-  function openForm() {
-    editId = null;
-    document.getElementById('form-icon').className = 'bi bi-plus-circle';
-    document.getElementById('form-title').textContent = 'New Event';
-    ['f-name', 'f-date', 'f-time', 'f-venue'].forEach(id => document.getElementById(id).value = '');
-    ['f-meet', 'f-cat', 'f-type'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('f-status').value = 'Scheduled';
+  function openForm(){
+    editId=null;
+    document.getElementById('form-icon').className='bi bi-plus-circle';
+    document.getElementById('form-title').textContent='New Event';
+    ['f-name','f-date','f-time','f-venue'].forEach(id=>document.getElementById(id).value='');
+    ['f-meet','f-cat','f-type'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('f-status').value='Scheduled';
     clearErrors();
-    document.getElementById('form-card').style.display = 'block';
-    document.getElementById('form-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('form-card').style.display='block';
+    document.getElementById('form-card').scrollIntoView({behavior:'smooth',block:'start'});
   }
 
-  function closeForm() {
-    document.getElementById('form-card').style.display = 'none';
-    clearErrors();
+  function closeForm(){document.getElementById('form-card').style.display='none';clearErrors();}
+
+  function clearErrors(){
+    ['err-meet','err-name','err-cat','err-type','err-date'].forEach(id=>document.getElementById(id).classList.remove('show'));
+    ['f-meet','f-name','f-cat','f-type','f-date'].forEach(id=>document.getElementById(id).classList.remove('is-invalid'));
   }
 
-  // ===== VALIDATION =====
-  function clearErrors() {
-    ['err-meet','err-name','err-cat','err-type','err-date'].forEach(id => {
-      document.getElementById(id).classList.remove('show');
-    });
-    ['f-meet','f-name','f-cat','f-type','f-date'].forEach(id => {
-      document.getElementById(id).classList.remove('is-invalid');
-    });
-  }
-
-  function validate() {
-    let ok = true;
-    const checks = [
-      ['f-meet','err-meet'],
-      ['f-name','err-name'],
-      ['f-cat','err-cat'],
-      ['f-type','err-type'],
-      ['f-date','err-date']
-    ];
-    checks.forEach(([fid, eid]) => {
-      const val = document.getElementById(fid).value.trim();
-      if (!val) {
-        document.getElementById(eid).classList.add('show');
-        document.getElementById(fid).classList.add('is-invalid');
-        ok = false;
-      } else {
-        document.getElementById(eid).classList.remove('show');
-        document.getElementById(fid).classList.remove('is-invalid');
-      }
+  function validate(){
+    let ok=true;
+    [['f-meet','err-meet'],['f-name','err-name'],['f-cat','err-cat'],['f-type','err-type'],['f-date','err-date']].forEach(([fid,eid])=>{
+      if(!document.getElementById(fid).value.trim()){document.getElementById(eid).classList.add('show');document.getElementById(fid).classList.add('is-invalid');ok=false;}
+      else{document.getElementById(eid).classList.remove('show');document.getElementById(fid).classList.remove('is-invalid');}
     });
     return ok;
   }
 
-  // ===== SAVE =====
-  function saveEvent() {
-    if (!validate()) return;
-    const obj = {
-      meetId:   parseInt(document.getElementById('f-meet').value),
-      name:     document.getElementById('f-name').value.trim(),
-      category: document.getElementById('f-cat').value,
-      type:     document.getElementById('f-type').value,
-      date:     document.getElementById('f-date').value,
-      time:     document.getElementById('f-time').value,
-      venue:    document.getElementById('f-venue').value.trim(),
-      status:   document.getElementById('f-status').value
-    };
-    if (editId) {
-      const ev = events.find(x => x.id === editId);
-      Object.assign(ev, obj);
-      showToast('Event updated successfully', 'success');
-    } else {
-      events.push({ id: nextId++, ...obj });
-      showToast('Event added successfully', 'success');
-    }
-    closeForm();
-    updateStats();
-    applyFilters();
+  function saveEvent(){
+    if(!validate())return;
+    const obj={meetId:parseInt(document.getElementById('f-meet').value),name:document.getElementById('f-name').value.trim(),category:document.getElementById('f-cat').value,type:document.getElementById('f-type').value,date:document.getElementById('f-date').value,time:document.getElementById('f-time').value,venue:document.getElementById('f-venue').value.trim(),status:document.getElementById('f-status').value};
+    if(editId){Object.assign(events.find(x=>x.id===editId),obj);showToast('Event updated successfully','success');}
+    else{events.push({id:nextId++,...obj});showToast('Event added successfully','success');}
+    closeForm();updateStats();applyFilters();
   }
 
-  // ===== EDIT =====
-  function editEvent(id) {
-    const e = events.find(x => x.id === id);
-    editId = id;
-    document.getElementById('form-icon').className = 'bi bi-pencil-square';
-    document.getElementById('form-title').textContent = 'Edit Event';
-    document.getElementById('f-meet').value   = e.meetId;
-    document.getElementById('f-name').value   = e.name;
-    document.getElementById('f-cat').value    = e.category;
-    document.getElementById('f-type').value   = e.type;
-    document.getElementById('f-date').value   = e.date;
-    document.getElementById('f-time').value   = e.time || '';
-    document.getElementById('f-venue').value  = e.venue || '';
-    document.getElementById('f-status').value = e.status;
+  function editEvent(id){
+    const e=events.find(x=>x.id===id);editId=id;
+    document.getElementById('form-icon').className='bi bi-pencil-square';
+    document.getElementById('form-title').textContent='Edit Event';
+    document.getElementById('f-meet').value=e.meetId;
+    document.getElementById('f-name').value=e.name;
+    document.getElementById('f-cat').value=e.category;
+    document.getElementById('f-type').value=e.type;
+    document.getElementById('f-date').value=e.date;
+    document.getElementById('f-time').value=e.time||'';
+    document.getElementById('f-venue').value=e.venue||'';
+    document.getElementById('f-status').value=e.status;
     clearErrors();
-    document.getElementById('form-card').style.display = 'block';
-    document.getElementById('form-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('form-card').style.display='block';
+    document.getElementById('form-card').scrollIntoView({behavior:'smooth',block:'start'});
   }
 
-  // ===== DELETE =====
-  function deleteEvent(id) {
-    if (!confirm('මේ event එක delete කරන්නද?')) return;
-    events = events.filter(x => x.id !== id);
-    updateStats();
-    applyFilters();
-    showToast('Event deleted', 'success');
+  function deleteEvent(id){
+    if(!confirm('මේ event එක delete කරන්නද?'))return;
+    events=events.filter(x=>x.id!==id);
+    updateStats();applyFilters();showToast('Event deleted','success');
   }
 
-  // ===== TOAST =====
   let toastTimer;
-  function showToast(msg, type) {
-    const t = document.getElementById('toast');
-    const icon = document.getElementById('toast-icon');
-    t.className = 'toast show ' + (type || 'success');
-    icon.className = type === 'error' ? 'bi bi-x-circle-fill' : 'bi bi-check-circle-fill';
-    document.getElementById('toast-msg').textContent = msg;
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+  function showToast(msg,type){
+    const t=document.getElementById('toast');
+    t.className='toast show '+(type||'success');
+    document.getElementById('toast-icon').className=type==='error'?'bi bi-x-circle-fill':'bi bi-check-circle-fill';
+    document.getElementById('toast-msg').textContent=msg;
+    clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3000);
   }
 
-  // ===== INIT =====
-  updateStats();
-  render(events);
+  updateStats();render(events);
 </script>
-
 </body>
 </html>
