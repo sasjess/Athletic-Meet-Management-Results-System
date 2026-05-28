@@ -22,7 +22,8 @@ export const router = createBrowserRouter([
   {
     path:"/results",
    element:<CreateResult />
-  } 
+  },
+  {
     path:"/athletes",
    element:<Athletes /> ,
   }
