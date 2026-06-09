@@ -16,69 +16,7 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
-/* ── Sidebar ── */
-.sidebar {
-  width: 220px;
-  background: #1a3a5c;
-  display: flex;
-  flex-direction: column;
-  padding: 24px 16px;
-  gap: 10px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-}
 
-.sidebar-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0 8px 24px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  margin-bottom: 8px;
-}
-
-.logo-icon {
-  font-size: 24px;
-}
-
-.logo-text {
-  font-size: 18px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 0.5px;
-}
-
-/* ── NavLink Items ── */
-.sidebar-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-}
-
-.nav-item {
-  display: block;
-  text-decoration: none;
-  color: rgba(255,255,255,0.65);
-  padding: 11px 14px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.18s ease;
-}
-
-.nav-item:hover {
-  background: rgba(255,255,255,0.08);
-  color: #fff;
-}
-
-/* Active NavLink */
-.nav-active {
-  background: #1a6fc4;
-  color: #fff;
-}
 
 /* ── Sidebar Footer ── */
 .sidebar-footer {
