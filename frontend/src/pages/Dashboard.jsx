@@ -1,12 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import Layout from "../components/layout/Layout";
 import "./Dashboard.css";
 
 const Dashboard = () => {
-  const [activeNav, setActiveNav] = useState("Dashboard");
-
-  const navItems = ["Dashboard", "Athletes", "Schedule", "Reports", "Settings"];
-
   const stats = [
     { label: "Total Athletes", value: "128", icon: "🏃", change: "+4 this week" },
     { label: "Active Sessions", value: "12", icon: "⚡", change: "Live now" },
@@ -31,113 +27,96 @@ const Dashboard = () => {
 
   return (
     <Layout>
-    <div className="dashboard-layout">
-      {/* Sidebar */}
-      <aside className="sidebar">
-        <div className="sidebar-logo">
-          <span className="logo-icon">🏅</span>
-          <span className="logo-text">AthleteHub</span>
+      {/* Header */}
+      <header className="dash-header">
+        <div>
+          <h1 className="dash-title">Dashboard</h1>
+          <p className="dash-subtitle">
+            Welcome back, John. Here's what's happening today.
+          </p>
         </div>
-        <nav className="sidebar-nav">
-          {navItems.map((item) => (
-            <button
-              key={item}
-              className={`nav-item ${activeNav === item ? "nav-active" : ""}`}
-              onClick={() => setActiveNav(item)}
-            >
-              {item}
-            </button>
-          ))}
-        </nav>
-        <div className="sidebar-footer">
-          <div className="user-avatar">JP</div>
-          <div className="user-info">
-            <span className="user-name">John P.</span>
-            <span className="user-role">Admin</span>
-          </div>
-          <button className="logout-btn" title="Logout">⏻</button>
-        </div>
-      </aside>
+        <button className="add-btn">+ Add Athlete</button>
+      </header>
 
-      {/* Main Content */}
-      <main className="main-content">
-        {/* Header */}
-        <header className="dash-header">
-          <div>
-            <h1 className="dash-title">Dashboard</h1>
-            <p className="dash-subtitle">Welcome back, John. Here's what's happening today.</p>
-          </div>
-          <button className="add-btn">+ Add Athlete</button>
-        </header>
-
-        {/* Stats Cards */}
-        <section className="stats-grid">
-          {stats.map((stat) => (
-            <div className="stat-card" key={stat.label}>
-              <div className="stat-icon">{stat.icon}</div>
-              <div className="stat-info">
-                <span className="stat-value">{stat.value}</span>
-                <span className="stat-label">{stat.label}</span>
-                <span className="stat-change">{stat.change}</span>
-              </div>
+      {/* Stats */}
+      <section className="stats-grid">
+        {stats.map((stat) => (
+          <div className="stat-card" key={stat.label}>
+            <div className="stat-icon">{stat.icon}</div>
+            <div className="stat-info">
+              <span className="stat-value">{stat.value}</span>
+              <span className="stat-label">{stat.label}</span>
+              <span className="stat-change">{stat.change}</span>
             </div>
-          ))}
-        </section>
+          </div>
+        ))}
+      </section>
 
-        {/* Athletes Table */}
-        <section className="table-section">
-          <div className="table-header">
-            <h2 className="section-title">Recent Athletes</h2>
-            <button className="view-all-btn">View All</button>
-          </div>
-          <div className="table-wrapper">
-            <table className="athletes-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Sport</th>
-                  <th>Status</th>
-                  <th>Performance</th>
-                </tr>
-              </thead>
-              <tbody>
-                {recentAthletes.map((athlete) => (
-                  <tr key={athlete.name}>
-                    <td>
-                      <div className="athlete-name-cell">
-                        <div className="athlete-avatar">
-                          {athlete.name.split(" ").map((n) => n[0]).join("")}
-                        </div>
-                        {athlete.name}
+      {/* Table */}
+      <section className="table-section">
+        <div className="table-header">
+          <h2 className="section-title">Recent Athletes</h2>
+          <button className="view-all-btn">View All</button>
+        </div>
+
+        <div className="table-wrapper">
+          <table className="athletes-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Sport</th>
+                <th>Status</th>
+                <th>Performance</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {recentAthletes.map((athlete) => (
+                <tr key={athlete.name}>
+                  <td>
+                    <div className="athlete-name-cell">
+                      <div className="athlete-avatar">
+                        {athlete.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
                       </div>
-                    </td>
-                    <td>{athlete.sport}</td>
-                    <td>
-                      <span
-                        className="status-badge"
-                        style={{ backgroundColor: statusColor(athlete.status) + "22", color: statusColor(athlete.status) }}
-                      >
-                        {athlete.status}
+                      {athlete.name}
+                    </div>
+                  </td>
+
+                  <td>{athlete.sport}</td>
+
+                  <td>
+                    <span
+                      className="status-badge"
+                      style={{
+                        backgroundColor: statusColor(athlete.status) + "22",
+                        color: statusColor(athlete.status),
+                      }}
+                    >
+                      {athlete.status}
+                    </span>
+                  </td>
+
+                  <td>
+                    <div className="perf-bar-wrapper">
+                      <div
+                        className="perf-bar"
+                        style={{ width: `${athlete.score}%` }}
+                      />
+                      <span className="perf-label">
+                        {athlete.score}%
                       </span>
-                    </td>
-                    <td>
-                      <div className="perf-bar-wrapper">
-                        <div
-                          className="perf-bar"
-                          style={{ width: `${athlete.score}%` }}
-                        />
-                        <span className="perf-label">{athlete.score}%</span>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      </main>
-    </div>
-   </Layout>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </Layout>
   );
 };
 
