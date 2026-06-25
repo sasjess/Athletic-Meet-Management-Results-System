@@ -5,6 +5,9 @@ import About from "../pages/About";
 import LoginForm from "../components/loginform";
 import CreateResult from "../pages/CreateResult";
 import Athletes from "../pages/Athletes";
+import Schools from "../pages/Schools";
+import Events from "../pages/Events";
+import Meets from "../pages/Meets";
 
 export const router = createBrowserRouter([
   {
@@ -26,5 +29,17 @@ export const router = createBrowserRouter([
   {
     path:"/athletes",
    element:<Athletes /> ,
+  },
+  {
+    path:"/events",
+   element:<Events /> ,
+  },
+  {
+    path:"/meets",
+   element:<Meets /> ,
+  },
+  {
+    path:"/schools",
+   element:<Schools /> ,
   }
 ]);

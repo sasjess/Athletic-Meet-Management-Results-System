@@ -86,6 +86,11 @@ ON DELETE CASCADE,
 
 UNIQUE (meet_id, event_id)
 );
+CREATE TABLE stages (
+    stage_id INT AUTO_INCREMENT PRIMARY KEY,
+    stage_name VARCHAR(50) UNIQUE NOT NULL
+);
+
 
 CREATE TABLE results (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -156,10 +161,6 @@ CREATE TABLE athlete_event (
         ON UPDATE CASCADE
 );
 
-CREATE TABLE stages (
-    stage_id INT AUTO_INCREMENT PRIMARY KEY,
-    stage_name VARCHAR(50) UNIQUE NOT NULL
-);
 
 CREATE TABLE event_stages (
     event_stage_id INT AUTO_INCREMENT PRIMARY KEY,
