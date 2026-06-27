@@ -6,6 +6,11 @@ ini_set('display_errors', 1);
 require_once "../helpers/functions.php";
 require_once "../config/db.php";
 //require_once "athlete_model.php";
+require_once "../middleware/auth.php";
+require_once "../middleware/authorize.php";
+
+$user = authenticate();
+authorize(['admin'], $user);
 
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");

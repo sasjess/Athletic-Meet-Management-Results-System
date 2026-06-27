@@ -3,6 +3,10 @@ import Layout from "../components/layout/Layout";
 import "./Dashboard.css";
 
 const Dashboard = () => {
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const isAdmin = user?.role === "admin";
+
   const stats = [
     { label: "Total Athletes", value: "128", icon: "🏃", change: "+4 this week" },
     { label: "Active Sessions", value: "12", icon: "⚡", change: "Live now" },
@@ -27,15 +31,26 @@ const Dashboard = () => {
 
   return (
     <Layout>
+      
       {/* Header */}
       <header className="dash-header">
+
         <div>
           <h1 className="dash-title">Dashboard</h1>
+
           <p className="dash-subtitle">
-            Welcome back, John. Here's what's happening today.
+            Welcome back{isAdmin ? `, ${user.username} (Admin)` : ""}. Here's what's happening today.
           </p>
+
         </div>
-        <button className="add-btn">+ Add Athlete</button>
+
+        {/* ADMIN ONLY BUTTON */}
+        {isAdmin && (
+          <button className="add-btn">
+            + Add Athlete
+          </button>
+        )}
+
       </header>
 
       {/* Stats */}
@@ -56,7 +71,11 @@ const Dashboard = () => {
       <section className="table-section">
         <div className="table-header">
           <h2 className="section-title">Recent Athletes</h2>
-          <button className="view-all-btn">View All</button>
+
+          <button className="view-all-btn">
+            View All
+          </button>
+
         </div>
 
         <div className="table-wrapper">
@@ -67,12 +86,17 @@ const Dashboard = () => {
                 <th>Sport</th>
                 <th>Status</th>
                 <th>Performance</th>
+
+                {/* ADMIN COLUMN */}
+                {isAdmin && <th>Actions</th>}
+
               </tr>
             </thead>
 
             <tbody>
               {recentAthletes.map((athlete) => (
                 <tr key={athlete.name}>
+
                   <td>
                     <div className="athlete-name-cell">
                       <div className="athlete-avatar">
@@ -110,15 +134,25 @@ const Dashboard = () => {
                       </span>
                     </div>
                   </td>
+
+                  {/* ADMIN ACTIONS */}
+                  {isAdmin && (
+                    <td>
+                      <button className="edit-btn">Edit</button>
+                      <button className="delete-btn">Delete</button>
+                    </td>
+                  )}
+
                 </tr>
               ))}
             </tbody>
+
           </table>
         </div>
       </section>
+
     </Layout>
   );
 };
 
 export default Dashboard;
-            

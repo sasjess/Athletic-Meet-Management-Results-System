@@ -5,6 +5,11 @@ ini_set('display_errors', 1);
 header("Content-Type: application/json");
 
 require_once "events_model.php";
+require_once "../middleware/auth.php";
+require_once "../middleware/authorize.php";
+
+$user = authenticate();
+authorize(['admin'], $user);
 
 if ($_SERVER["REQUEST_METHOD"] !== "DELETE") {
     echo json_encode(["error" => "Use DELETE method"]);

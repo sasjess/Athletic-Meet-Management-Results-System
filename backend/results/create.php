@@ -1,6 +1,11 @@
 <?php
 include "../config/db.php";
 include "../helpers/functions.php";
+require_once "../middleware/auth.php";
+require_once "../middleware/authorize.php";
+
+$user = authenticate();
+authorize(['admin'], $user);
 
 header("Content-Type: application/json");
 //ALLOW ONLY POST METHOD

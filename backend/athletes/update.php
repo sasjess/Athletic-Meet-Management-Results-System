@@ -5,6 +5,11 @@ header("Content-Type: application/json");
 //require_once "athlete_model.php";
 require_once "../helpers/functions.php";
 require_once "../config/db.php";
+require_once "../middleware/auth.php";
+require_once "../middleware/authorize.php";
+
+$user = authenticate();
+authorize(['admin'], $user);
 
 
 /* Allow only PUT */

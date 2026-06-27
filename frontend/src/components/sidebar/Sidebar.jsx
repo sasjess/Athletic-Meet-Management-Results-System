@@ -10,7 +10,11 @@ const Sidebar = () => {
     { name: "Dashboard", path: "/" },
     { name: "Athletes", path: "/athletes" },
     { name: "Results", path: "/results" },
+    { name: "Schools", path: "/schools" },
+    { name: "Meets", path: "/meets" },
+    { name: "Events", path: "/events" },
     { name: "About", path: "/about" },
+    { name: "Login", path: "/login" },
   ];
 
   return (
