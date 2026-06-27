@@ -1,0 +1,77 @@
+import React, { useEffect, useState } from "react";
+import Layout from "../components/layout/Layout";
+
+const API = "http://localhost/backend";
+
+const AssignAthletes = () => {
+  const [athletes, setAthletes] = useState([]);
+  const [events, setEvents] = useState([]);
+
+  const [form, setForm] = useState({
+    bib_no: "",
+    event_id: ""
+  });
+
+  useEffect(() => {
+    fetchAthletes();
+    fetchEvents();
+  }, []);
+
+  const fetchAthletes = async () => {
+    const res = await fetch(`${API}/athletes/read.php`);
+    setAthletes(await res.json());
+  };
+
+  const fetchEvents = async () => {
+    const res = await fetch(`${API}/events/read.php`);
+    setEvents(await res.json());
+  };
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    await fetch(`${API}/athlete_event/assign.php`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form)
+    });
+
+    alert("Assigned Successfully!");
+  };
+
+  return (
+    <Layout>
+      <h2>Assign Athletes to Events</h2>
+
+      <form onSubmit={handleSubmit}>
+
+        <select name="bib_no" onChange={handleChange}>
+          <option>Select Athlete</option>
+          {athletes.map(a => (
+            <option key={a.bib_no} value={a.bib_no}>
+              {a.name}
+            </option>
+          ))}
+        </select>
+
+        <select name="event_id" onChange={handleChange}>
+          <option>Select Event</option>
+          {events.map(e => (
+            <option key={e.event_id} value={e.event_id}>
+              {e.event_name}
+            </option>
+          ))}
+        </select>
+
+        <button>Assign</button>
+
+      </form>
+    </Layout>
+  );
+};
+
+export default AssignAthletes;

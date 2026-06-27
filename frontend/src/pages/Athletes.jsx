@@ -38,14 +38,22 @@ const Athletes = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const newAthlete = {
+      ...form,
+      bib_no: Number(form.bib_no),
+      school_id: Number(form.school_id),
+      agegroup_id: Number(form.agegroup_id),
+    };
+
     if (editingId) {
-      const updated = athletes.map((a) =>
-        a.bib_no === editingId ? { ...a, ...form } : a
+      setAthletes((prev) =>
+        prev.map((a) =>
+          a.bib_no === editingId ? newAthlete : a
+        )
       );
-      setAthletes(updated);
       setEditingId(null);
     } else {
-      setAthletes([...athletes, form]);
+      setAthletes((prev) => [...prev, newAthlete]);
     }
 
     setForm({
@@ -59,7 +67,7 @@ const Athletes = () => {
 
   // DELETE
   const handleDelete = (id) => {
-    setAthletes(athletes.filter((a) => a.bib_no !== id));
+    setAthletes((prev) => prev.filter((a) => a.bib_no !== id));
   };
 
   // EDIT
@@ -132,7 +140,6 @@ const Athletes = () => {
 
         {/* TABLE */}
         <div className="table-box">
-
           <table className="athlete-table">
 
             <thead>
@@ -149,7 +156,6 @@ const Athletes = () => {
             <tbody>
               {athletes.map((a) => (
                 <tr key={a.bib_no}>
-
                   <td>{a.bib_no}</td>
                   <td>{a.name}</td>
                   <td>{a.school_id}</td>
@@ -158,6 +164,7 @@ const Athletes = () => {
 
                   <td>
                     <button
+                      type="button"
                       className="edit"
                       onClick={() => handleEdit(a)}
                     >
@@ -165,19 +172,18 @@ const Athletes = () => {
                     </button>
 
                     <button
+                      type="button"
                       className="delete"
                       onClick={() => handleDelete(a.bib_no)}
                     >
                       Delete
                     </button>
                   </td>
-
                 </tr>
               ))}
             </tbody>
 
           </table>
-
         </div>
 
       </div>

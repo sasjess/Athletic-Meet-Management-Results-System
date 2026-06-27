@@ -1,9 +1,11 @@
-
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Layout from "../components/layout/Layout";
 import "./CreateResult.css";
 
 const CreateResult = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     bib_no: "",
     event_id: "",
@@ -62,8 +64,7 @@ const CreateResult = () => {
       return;
     }
 
-    console.log(formData);
-
+    console.log("Submitted Result:", formData);
     setSubmitted(true);
   };
 
@@ -90,6 +91,7 @@ const CreateResult = () => {
     <Layout>
       <div className="create-result-page">
 
+        {/* HEADER */}
         <div className="create-header">
           <div>
             <h1 className="create-title">Create Result</h1>
@@ -98,68 +100,38 @@ const CreateResult = () => {
             </p>
           </div>
 
-          <button className="back-btn">
+          <button
+            className="back-btn"
+            onClick={() => navigate("/results")}
+          >
             Results List
           </button>
         </div>
 
+        {/* SUCCESS STATE */}
         {submitted ? (
           <div className="success-card">
             <div className="success-icon">✓</div>
 
             <h2>Result Saved Successfully</h2>
+            <p>Athlete result has been added to the system.</p>
 
-            <p>
-              Athlete result has been added to the system.
-            </p>
-
-            <button
-              className="primary-btn"
-              onClick={handleReset}
-            >
+            <button className="primary-btn" onClick={handleReset}>
               Add Another Result
             </button>
           </div>
         ) : (
+          /* FORM */
           <form className="result-form" onSubmit={handleSubmit}>
-
             <div className="form-grid">
 
-              <FormField
-                label="Bib Number"
-                name="bib_no"
-                value={formData.bib_no}
-                onChange={handleChange}
-                error={errors.bib_no}
-              />
-
-              <FormField
-                label="Event ID"
-                name="event_id"
-                value={formData.event_id}
-                onChange={handleChange}
-                error={errors.event_id}
-              />
-
-              <FormField
-                label="Meet ID"
-                name="meet_id"
-                value={formData.meet_id}
-                onChange={handleChange}
-                error={errors.meet_id}
-              />
-
-              <FormField
-                label="Age Group ID"
-                name="agegroup_id"
-                value={formData.agegroup_id}
-                onChange={handleChange}
-                error={errors.agegroup_id}
-              />
+              <FormField label="Bib Number" name="bib_no" value={formData.bib_no} onChange={handleChange} error={errors.bib_no} type="number" />
+              <FormField label="Event ID" name="event_id" value={formData.event_id} onChange={handleChange} error={errors.event_id} type="number" />
+              <FormField label="Meet ID" name="meet_id" value={formData.meet_id} onChange={handleChange} error={errors.meet_id} type="number" />
+              <FormField label="Age Group ID" name="agegroup_id" value={formData.agegroup_id} onChange={handleChange} error={errors.agegroup_id} type="number" />
 
               <div className="input-group">
                 <label>Gender</label>
-
                 <select
                   name="gender_id"
                   value={formData.gender_id}
@@ -170,74 +142,26 @@ const CreateResult = () => {
                   <option value="M">Male</option>
                   <option value="F">Female</option>
                 </select>
-
-                {errors.gender_id && (
-                  <span className="error-text">
-                    {errors.gender_id}
-                  </span>
-                )}
+                {errors.gender_id && <span className="error-text">{errors.gender_id}</span>}
               </div>
 
-              <FormField
-                label="Stage ID"
-                name="stage_id"
-                value={formData.stage_id}
-                onChange={handleChange}
-                error={errors.stage_id}
-              />
+              <FormField label="Stage ID" name="stage_id" value={formData.stage_id} onChange={handleChange} error={errors.stage_id} type="number" />
+              <FormField label="Heat Number" name="heat_no" value={formData.heat_no} onChange={handleChange} error={errors.heat_no} type="number" />
+              <FormField label="Position" name="position" value={formData.position} onChange={handleChange} error={errors.position} type="number" />
 
-              <FormField
-                label="Heat Number"
-                name="heat_no"
-                value={formData.heat_no}
-                onChange={handleChange}
-                error={errors.heat_no}
-              />
-
-              <FormField
-                label="Position"
-                name="position"
-                value={formData.position}
-                onChange={handleChange}
-                error={errors.position}
-              />
-
-              <FormField
-                label="Performance Time"
-                name="performance_time"
-                value={formData.performance_time}
-                onChange={handleChange}
-              />
-
-              <FormField
-                label="Performance Distance"
-                name="performance_distance"
-                value={formData.performance_distance}
-                onChange={handleChange}
-              />
-
-              <FormField
-                label="Points"
-                name="points"
-                value={formData.points}
-                onChange={handleChange}
-              />
+              <FormField label="Performance Time" name="performance_time" value={formData.performance_time} onChange={handleChange} type="text" />
+              <FormField label="Performance Distance" name="performance_distance" value={formData.performance_distance} onChange={handleChange} type="text" />
+              <FormField label="Points" name="points" value={formData.points} onChange={handleChange} type="number" />
 
             </div>
 
+            {/* ACTIONS */}
             <div className="form-actions">
-              <button
-                type="button"
-                className="secondary-btn"
-                onClick={handleReset}
-              >
+              <button type="button" className="secondary-btn" onClick={handleReset}>
                 Reset
               </button>
 
-              <button
-                type="submit"
-                className="primary-btn"
-              >
+              <button type="submit" className="primary-btn">
                 Save Result
               </button>
             </div>
@@ -249,31 +173,21 @@ const CreateResult = () => {
   );
 };
 
-const FormField = ({
-  label,
-  name,
-  value,
-  onChange,
-  error,
-}) => (
+/* Reusable Input Component */
+const FormField = ({ label, name, value, onChange, error, type = "text" }) => (
   <div className="input-group">
     <label>{label}</label>
 
     <input
-      type="text"
+      type={type}
       name={name}
       value={value}
       onChange={onChange}
       className={error ? "error-input" : ""}
     />
 
-    {error && (
-      <span className="error-text">
-        {error}
-      </span>
-    )}
+    {error && <span className="error-text">{error}</span>}
   </div>
 );
 
 export default CreateResult;
-
