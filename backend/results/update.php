@@ -5,7 +5,7 @@ require_once "../middleware/auth.php";
 require_once "../middleware/authorize.php";
 
 $user = authenticate();
-authorize(['admin'], $user);
+authorize(['admin','meet_manager','data_entry_operator'], $user);
 
 $data = json_decode(file_get_contents("php://input"), true);
 

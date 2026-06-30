@@ -9,7 +9,7 @@ require_once "../middleware/auth.php";
 require_once "../middleware/authorize.php";
 
 $user = authenticate();
-authorize(['admin'], $user);
+authorize(['admin','meet_manager','data_entry_operator'], $user);
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     echo json_encode(["error" => "Use POST method"]);

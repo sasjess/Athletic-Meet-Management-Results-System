@@ -2,11 +2,13 @@
 
 include "../config/db.php";
 include "../helpers/functions.php";
+require_once "../middleware/auth.php";
+require_once "../middleware/authorize.php";
 
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 /* Handle preflight request */
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -22,6 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     ]);
     exit();
 }
+
+// require admin to fetch school details
+$user = authenticate();
+authorize(['admin','meet_manager','data_entry_operator'], $user);
 
 /* Validate school_id */
 if (!isset($_GET['school_id']) || empty($_GET['school_id'])) {
