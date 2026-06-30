@@ -61,14 +61,49 @@
   color: #ffffff;
 }
 
+.sidebar-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  margin: 18px 0;
+}
+
 /* Sidebar Footer (User Section) */
 .sidebar-footer {
   margin-top: auto;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
   padding-top: 15px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logout-btn,
+.login-link {
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover,
+.login-link:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.sidebar-section-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 14px 0 6px;
 }
 
 /* Avatar */

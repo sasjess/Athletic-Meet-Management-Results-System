@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/layout/Layout";
 
-const API = "http://localhost/backend/schools";
+const API = "http://localhost/Athletic-Meet-Management-Results-System/backend/schools";
 
 const Schools = () => {
   const [schools, setSchools] = useState([]);
