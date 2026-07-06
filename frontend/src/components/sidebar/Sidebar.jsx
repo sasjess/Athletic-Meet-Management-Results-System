@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import logoImage from "../../assets/logo.jpg";
 import "./Sidebar.css";
 
 const Sidebar = () => {
@@ -33,8 +34,8 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
-        <span className="logo-icon">🏅</span>
-        <span className="logo-text">AthleteHub</span>
+        <img src={logoImage} alt="Site logo" className="logo-img" />
+        <span className="logo-text">AthleteX</span>
       </div>
 
       <nav className="sidebar-nav">
