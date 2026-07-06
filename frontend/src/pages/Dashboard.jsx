@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/layout/Layout";
 import "./Dashboard.css";
+import meetImage from "../assets/meet.jpg";
 
 const Dashboard = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -103,42 +104,71 @@ const Dashboard = () => {
         </div>
       )}
 
-      <section className="dashboard-hero-card">
-        <div className="hero-left">
-          <span className={`hero-badge ${currentMeet?.status?.toLowerCase() || "inactive"}`}>
-            {currentMeet ? currentMeet.status : "No Active Meet"}
-          </span>
-          <h2>{currentMeet ? currentMeet.meet_name : "No active meet available"}</h2>
-          <p>{currentMeet ? `Meet dates: ${meetDates}` : "Track results across your latest and past meets."}</p>
-          <div className="hero-actions">
-            <button className="hero-button" onClick={() => window.location.href = "/results"}>
-              View Results
-            </button>
-            <button className="hero-button secondary" onClick={() => window.location.href = "/past-meets"}>
-              Past Meets
-            </button>
-          </div>
-        </div>
+     <section className="dashboard-hero-card">
+  <div
+    className="hero-left"
+    style={{
+      backgroundImage: `linear-gradient(
+        rgba(0,0,0,0.45),
+        rgba(0,0,0,0.45)
+      ), url(${meetImage})`,
+    }}
+  >
+    <span
+      className={`hero-badge ${
+        currentMeet?.status?.toLowerCase() || "inactive"
+      }`}
+    >
+      {currentMeet ? currentMeet.status : "No Active Meet"}
+    </span>
 
-        <div className="hero-metrics">
-          <div className="metric-card">
-            <span>Total Schools</span>
-            <strong>{stats.totalSchools}</strong>
-          </div>
-          <div className="metric-card">
-            <span>Total Athletes</span>
-            <strong>{stats.totalAthletes}</strong>
-          </div>
-          <div className="metric-card">
-            <span>Total Events</span>
-            <strong>{stats.totalEvents}</strong>
-          </div>
-          <div className="metric-card">
-            <span>Total Results</span>
-            <strong>{stats.totalResults}</strong>
-          </div>
-        </div>
-      </section>
+    <h2>{currentMeet ? currentMeet.meet_name : "No active meet available"}</h2>
+
+    <p>
+      {currentMeet
+        ? `Meet dates: ${meetDates}`
+        : "Track results across your latest and past meets."}
+    </p>
+
+    <div className="hero-actions">
+      <button
+        className="hero-button"
+        onClick={() => (window.location.href = "/results")}
+      >
+        View Results
+      </button>
+
+      <button
+        className="hero-button secondary"
+        onClick={() => (window.location.href = "/past-meets")}
+      >
+        Past Meets
+      </button>
+    </div>
+  </div>
+
+  <div className="hero-metrics">
+    <div className="metric-card">
+      <span>Total Schools</span>
+      <strong>{stats.totalSchools}</strong>
+    </div>
+
+    <div className="metric-card">
+      <span>Total Athletes</span>
+      <strong>{stats.totalAthletes}</strong>
+    </div>
+
+    <div className="metric-card">
+      <span>Total Events</span>
+      <strong>{stats.totalEvents}</strong>
+    </div>
+
+    <div className="metric-card">
+      <span>Total Results</span>
+      <strong>{stats.totalResults}</strong>
+    </div>
+  </div>
+</section>
 
       <section className="panel-grid">
         <div className="panel leaderboard-panel">
