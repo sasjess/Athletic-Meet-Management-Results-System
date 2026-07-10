@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logoImage from "../../assets/logo.jpg";
+import Button from "../Button";
 import "./sidebar.css";
 
 const Sidebar = () => {
@@ -73,9 +74,9 @@ const Sidebar = () => {
 
       <div className="sidebar-footer">
         {user ? (
-          <button className="logout-btn" onClick={handleLogout}>
+          <Button variant="special" onClick={handleLogout}>
             Logout
-          </button>
+          </Button>
         ) : (
           <NavLink
             to="/login"

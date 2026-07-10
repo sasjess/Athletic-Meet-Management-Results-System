@@ -234,7 +234,7 @@
 .hero-badge.ongoing,
 .hero-badge.active {
   background: rgba(34, 197, 94, 0.14);
-  color: #15803d;
+  color: #f7f9fa;
 }
 
 .hero-badge.completed,

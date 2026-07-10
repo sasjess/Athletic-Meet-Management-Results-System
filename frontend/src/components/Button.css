@@ -35,7 +35,7 @@
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: #06274f;
+  background: #0b6c81;
   color: #ffffff;
 }
 
@@ -45,9 +45,10 @@
   border: 1.5px solid #ebeff3;
 }
 
-.btn-secondary:hover:not(:disabled) {
-  background: #06274f;
+.btn-special:hover:not(:disabled) {
+  background: #0b6c81;
   color: #ffffff;
+  border: transparent;
 }
 
 .btn-danger {
