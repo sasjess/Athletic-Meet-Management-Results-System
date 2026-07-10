@@ -7,18 +7,26 @@ import meetImage from "../assets/meet.jpg";
 const Dashboard = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
-  const authorized = ["admin", "meet_manager", "data_entry_operator"].includes(user?.role);
+  const authorized = ["admin", "meet_manager", "data_entry_operator"].includes(
+    user?.role,
+  );
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [stats, setStats] = useState({ totalSchools: 0, totalAthletes: 0, totalEvents: 0, totalResults: 0 });
+  const [stats, setStats] = useState({
+    totalSchools: 0,
+    totalAthletes: 0,
+    totalEvents: 0,
+    totalResults: 0,
+  });
   const [topSchools, setTopSchools] = useState({ overall: [], byGender: {} });
   const [topAthletes, setTopAthletes] = useState([]);
   const [recentResults, setRecentResults] = useState([]);
   const [pastMeets, setPastMeets] = useState([]);
   const [currentMeet, setCurrentMeet] = useState(null);
 
-  const API = "http://localhost/Athletic-Meet-Management-Results-System/backend/dashboard/index.php";
+  const API =
+    "http://localhost/Athletic-Meet-Management-Results-System/backend/dashboard/index.php";
 
   const statusColor = (status) => {
     if (status === "Active" || status === "Ongoing") return "#22c55e";
@@ -36,8 +44,8 @@ const Dashboard = () => {
           cache: "no-store",
           headers: {
             "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {})
-          }
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
         });
 
         if (res.status === 401) {
@@ -60,7 +68,6 @@ const Dashboard = () => {
           setPastMeets(d.pastMeets || []);
           setCurrentMeet(d.currentMeet || null);
         }
-
       } catch (err) {
         console.error(err);
         setError(err.message || "Error fetching dashboard");
@@ -77,98 +84,173 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <header className="dash-header">
-        <div>
-          <p className="eyebrow">Athletic Meet Management</p>
-          <h1 className="dash-title">Dashboard</h1>
-          <p className="dash-subtitle">
-            {authorized
-              ? `Welcome back, ${user.username} (${user.role.replace("_", " ")}).`
-              : "Browse results, leaderboards, and past meets. Login to manage data."}
-          </p>
-        </div>
+      
+        {/* TOP TITLE + ACCOUNT BAR */}
+        <div className="top-account-bar">
+          {/* <div className="system-title">Athletic Meet Management System</div> */}
+          {user && (
+            <div className="header-account">
+              <div className="header-avatar">
+                {user.username?.charAt(0).toUpperCase()}
+              </div>
 
-        {user && (
+              <div className="header-account-info">
+                <span className="header-account-label">Signed in as</span>
+
+                <strong className="header-account-name">{user.username}</strong>
+
+                <small className="header-account-role">
+                  {user.role?.replace("_", " ")}
+                </small>
+              </div>
+            </div>
+          )}
+          </div>
+          {/* DASHBOARD HEADER */}
+          <header className="dash-header">
+
+          <div>
+            <p className="eyebrow">Athletic Meet Management</p>
+            <h1 className="dash-title">Dashboard</h1>
+            <p className="dash-subtitle">
+              {authorized
+                ? `Welcome back, ${user.username} (${user.role.replace("_", " ")}).`
+                : "Browse results, leaderboards, and past meets. Login to manage data."}
+            </p>
+          </div>
+          </header>
+
+          {/* {user && (
           <div className="header-account">
             <span className="header-account-label">Signed in as</span>
             <strong className="header-account-name">{user.username}</strong>
           </div>
-        )}
-      </header>
+        )} */}
+          {/* {user && (
+  <div className="header-account">
 
-      {loading && <div className="dashboard-alert dashboard-loading">Loading dashboard data…</div>}
+    <div className="header-avatar">
+      {user.username?.charAt(0).toUpperCase()}
+    </div>
+
+    <div className="header-account-info">
+      <span className="header-account-label">
+        Signed in as
+      </span>
+
+      <strong className="header-account-name">
+        {user.username}
+      </strong>
+
+      <small className="header-account-role">
+        {user.role?.replace("_", " ")}
+      </small>
+    </div>
+
+  </div>
+)} */}
+        
+      
+
+      {loading && (
+        <div className="dashboard-alert dashboard-loading">
+          Loading dashboard data…
+        </div>
+      )}
       {error && <div className="dashboard-alert dashboard-error">{error}</div>}
 
       {!authorized && (
         <div className="public-notice">
-          Public visitors can view results and use the search tools on the Results page. Login with an authorized account to create, update, or delete entries.
+          Public visitors can view results and use the search tools on the
+          Results page. Login with an authorized account to create, update, or
+          delete entries.
         </div>
       )}
 
-     <section className="dashboard-hero-card">
-  <div
-    className="hero-left"
-    style={{
-      backgroundImage: `linear-gradient(
+      <section className="dashboard-hero-card">
+        <div
+          className="hero-left"
+          style={{
+            backgroundImage: `linear-gradient(
         rgba(0,0,0,0.45),
         rgba(0,0,0,0.45)
       ), url(${meetImage})`,
-    }}
-  >
-    <span
-      className={`hero-badge ${
-        currentMeet?.status?.toLowerCase() || "inactive"
-      }`}
-    >
-      {currentMeet ? currentMeet.status : "No Active Meet"}
-    </span>
+          }}
+        >
+          <span
+            className={`hero-badge ${
+              currentMeet?.status?.toLowerCase() || "inactive"
+            }`}
+          >
+            {currentMeet ? currentMeet.status : "No Active Meet"}
+          </span>
 
-    <h2>{currentMeet ? currentMeet.meet_name : "No active meet available"}</h2>
+          <h2>
+            {currentMeet ? currentMeet.meet_name : "No active meet available"}
+          </h2>
 
-    <p>
-      {currentMeet
-        ? `Meet dates: ${meetDates}`
-        : "Track results across your latest and past meets."}
-    </p>
+          <p>
+            {currentMeet
+              ? `Meet dates: ${meetDates}`
+              : "Track results across your latest and past meets."}
+          </p>
 
-    <div className="hero-actions">
-      <Button variant="primary" onClick={() => (window.location.href = "/results")}>View Results</Button>
+          <div className="hero-actions">
+            <Button
+              variant="primary"
+              onClick={() => (window.location.href = "/results")}
+            >
+              View Results
+            </Button>
 
-      <Button variant="special" onClick={() => (window.location.href = "/past-meets")}>Past Meets</Button>
-    </div>
-  </div>
+            <Button
+              variant="special"
+              onClick={() => (window.location.href = "/past-meets")}
+            >
+              Past Meets
+            </Button>
+          </div>
+        </div>
 
-  <div className="hero-metrics">
-    <div className="metric-card">
-      <span>Total Schools</span>
-      <strong>{stats.totalSchools}</strong>
-    </div>
+        <div className="hero-metrics">
+          <div className="metric-card">
+            <span>Total Schools</span>
+            <strong>{stats.totalSchools}</strong>
+          </div>
 
-    <div className="metric-card">
-      <span>Total Athletes</span>
-      <strong>{stats.totalAthletes}</strong>
-    </div>
+          <div className="metric-card">
+            <span>Total Athletes</span>
+            <strong>{stats.totalAthletes}</strong>
+          </div>
 
-    <div className="metric-card">
-      <span>Total Events</span>
-      <strong>{stats.totalEvents}</strong>
-    </div>
+          <div className="metric-card">
+            <span>Total Events</span>
+            <strong>{stats.totalEvents}</strong>
+          </div>
 
-    <div className="metric-card">
-      <span>Total Results</span>
-      <strong>{stats.totalResults}</strong>
-    </div>
-  </div>
-</section>
+          <div className="metric-card">
+            <span>Total Results</span>
+            <strong>{stats.totalResults}</strong>
+          </div>
+        </div>
+      </section>
 
       <section className="panel-grid">
         <div className="panel leaderboard-panel">
           <div className="panel-header">
             <div>
               <h2 className="section-title">Leaderboard</h2>
-              <p className="section-description">Top athletes and schools by score.</p>
+              <p className="section-description">
+                Top athletes and schools by score.
+              </p>
             </div>
-            <Button variant="secondary" size="sm" onClick={() => (window.location.href = "/leaderboard")}>View All</Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => (window.location.href = "/leaderboard")}
+            >
+              View All
+            </Button>
           </div>
 
           <div className="leaderboard-grid">
@@ -210,9 +292,17 @@ const Dashboard = () => {
           <div className="panel-header">
             <div>
               <h2 className="section-title">Past Meets</h2>
-              <p className="section-description">Completed meets with recent results.</p>
+              <p className="section-description">
+                Completed meets with recent results.
+              </p>
             </div>
-            <Button variant="secondary" size="sm" onClick={() => (window.location.href = "/past-meets")}>View All</Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => (window.location.href = "/past-meets")}
+            >
+              View All
+            </Button>
           </div>
 
           <div className="past-meets-list">
@@ -221,10 +311,18 @@ const Dashboard = () => {
                 <div key={meet.meet_id || idx} className="meet-row">
                   <div>
                     <strong>{meet.meet_name}</strong>
-                    <p>{meet.year} · {meet.start_date || ""}{meet.end_date ? ` - ${meet.end_date}` : ""}</p>
+                    <p>
+                      {meet.year} · {meet.start_date || ""}
+                      {meet.end_date ? ` - ${meet.end_date}` : ""}
+                    </p>
                   </div>
-                  
-                  <span className="meet-status" style={{ color: statusColor(meet.status) }}>{meet.status}</span>
+
+                  <span
+                    className="meet-status"
+                    style={{ color: statusColor(meet.status) }}
+                  >
+                    {meet.status}
+                  </span>
                 </div>
               ))
             ) : (
@@ -238,9 +336,15 @@ const Dashboard = () => {
         <div className="panel-header">
           <div>
             <h2 className="section-title">Recent Results</h2>
-            <p className="section-description">Latest performances from your current meet.</p>
+            <p className="section-description">
+              Latest performances from your current meet.
+            </p>
           </div>
-          <Button variant="secondary" size="sm" onClick={() => window.location.href = "/results"}>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => (window.location.href = "/results")}
+          >
             View All
           </Button>
         </div>
@@ -264,7 +368,9 @@ const Dashboard = () => {
                     <td>{idx + 1}</td>
                     <td>
                       <div className="athlete-name-cell">
-                        <div className="athlete-avatar">{r.athlete_name?.slice(0, 1) || "A"}</div>
+                        <div className="athlete-avatar">
+                          {r.athlete_name?.slice(0, 1) || "A"}
+                        </div>
                         <div>
                           <strong>{r.athlete_name}</strong>
                           <div className="athlete-meta">{r.school_name}</div>
@@ -272,7 +378,13 @@ const Dashboard = () => {
                       </div>
                     </td>
                     <td>{r.event_name}</td>
-                    <td>{r.performance_time ? `${r.performance_time}s` : (r.performance_distance ? `${r.performance_distance}m` : "-")}</td>
+                    <td>
+                      {r.performance_time
+                        ? `${r.performance_time}s`
+                        : r.performance_distance
+                          ? `${r.performance_distance}m`
+                          : "-"}
+                    </td>
                     <td>{r.points ?? "-"}</td>
                     <td>{new Date(r.created_at).toLocaleString()}</td>
                   </tr>
