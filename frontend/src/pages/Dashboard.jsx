@@ -177,6 +177,7 @@ const Dashboard = () => {
               <h2 className="section-title">Leaderboard</h2>
               <p className="section-description">Top athletes and schools by score.</p>
             </div>
+            <button className="view-all-btn" onClick={() => (window.location.href = "/leaderboard")}>View All</button>
           </div>
 
           <div className="leaderboard-grid">
@@ -220,6 +221,7 @@ const Dashboard = () => {
               <h2 className="section-title">Past Meets</h2>
               <p className="section-description">Completed meets with recent results.</p>
             </div>
+            <button className="view-all-btn" onClick={() => (window.location.href = "/past-meets")}>View All</button>
           </div>
 
           <div className="past-meets-list">
@@ -230,6 +232,7 @@ const Dashboard = () => {
                     <strong>{meet.meet_name}</strong>
                     <p>{meet.year} · {meet.start_date || ""}{meet.end_date ? ` - ${meet.end_date}` : ""}</p>
                   </div>
+                  
                   <span className="meet-status" style={{ color: statusColor(meet.status) }}>{meet.status}</span>
                 </div>
               ))
