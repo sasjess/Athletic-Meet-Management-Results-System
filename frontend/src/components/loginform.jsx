@@ -39,16 +39,20 @@ const LoginForm = () => {
 
       const data = await res.json();
 
-      if (data.success) {
+      if (data.success && data.token) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
         setMessage("Login successful — redirecting to dashboard...");
         setTimeout(() => navigate("/"), 400);
       } else {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
         setError(data.message || "Login failed. Please check your credentials.");
       }
     } catch (err) {
       console.error("Login error:", err);
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
       setError("Unable to connect to the server. Please try again later.");
     } finally {
       setLoading(false);

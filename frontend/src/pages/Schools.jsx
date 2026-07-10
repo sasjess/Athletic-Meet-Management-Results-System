@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/layout/Layout";
+import { authFetch } from "../services/api";
 
 const API = "http://localhost/Athletic-Meet-Management-Results-System/backend/schools";
 
@@ -18,7 +19,7 @@ const Schools = () => {
   }, []);
 
   const fetchSchools = async () => {
-    const res = await fetch(`${API}/read.php`);
+    const res = await authFetch(`${API}/read.php`);
     setSchools(await res.json());
   };
 
@@ -29,7 +30,7 @@ const Schools = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await fetch(`${API}/create.php`, {
+    await authFetch(`${API}/create.php`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form)

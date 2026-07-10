@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/layout/Layout";
+import { authFetch } from "../services/api";
 
 const API = "http://localhost/Athletic-Meet-Management-Results-System/backend/events";
 
@@ -16,7 +17,7 @@ const Events = () => {
   // GET EVENTS
   const fetchEvents = async () => {
     try {
-      const res = await fetch(`${API}/list.php`);
+      const res = await authFetch(`${API}/list.php`);
       const data = await res.json();
       setEvents(data);
     } catch (error) {
@@ -42,7 +43,7 @@ const Events = () => {
     setLoading(true);
 
     try {
-      const res = await fetch(`${API}/create.php`, {
+      const res = await authFetch(`${API}/create.php`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form)

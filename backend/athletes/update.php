@@ -1,6 +1,9 @@
 <?php
 
 header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: PUT, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 //require_once "athlete_model.php";
 require_once "../helpers/functions.php";
@@ -11,6 +14,11 @@ require_once "../middleware/authorize.php";
 $user = authenticate();
 authorize(['admin','meet_manager','data_entry_operator'], $user);
 
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
 
 /* Allow only PUT */
 if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {

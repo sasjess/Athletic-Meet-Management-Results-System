@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "../components/layout/Layout";
+import { authFetch } from "../services/api";
 import "./Results.css";
 
 const Results = () => {
@@ -21,7 +22,7 @@ const Results = () => {
     setError(null);
 
     try {
-      const response = await fetch(`${API_BASE}/results/index.php`);
+      const response = await authFetch(`${API_BASE}/results/index.php`);
       const payload = await response.json();
       if (payload.status !== "success") {
         setError(payload.message || "Failed to load results");
@@ -47,7 +48,7 @@ const Results = () => {
     setError(null);
 
     try {
-      const response = await fetch(`${API_BASE}/results/get_by_athlete.php?bib_no=${encodeURIComponent(bibNo)}`);
+      const response = await authFetch(`${API_BASE}/results/get_by_athlete.php?bib_no=${encodeURIComponent(bibNo)}`);
       const payload = await response.json();
       if (payload.status !== "success") {
         setError(payload.message || "No results found for that bib number.");
@@ -72,7 +73,7 @@ const Results = () => {
     setError(null);
 
     try {
-      const response = await fetch(`${API_BASE}/results/get_by_school.php?school_name=${encodeURIComponent(schoolName)}`);
+      const response = await authFetch(`${API_BASE}/results/get_by_school.php?school_name=${encodeURIComponent(schoolName)}`);
       const payload = await response.json();
       if (payload.status !== "success") {
         setError(payload.message || "No results found for that school.");

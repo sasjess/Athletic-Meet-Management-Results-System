@@ -500,10 +500,6 @@
     text-align: left;
   }
 }
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-}
 
 .perf-bar-wrapper {
   display: flex;
