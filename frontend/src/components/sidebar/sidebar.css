@@ -1,9 +1,11 @@
 /* Sidebar Container */
 .sidebar {
   width: 220px;
-  background: #1a3a5c;
+  background: linear-gradient(180deg, #0b6c81 0%, #06274f 100%);
+  border: 1px solid rgba(226, 239, 241, 0.35);
   display: flex;
   flex-direction: column;
+  border-radius: 20px;
   padding: 24px 16px;
   height: 100vh;
   position: fixed;
@@ -57,13 +59,13 @@
 }
 
 .nav-item:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.18);
   color: #ffffff;
 }
 
 /* Active NavLink */
 .nav-active {
-  background: #1a6fc4;
+  background: #2c7d8e;
   color: #ffffff;
 }
 
@@ -117,7 +119,7 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: #1a6fc4;
+  background: #0f6f45;
   color: #ffffff;
   display: flex;
   align-items: center;

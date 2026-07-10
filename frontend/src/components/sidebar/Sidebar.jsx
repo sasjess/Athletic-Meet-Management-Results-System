@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logoImage from "../../assets/logo.jpg";
-import "./Sidebar.css";
+import "./sidebar.css";
 
 const Sidebar = () => {
   const navigate = useNavigate();
