@@ -250,7 +250,7 @@
   margin-top: 24px;
 }
 
-.hero-button {
+/* .hero-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -262,9 +262,9 @@
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.2s ease, background 0.2s ease;
-}
+} */
 
-.hero-button.secondary {
+/* .hero-button.secondary {
   background: #f8fafc;
   color: #1d4ed8;
   border: 1px solid rgba(59, 130, 246, 0.18);
@@ -276,7 +276,7 @@
 
 .hero-button.secondary:hover {
   background: #eff6ff;
-}
+} */
 
 .hero-metrics {
   display: grid;
@@ -326,7 +326,7 @@
   margin-bottom: 24px;
 }
 
-.view-all-btn,
+/* .view-all-btn,
 .hero-button {
   display: inline-flex;
   align-items: center;
@@ -356,7 +356,7 @@
 .view-all-btn.secondary:hover,
 .hero-button.secondary:hover {
   background: #eff6ff;
-}
+} */
 
 .section-description {
   color: #64748b;

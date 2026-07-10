@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/layout/Layout";
+import Button from "../components/Button";
 import "./Dashboard.css";
 import meetImage from "../assets/meet.jpg";
 
@@ -131,19 +132,9 @@ const Dashboard = () => {
     </p>
 
     <div className="hero-actions">
-      <button
-        className="hero-button"
-        onClick={() => (window.location.href = "/results")}
-      >
-        View Results
-      </button>
+      <Button variant="primary" onClick={() => (window.location.href = "/results")}>View Results</Button>
 
-      <button
-        className="hero-button secondary"
-        onClick={() => (window.location.href = "/past-meets")}
-      >
-        Past Meets
-      </button>
+      <Button variant="special" onClick={() => (window.location.href = "/past-meets")}>Past Meets</Button>
     </div>
   </div>
 
@@ -177,7 +168,7 @@ const Dashboard = () => {
               <h2 className="section-title">Leaderboard</h2>
               <p className="section-description">Top athletes and schools by score.</p>
             </div>
-            <button className="view-all-btn" onClick={() => (window.location.href = "/leaderboard")}>View All</button>
+            <Button variant="secondary" size="sm" onClick={() => (window.location.href = "/leaderboard")}>View All</Button>
           </div>
 
           <div className="leaderboard-grid">
@@ -221,7 +212,7 @@ const Dashboard = () => {
               <h2 className="section-title">Past Meets</h2>
               <p className="section-description">Completed meets with recent results.</p>
             </div>
-            <button className="view-all-btn" onClick={() => (window.location.href = "/past-meets")}>View All</button>
+            <Button variant="secondary" size="sm" onClick={() => (window.location.href = "/past-meets")}>View All</Button>
           </div>
 
           <div className="past-meets-list">
@@ -249,9 +240,9 @@ const Dashboard = () => {
             <h2 className="section-title">Recent Results</h2>
             <p className="section-description">Latest performances from your current meet.</p>
           </div>
-          <button className="view-all-btn" onClick={() => window.location.href = "/results"}>
+          <Button variant="secondary" size="sm" onClick={() => window.location.href = "/results"}>
             View All
-          </button>
+          </Button>
         </div>
 
         <div className="table-wrapper">
