@@ -7,6 +7,7 @@ import LoginForm from "../components/loginform";
 import Results from "../pages/Results";
 import Leaderboard from "../pages/Leaderboard";
 import PastMeets from "../pages/PastMeets";
+import PastMeetResults from "../pages/PastMeetResults";
 import CreateResult from "../pages/CreateResult";
 import Athletes from "../pages/Athletes";
 import Schools from "../pages/Schools";
@@ -46,6 +47,11 @@ export const router = createBrowserRouter([
   {
     path: "/past-meets",
     element: <PastMeets />,
+  },
+
+  {
+    path: "/past-meets/:meetId/results",
+    element: <PastMeetResults />,
   },
 
   {
