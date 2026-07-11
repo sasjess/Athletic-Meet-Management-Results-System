@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/layout/Layout";
+import Button from "../components/Button";
 import { authFetch } from "../services/api";
 
 const API = "http://localhost/Athletic-Meet-Management-Results-System/backend/schools";
@@ -50,7 +51,7 @@ const Schools = () => {
         <input name="district" placeholder="District" onChange={handleChange} value={form.district} />
         <input name="city" placeholder="City" onChange={handleChange} value={form.city} />
 
-        <button>Add School</button>
+        <Button type="submit">Add School</Button>
       </form>
 
       <table>

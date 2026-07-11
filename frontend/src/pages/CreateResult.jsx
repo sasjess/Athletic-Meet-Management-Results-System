@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "../components/layout/Layout";
+import Button from "../components/Button";
 import "./CreateResult.css";
 
 const CreateResult = () => {
@@ -100,12 +101,7 @@ const CreateResult = () => {
             </p>
           </div>
 
-          <button
-            className="back-btn"
-            onClick={() => navigate("/results")}
-          >
-            Results List
-          </button>
+          <Button variant="secondary" onClick={() => navigate("/results")}>Results List</Button>
         </div>
 
         {/* SUCCESS STATE */}
@@ -116,9 +112,7 @@ const CreateResult = () => {
             <h2>Result Saved Successfully</h2>
             <p>Athlete result has been added to the system.</p>
 
-            <button className="primary-btn" onClick={handleReset}>
-              Add Another Result
-            </button>
+            <Button onClick={handleReset}>Add Another Result</Button>
           </div>
         ) : (
           /* FORM */
@@ -157,13 +151,11 @@ const CreateResult = () => {
 
             {/* ACTIONS */}
             <div className="form-actions">
-              <button type="button" className="secondary-btn" onClick={handleReset}>
+                <Button type="button" variant="secondary" onClick={handleReset}>
                 Reset
-              </button>
+              </Button>
 
-              <button type="submit" className="primary-btn">
-                Save Result
-              </button>
+              <Button type="submit">Save Result</Button>
             </div>
 
           </form>

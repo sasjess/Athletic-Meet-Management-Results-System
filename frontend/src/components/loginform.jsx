@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "./loginform.css";
 import loginImage from "../assets/login.jpeg";
 import { useNavigate } from "react-router-dom";
+import Button from "../components/Button";
 
 const LoginForm = () => {
   const [loginData, setLoginData] = useState({ username: "", password: "" });
@@ -102,13 +103,13 @@ const LoginForm = () => {
             {error && <div className="auth-message auth-error">{error}</div>}
             {message && <div className="auth-message auth-success">{message}</div>}
 
-            <button
+            <Button
               className="auth-btn"
               onClick={handleLogin}
               disabled={loading || !loginData.username.trim() || !loginData.password.trim()}
             >
               {loading ? "Signing in..." : "Login"}
-            </button>
+            </Button>
           </div>
         </div>
 

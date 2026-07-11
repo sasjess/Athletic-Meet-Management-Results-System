@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/layout/Layout";
+import Button from "../components/Button";
 import { authFetch } from "../services/api";
 
 const API = "http://localhost/Athletic-Meet-Management-Results-System/backend/meets";
@@ -64,7 +65,7 @@ const Meets = () => {
           <option value="Completed">Completed</option>
         </select>
 
-        <button>Add Meet</button>
+        <Button type="submit">Add Meet</Button>
       </form>
 
       <table>

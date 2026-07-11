@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "../components/layout/Layout";
+import Button from "../components/Button";
 import { authFetch } from "../services/api";
 import "./Results.css";
 
@@ -103,11 +104,9 @@ const Results = () => {
 
           <div className="results-actions">
             {authorized ? (
-              <button className="primary-btn" onClick={() => navigate("/results/create")}>
-                + Add Result
-              </button>
+              <Button onClick={() => navigate("/results/create")}>+ Add Result</Button>
             ) : (
-              <button className="secondary-btn" onClick={() => navigate("/login")}>Login to manage</button>
+              <Button variant="secondary" onClick={() => navigate("/login")}>Login to manage</Button>
             )}
           </div>
         </div>
@@ -122,9 +121,7 @@ const Results = () => {
                 value={bibNo}
                 onChange={(e) => setBibNo(e.target.value)}
               />
-              <button className="primary-btn" onClick={searchByBib}>
-                Search
-              </button>
+              <Button onClick={searchByBib}>Search</Button>
             </div>
           </div>
 
@@ -137,9 +134,7 @@ const Results = () => {
                 value={schoolName}
                 onChange={(e) => setSchoolName(e.target.value)}
               />
-              <button className="primary-btn" onClick={searchBySchool}>
-                Search
-              </button>
+              <Button onClick={searchBySchool}>Search</Button>
             </div>
           </div>
         </div>
