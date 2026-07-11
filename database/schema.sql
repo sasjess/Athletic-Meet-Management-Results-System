@@ -57,9 +57,12 @@ CREATE TABLE events (
     event_id INT AUTO_INCREMENT PRIMARY KEY,
     event_name VARCHAR(100) NOT NULL,
     event_type ENUM('Track', 'Field') NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    gender_id CHAR(1) NOT NULL,
+    agegroup_id INT NOT NULL,
 
-    
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (gender_id) REFERENCES gender(gender_id),
+    FOREIGN KEY (agegroup_id) REFERENCES age_groups(agegroup_id)
 );
 
 CREATE TABLE gender_events (

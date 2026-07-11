@@ -1,0 +1,206 @@
+/* =========================
+   EVENTS PAGE
+========================= */
+
+.events-page {
+  padding: 20px;
+  background: #f4f6fb;
+  min-height: 100vh;
+}
+
+.events-page h1 {
+  color: #01161e;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+/* =========================
+   MESSAGES
+========================= */
+
+.success-message {
+  background: #dcfce7;
+  color: #166534;
+  padding: 12px 18px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.error-message {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 12px 18px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.event-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+  margin-bottom: 25px;
+  align-items: flex-end;
+}
+
+.event-form > * {
+  flex: 1 1 220px;
+  min-width: 220px;
+}
+
+.event-form .btn {
+  min-height: 36px;       /* smaller height */
+  padding: 8px 12px;      /* tighter padding */
+  font-size: 14px;        /* slightly smaller text */
+  align-self: center;
+  margin-left: auto;      /* push to the right corner inside the flex row */
+  flex: 0 0 auto;         /* prevent stretching */
+}
+
+.event-form input,
+.event-form select {
+  padding: 11px 14px;
+
+  border-radius: 8px;
+
+  border: 1px solid #dbe2ea;
+
+  font-size: 14px;
+
+  outline: none;
+}
+
+.event-form input:focus,
+.event-form select:focus {
+  border-color: #124559;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.age-separator {
+  margin-bottom: 16px;
+  
+}
+.gender-title {
+  margin: 12px 0 12px 0; /* gap between Male/Female label and the table */
+  font-weight: 700;
+  color: #01161e;
+}
+.age-section {
+  margin-bottom: 16px;
+}
+
+.event-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 1px 3px 10px rgba(0, 0, 0, 0.06);
+  
+}
+
+.event-table th,
+.event-table td {
+  padding: 14px 16px;
+}
+
+.event-table th {
+  text-align: left;
+  background: #eef1f3;
+  color: #01161e;
+  font-size: 14px;
+  letter-spacing: 0.03em;
+  
+}
+
+.event-table td {
+  border-bottom: 1px solid #edf0f3;
+  
+  color: #334155;
+}
+
+.event-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.event-table td:first-child,
+.event-table th:first-child {
+  width: 80px;
+}
+
+/* =========================
+   AGE GROUP HEADER
+========================= */
+
+.age-row td {
+  background: #124559;
+
+  color: white;
+
+  font-size: 17px;
+
+  font-weight: 700;
+
+  padding: 14px 18px;
+}
+
+/* =========================
+   GENDER HEADER
+========================= */
+
+.gender-row td {
+  background: #aec3b0;
+  color: #01161e;
+  font-weight: 700;
+  padding: 12px 18px;
+}
+
+.event-table tbody tr.gender-row td {
+  padding-left: 30px;
+}
+
+.event-table tbody tr.age-row td,
+.event-table tbody tr.gender-row td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Normal event rows */
+
+.event-table tbody tr:not(.age-row):not(.gender-row):hover {
+  background: #f8fafc;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .event-form {
+    flex-direction: column;
+  }
+
+  .event-form > * {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .event-form .btn {
+    width: 100%;
+  }
+
+  .event-table {
+    font-size: 13px;
+    display: block;
+    overflow-x: auto;
+  }
+}
