@@ -23,7 +23,7 @@ if (!$data) {
     exit;
 }
 
-if (!isset($data['event_id'], $data['event_name'], $data['event_type'], $data['gender_id'], $data['agegroup_id'])) {
+if (!isset($data['event_id'], $data['event_name'], $data['event_type'], $data['agegroup_id'])) {
     echo json_encode(["status" => "error", "message" => "Missing fields"]);
     exit;
 }
@@ -31,10 +31,21 @@ if (!isset($data['event_id'], $data['event_name'], $data['event_type'], $data['g
 $id = $data['event_id'];
 $name = $data['event_name'];
 $type = $data['event_type'];
-$gender_id = $data['gender_id'];
-$agegroup_id = $data['agegroup_id'];
+$gender_ids = $data['gender_id'] ?? $data['gender_ids'] ?? [];
+$agegroup_ids = $data['agegroup_id'] ?? $data['agegroup_ids'] ?? [];
 
-$result = updateEvent($id, $name, $type, $gender_id, $agegroup_id);
+if (!is_array($gender_ids)) {
+    $gender_ids = array_filter([trim((string) $gender_ids)], 'strlen');
+}
+
+if (!is_array($agegroup_ids)) {
+    $agegroup_ids = array_filter([trim((string) $agegroup_ids)], 'strlen');
+}
+
+$gender_ids = array_values(array_unique(array_map('strval', $gender_ids)));
+$agegroup_ids = array_values(array_unique(array_map('intval', $agegroup_ids)));
+
+$result = updateEvent($id, $name, $type, $gender_ids, $agegroup_ids);
 
 if ($result) {
     echo json_encode(["status" => "success", "message" => "Event updated"]);

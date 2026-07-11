@@ -1,5 +1,4 @@
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Layout from "../components/layout/Layout";
 import Button from "../components/Button";
 import { authFetch } from "../services/api";
@@ -8,34 +7,90 @@ import "./Events.css";
 const API =
   "http://localhost/Athletic-Meet-Management-Results-System/backend/events";
 
-const ageGroupLabels = {
-  1: "Under 12",
-  3: "Under 14",
-  17: "Under 16",
-  18: "Under 18",
-  19: "Under 20",
-};
+const ageGroupOptions = [
+  { id: "1", label: "Under 12" },
+  { id: "3", label: "Under 14" },
+  { id: "17", label: "Under 16" },
+  { id: "18", label: "Under 18" },
+  { id: "19", label: "Under 20" },
+];
 
-const genderLabels = {
-  M: "Male",
-  F: "Female",
-  1: "Male",
-  2: "Female",
-};
+const genderOptions = [
+  { id: "M", label: "Male" },
+  { id: "F", label: "Female" },
+];
 
+const ageGroupLabels = Object.fromEntries(
+  ageGroupOptions.map(({ id, label }) => [id, label])
+);
+
+const genderLabels = Object.fromEntries(
+  genderOptions.map(({ id, label }) => [id, label])
+);
 
 const normalizeEvent = (event) => {
+  const agegroupIds = Array.isArray(event.agegroup_ids)
+    ? event.agegroup_ids
+    : typeof event.agegroup_ids === "string" && event.agegroup_ids
+    ? event.agegroup_ids.split(",").map((value) => value.trim()).filter(Boolean)
+    : event.agegroup_id
+    ? [String(event.agegroup_id)]
+    : [];
+
+  const genderIds = Array.isArray(event.gender_ids)
+    ? event.gender_ids
+    : typeof event.gender_ids === "string" && event.gender_ids
+    ? event.gender_ids.split(",").map((value) => value.trim()).filter(Boolean)
+    : event.gender_id
+    ? [String(event.gender_id)]
+    : [];
+
+  const ageGroupLabelsForEvent = agegroupIds.map(
+    (id) => ageGroupLabels[id] || "Unknown"
+  );
+
+  const genderLabelsForEvent = genderIds.map(
+    (id) => genderLabels[id] || "Unknown"
+  );
+
   return {
     ...event,
-
-    age_group_label:
-      ageGroupLabels[event.agegroup_id] || "Unknown",
-
-    gender_label:
-      genderLabels[event.gender_id] || "Unknown",
-
-    event_id: event.event_id
+    agegroup_ids: agegroupIds,
+    age_group_labels: ageGroupLabelsForEvent,
+    age_group_label: ageGroupLabelsForEvent[0] || "Unknown",
+    gender_ids: genderIds,
+    gender_labels: genderLabelsForEvent,
+    gender_label: genderLabelsForEvent[0] || "Unknown",
+    event_id: event.event_id,
   };
+};
+
+const getEventAgeGroupLabels = (event) => {
+  if (Array.isArray(event.agegroup_ids) && event.agegroup_ids.length > 0) {
+    return event.agegroup_ids.map((id) => ageGroupLabels[id] || "Unknown");
+  }
+
+  if (Array.isArray(event.age_group_labels) && event.age_group_labels.length > 0) {
+    return event.age_group_labels;
+  }
+
+  return event.age_group_label && event.age_group_label !== "Unknown"
+    ? [event.age_group_label]
+    : [];
+};
+
+const getEventGenderLabels = (event) => {
+  if (Array.isArray(event.gender_ids) && event.gender_ids.length > 0) {
+    return event.gender_ids.map((id) => genderLabels[id] || "Unknown");
+  }
+
+  if (Array.isArray(event.gender_labels) && event.gender_labels.length > 0) {
+    return event.gender_labels;
+  }
+
+  return event.gender_label && event.gender_label !== "Unknown"
+    ? [event.gender_label]
+    : [];
 };
 
 const Events = () => {
@@ -44,23 +99,26 @@ const Events = () => {
   const [form, setForm] = useState({
     event_name: "",
     event_type: "",
-    gender_id: "",
-    agegroup_id: "",
+    gender_id: [],
+    agegroup_id: [],
   });
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [isAgeGroupOpen, setIsAgeGroupOpen] = useState(false);
+  const [isGenderOpen, setIsGenderOpen] = useState(false);
+  const ageGroupDropdownRef = useRef(null);
+  const genderDropdownRef = useRef(null);
 
   const fetchEvents = async () => {
     try {
       const res = await authFetch(`${API}/list.php`);
       const data = await res.json();
-      console.log("EVENT API RESPONSE:", data);
 
       if (Array.isArray(data)) {
         setEvents(data.map(normalizeEvent));
-      } else if (data.status === "success") {
+      } else if (data && data.status === "success") {
         setEvents((data.data || []).map(normalizeEvent));
       } else {
         setEvents([]);
@@ -77,88 +135,145 @@ const Events = () => {
     fetchEvents();
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        isAgeGroupOpen &&
+        ageGroupDropdownRef.current &&
+        !ageGroupDropdownRef.current.contains(event.target)
+      ) {
+        setIsAgeGroupOpen(false);
+      }
+
+      if (
+        isGenderOpen &&
+        genderDropdownRef.current &&
+        !genderDropdownRef.current.contains(event.target)
+      ) {
+        setIsGenderOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isAgeGroupOpen, isGenderOpen]);
+
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value, type, checked } = e.target;
+
+    if (type === "checkbox") {
+      setForm((prev) => {
+        const currentValues = Array.isArray(prev[name]) ? prev[name] : [];
+        const nextValues = checked
+          ? [...currentValues, value]
+          : currentValues.filter((item) => item !== value);
+
+        return {
+          ...prev,
+          [name]: nextValues,
+        };
+      });
+      return;
+    }
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  setMessage("");
-  setError("");
+    setMessage("");
+    setError("");
 
-  const payload = {
-    event_name: form.event_name,
-    event_type: form.event_type,
-    gender_id: form.gender_id,
-    agegroup_id: Number(form.agegroup_id),
-  };
+    const agegroupIds = Array.isArray(form.agegroup_id)
+      ? form.agegroup_id
+      : [form.agegroup_id].filter(Boolean);
 
-  try {
-    const response = await authFetch(
-      `${API}/create.php`,
-      {
+    const genderIds = Array.isArray(form.gender_id)
+      ? form.gender_id
+      : [form.gender_id].filter(Boolean);
+
+    if (agegroupIds.length === 0) {
+      setError("Please select at least one age group");
+      return;
+    }
+
+    if (genderIds.length === 0) {
+      setError("Please select at least one gender");
+      return;
+    }
+
+    const payload = {
+      event_name: form.event_name.trim(),
+      event_type: form.event_type,
+      gender_id: genderIds,
+      agegroup_id: agegroupIds,
+    };
+
+    try {
+      setLoading(true);
+      const response = await authFetch(`${API}/create.php`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
-      }
-    );
-
-    const data = await response.json();
-
-    console.log("CREATE EVENT RESPONSE:", data);
-
-    if (data.status === "success") {
-
-      setMessage(data.message);
-
-      setForm({
-        event_name: "",
-        event_type: "",
-        gender_id: "",
-        agegroup_id: "",
       });
 
-      fetchEvents();
+      const data = await response.json();
 
-    } else {
+      if (data.status === "success") {
+        setMessage(data.message);
 
-      if (data.errors) {
+        setForm({
+          event_name: "",
+          event_type: "",
+          gender_id: [],
+          agegroup_id: [],
+        });
+
+        fetchEvents();
+      } else if (data.errors) {
         setError(data.errors.join(", "));
       } else {
         setError(data.message || "Failed to create event");
       }
-
+    } catch (err) {
+      console.error("CREATE EVENT ERROR:", err);
+      setError(err.message || "Failed to create event");
+    } finally {
+      setLoading(false);
     }
+  };
 
-  } catch (err) {
+  const selectedAgeGroupLabels = form.agegroup_id
+    .map((id) => ageGroupLabels[id])
+    .filter(Boolean);
 
-    console.error("CREATE EVENT ERROR:", err);
-
-    setError(err.message);
-
-  }
-};
+  const selectedGenderLabels = form.gender_id
+    .map((id) => genderLabels[id])
+    .filter(Boolean);
 
   const groupedEvents = events.reduce((groups, event) => {
-    const age = event.age_group_label;
-    const gender = event.gender_label;
+    const ageGroups = getEventAgeGroupLabels(event);
+    const genderGroups = getEventGenderLabels(event);
 
-    if (!groups[age]) {
-      groups[age] = {};
-    }
+    ageGroups.forEach((age) => {
+      genderGroups.forEach((gender) => {
+        if (!groups[age]) {
+          groups[age] = {};
+        }
 
-    if (!groups[age][gender]) {
-      groups[age][gender] = [];
-    }
+        if (!groups[age][gender]) {
+          groups[age][gender] = [];
+        }
 
-    groups[age][gender].push(event);
+        groups[age][gender].push(event);
+      });
+    });
 
     return groups;
   }, {});
@@ -203,30 +318,78 @@ const Events = () => {
             <option value="Field">Field</option>
           </select>
 
-          <select
-            name="agegroup_id"
-            value={form.agegroup_id}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Age Group</option>
-            <option value="1">Under 12</option>
-            <option value="3">Under 14</option>
-            <option value="17">Under 16</option>
-            <option value="18">Under 18</option>
-            <option value="19">Under 20</option>
-          </select>
+          <div className="age-group-picker" ref={ageGroupDropdownRef}>
+            <button
+              type="button"
+              className="age-group-toggle"
+              onClick={() => setIsAgeGroupOpen((prev) => !prev)}
+            >
+              <span>
+                {selectedAgeGroupLabels.length > 0
+                  ? selectedAgeGroupLabels.join(", ")
+                  : "Select age groups"}
+              </span>
+              <span className="age-group-toggle-icon">▾</span>
+            </button>
 
-          <select
-            name="gender_id"
-            value={form.gender_id}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Gender</option>
-            <option value="M">Male</option>
-            <option value="F">Female</option>
-          </select>
+            {isAgeGroupOpen && (
+              <div className="age-group-menu" role="menu">
+                {ageGroupOptions.map((option) => {
+                  const isChecked = form.agegroup_id.includes(option.id);
+
+                  return (
+                    <label key={option.id} className="checkbox-item" role="menuitem">
+                      <input
+                        type="checkbox"
+                        name="agegroup_id"
+                        value={option.id}
+                        checked={isChecked}
+                        onChange={handleChange}
+                      />
+                      <span>{option.label}</span>
+                    </label>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          <div className="age-group-picker" ref={genderDropdownRef}>
+            <button
+              type="button"
+              className="age-group-toggle"
+              onClick={() => setIsGenderOpen((prev) => !prev)}
+            >
+              <span>
+                {selectedGenderLabels.length > 0
+                  ? selectedGenderLabels.join(", ")
+                  : "Select genders"}
+              </span>
+              <span className="age-group-toggle-icon">▾</span>
+            </button>
+
+            {isGenderOpen && (
+              <div className="age-group-menu" role="menu">
+                {genderOptions.map((option) => {
+                  const isChecked = form.gender_id.includes(option.id);
+
+                  return (
+                    <label key={option.id} className="checkbox-item" role="menuitem">
+                      <input
+                        type="checkbox"
+                        name="gender_id"
+                        value={option.id}
+                        checked={isChecked}
+                        onChange={handleChange}
+                      />
+                      <span>{option.label}</span>
+                    </label>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
           <Button
             variant="primary"
             size="sm"
@@ -236,10 +399,6 @@ const Events = () => {
           >
             {loading ? "Saving..." : "+ Add Event"}
           </Button>
-
-          {/* <Button variant="primary" type="submit" disabled={loading}>
-            {loading ? "Saving..." : "+ Add Event"}
-          </Button> */}
         </form>
 
         <div className="events-list">

@@ -7,9 +7,6 @@ header("Content-Type: application/json");
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 
 
@@ -67,9 +64,7 @@ if (!$data) {
 
 if (
     empty($data['event_name']) ||
-    empty($data['event_type']) ||
-    empty($data['gender_id']) ||
-    empty($data['agegroup_id'])
+    empty($data['event_type'])
 ) {
 
     echo json_encode([
@@ -80,13 +75,43 @@ if (
     exit;
 }
 
+$gender_ids = $data['gender_id'] ?? $data['gender_ids'] ?? [];
+$agegroup_ids = $data['agegroup_id'] ?? $data['agegroup_ids'] ?? [];
 
+if (!is_array($gender_ids)) {
+    $gender_ids = array_filter([trim((string) $gender_ids)], 'strlen');
+}
+
+if (!is_array($agegroup_ids)) {
+    $agegroup_ids = array_filter([trim((string) $agegroup_ids)], 'strlen');
+}
+
+$gender_ids = array_values(array_unique(array_map('strval', $gender_ids)));
+$agegroup_ids = array_values(array_unique(array_map('intval', $agegroup_ids)));
+
+if (empty($gender_ids)) {
+    echo json_encode([
+        "status"=>"error",
+        "message"=>"Please select at least one gender"
+    ]);
+
+    exit;
+}
+
+if (empty($agegroup_ids)) {
+    echo json_encode([
+        "status"=>"error",
+        "message"=>"Please select at least one age group"
+    ]);
+
+    exit;
+}
 
 $result = createEvent(
     $data['event_name'],
     $data['event_type'],
-    $data['gender_id'],
-    $data['agegroup_id']
+    $gender_ids,
+    $agegroup_ids
 );
 
 

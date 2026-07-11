@@ -1,36 +1,88 @@
 <?php
 require_once "../config/db.php";
 
-function createEvent($name, $type, $gender_id, $agegroup_id) {
+function createEvent($name, $type, $gender_ids, $agegroup_ids) {
 
     global $conn;
 
+    if (empty($gender_ids) || empty($agegroup_ids)) {
+        return false;
+    }
 
+    $conn->begin_transaction();
+
+    // Insert main event
     $stmt = $conn->prepare(
-        "INSERT INTO events
-        (event_name,event_type,gender_id,agegroup_id)
-        VALUES (?,?,?,?)"
+        "INSERT INTO events 
+        (event_name, event_type)
+        VALUES (?, ?)"
     );
 
 
-    if(!$stmt){
+    $stmt->bind_param(
+        "ss",
+        $name,
+        $type
+    );
+
+
+    if(!$stmt->execute()){
+        $conn->rollback();
         return false;
     }
 
 
-    $stmt->bind_param(
-        "sssi",
-        $name,
-        $type,
-        $gender_id,
-        $agegroup_id
-    );
+    // Get created event id
+    $event_id = $conn->insert_id;
+
+    foreach($gender_ids as $gender_id){
+
+        $genderStmt = $conn->prepare(
+            "INSERT INTO gender_events
+            (event_id, gender_id)
+            VALUES (?, ?)"
+        );
+
+        $genderStmt->bind_param(
+            "is",
+            $event_id,
+            $gender_id
+        );
+
+        if(!$genderStmt->execute()){
+            $conn->rollback();
+            return false;
+        }
+
+    }
+
+    // Insert age groups
+    foreach($agegroup_ids as $agegroup_id){
+
+        $ageStmt = $conn->prepare(
+            "INSERT INTO agegroup_events
+            (event_id, agegroup_id)
+            VALUES (?, ?)"
+        );
 
 
-    return $stmt->execute();
+        $ageStmt->bind_param(
+            "ii",
+            $event_id,
+            $agegroup_id
+        );
 
+
+        if(!$ageStmt->execute()){
+            $conn->rollback();
+            return false;
+        }
+
+    }
+
+    $conn->commit();
+    return true;
 }
-
 function getAllEvents() {
     global $conn;
 
@@ -39,34 +91,77 @@ function getAllEvents() {
             e.event_id,
             e.event_name,
             e.event_type,
-            e.gender_id,
-            e.agegroup_id,
-            g.name AS gender_name,
+            ge.gender_id AS event_gender_id,
+            ge_gender.name AS event_gender_name,
+            ag.agegroup_id,
             ag.group_name AS age_group
         FROM events e
-        LEFT JOIN gender g
-            ON e.gender_id = g.gender_id
+        LEFT JOIN gender_events ge
+            ON ge.event_id = e.event_id
+        LEFT JOIN gender ge_gender
+            ON ge_gender.gender_id = ge.gender_id
+        LEFT JOIN agegroup_events ae
+            ON ae.event_id = e.event_id
         LEFT JOIN age_groups ag
-            ON e.agegroup_id = ag.agegroup_id
+            ON ag.agegroup_id = ae.agegroup_id
         ORDER BY
+            e.event_name ASC,
             ag.agegroup_id ASC,
-            g.name ASC,
-            e.event_name ASC
+            ge_gender.name ASC
     ";
 
     $result = $conn->query($sql);
 
     $data = [];
+    $eventsById = [];
 
     while($row = $result->fetch_assoc()){
-        $data[] = $row;
+        $eventId = (int) $row['event_id'];
+
+        if (!isset($eventsById[$eventId])) {
+            $eventsById[$eventId] = [
+                'event_id' => $eventId,
+                'event_name' => $row['event_name'],
+                'event_type' => $row['event_type'],
+                'gender_ids' => [],
+                'gender_names' => [],
+                'agegroup_ids' => [],
+                'age_groups' => []
+            ];
+        }
+
+        if (!empty($row['event_gender_id'])) {
+            $genderId = (string) $row['event_gender_id'];
+            if (!in_array($genderId, $eventsById[$eventId]['gender_ids'], true)) {
+                $eventsById[$eventId]['gender_ids'][] = $genderId;
+            }
+
+            if (!empty($row['event_gender_name']) && !in_array($row['event_gender_name'], $eventsById[$eventId]['gender_names'], true)) {
+                $eventsById[$eventId]['gender_names'][] = $row['event_gender_name'];
+            }
+        }
+
+        if (!empty($row['agegroup_id'])) {
+            $agegroupId = (int) $row['agegroup_id'];
+            if (!in_array($agegroupId, $eventsById[$eventId]['agegroup_ids'], true)) {
+                $eventsById[$eventId]['agegroup_ids'][] = $agegroupId;
+            }
+
+            if (!empty($row['age_group']) && !in_array($row['age_group'], $eventsById[$eventId]['age_groups'], true)) {
+                $eventsById[$eventId]['age_groups'][] = $row['age_group'];
+            }
+        }
     }
 
-    return $data;
+    return array_values($eventsById);
 }
 
-function updateEvent($id, $name, $type, $gender_id, $agegroup_id) {
+function updateEvent($id, $name, $type, $gender_ids, $agegroup_ids) {
     global $conn;
+
+    if (empty($gender_ids) || empty($agegroup_ids)) {
+        return false;
+    }
 
     $conn->begin_transaction();
 
@@ -80,39 +175,45 @@ function updateEvent($id, $name, $type, $gender_id, $agegroup_id) {
     }
     $stmt->close();
 
-    $stmt = $conn->prepare(
-        "UPDATE gender_events SET gender_id=? WHERE event_id=?"
-    );
-    $stmt->bind_param("si", $gender_id, $id);
-    if (!$stmt->execute() || $stmt->affected_rows === 0) {
-        $stmt->close();
-        $stmt = $conn->prepare(
+    $deleteGenderStmt = $conn->prepare("DELETE FROM gender_events WHERE event_id=?");
+    $deleteGenderStmt->bind_param("i", $id);
+    if (!$deleteGenderStmt->execute()) {
+        $conn->rollback();
+        return false;
+    }
+    $deleteGenderStmt->close();
+
+    foreach ($gender_ids as $gender_id) {
+        $insertGenderStmt = $conn->prepare(
             "INSERT INTO gender_events (event_id, gender_id) VALUES (?, ?)"
         );
-        $stmt->bind_param("is", $id, $gender_id);
-        if (!$stmt->execute()) {
+        $insertGenderStmt->bind_param("is", $id, $gender_id);
+        if (!$insertGenderStmt->execute()) {
             $conn->rollback();
             return false;
         }
+        $insertGenderStmt->close();
     }
-    $stmt->close();
 
-    $stmt = $conn->prepare(
-        "UPDATE agegroup_events SET agegroup_id=? WHERE event_id=?"
-    );
-    $stmt->bind_param("ii", $agegroup_id, $id);
-    if (!$stmt->execute() || $stmt->affected_rows === 0) {
-        $stmt->close();
-        $stmt = $conn->prepare(
+    $deleteAgeGroupStmt = $conn->prepare("DELETE FROM agegroup_events WHERE event_id=?");
+    $deleteAgeGroupStmt->bind_param("i", $id);
+    if (!$deleteAgeGroupStmt->execute()) {
+        $conn->rollback();
+        return false;
+    }
+    $deleteAgeGroupStmt->close();
+
+    foreach ($agegroup_ids as $agegroup_id) {
+        $insertAgeGroupStmt = $conn->prepare(
             "INSERT INTO agegroup_events (agegroup_id, event_id) VALUES (?, ?)"
         );
-        $stmt->bind_param("ii", $agegroup_id, $id);
-        if (!$stmt->execute()) {
+        $insertAgeGroupStmt->bind_param("ii", $agegroup_id, $id);
+        if (!$insertAgeGroupStmt->execute()) {
             $conn->rollback();
             return false;
         }
+        $insertAgeGroupStmt->close();
     }
-    $stmt->close();
 
     $conn->commit();
     return true;
