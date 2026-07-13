@@ -1,11 +1,11 @@
 <?php
 require_once "../config/db.php";
 
-function createEvent($name, $type, $gender_ids, $agegroup_ids) {
+function createEvent($name, $type, $gender_id, $agegroup_ids) {
 
     global $conn;
 
-    if (empty($gender_ids) || empty($agegroup_ids)) {
+    if (empty($gender_id) || empty($agegroup_ids)) {
         return false;
     }
 
@@ -35,7 +35,7 @@ function createEvent($name, $type, $gender_ids, $agegroup_ids) {
     // Get created event id
     $event_id = $conn->insert_id;
 
-    foreach($gender_ids as $gender_id){
+    foreach($gender_id as $gender_id){
 
         $genderStmt = $conn->prepare(
             "INSERT INTO gender_events
@@ -123,7 +123,7 @@ function getAllEvents() {
                 'event_id' => $eventId,
                 'event_name' => $row['event_name'],
                 'event_type' => $row['event_type'],
-                'gender_ids' => [],
+                'gender_id' => [],
                 'gender_names' => [],
                 'agegroup_ids' => [],
                 'age_groups' => []
@@ -132,8 +132,8 @@ function getAllEvents() {
 
         if (!empty($row['event_gender_id'])) {
             $genderId = (string) $row['event_gender_id'];
-            if (!in_array($genderId, $eventsById[$eventId]['gender_ids'], true)) {
-                $eventsById[$eventId]['gender_ids'][] = $genderId;
+            if (!in_array($genderId, $eventsById[$eventId]['gender_id'], true)) {
+                $eventsById[$eventId]['gender_id'][] = $genderId;
             }
 
             if (!empty($row['event_gender_name']) && !in_array($row['event_gender_name'], $eventsById[$eventId]['gender_names'], true)) {
@@ -156,10 +156,10 @@ function getAllEvents() {
     return array_values($eventsById);
 }
 
-function updateEvent($id, $name, $type, $gender_ids, $agegroup_ids) {
+function updateEvent($id, $name, $type, $gender_id, $agegroup_ids) {
     global $conn;
 
-    if (empty($gender_ids) || empty($agegroup_ids)) {
+    if (empty($gender_id) || empty($agegroup_ids)) {
         return false;
     }
 
@@ -183,7 +183,7 @@ function updateEvent($id, $name, $type, $gender_ids, $agegroup_ids) {
     }
     $deleteGenderStmt->close();
 
-    foreach ($gender_ids as $gender_id) {
+    foreach ($gender_id as $gender_id) {
         $insertGenderStmt = $conn->prepare(
             "INSERT INTO gender_events (event_id, gender_id) VALUES (?, ?)"
         );

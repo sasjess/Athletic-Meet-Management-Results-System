@@ -75,21 +75,21 @@ if (
     exit;
 }
 
-$gender_ids = $data['gender_id'] ?? $data['gender_ids'] ?? [];
+$gender_id = $data['gender_id'] ?? $data['gender_id'] ?? [];
 $agegroup_ids = $data['agegroup_id'] ?? $data['agegroup_ids'] ?? [];
 
-if (!is_array($gender_ids)) {
-    $gender_ids = array_filter([trim((string) $gender_ids)], 'strlen');
+if (!is_array($gender_id)) {
+    $gender_id = array_filter([trim((string) $gender_id)], 'strlen');
 }
 
 if (!is_array($agegroup_ids)) {
     $agegroup_ids = array_filter([trim((string) $agegroup_ids)], 'strlen');
 }
 
-$gender_ids = array_values(array_unique(array_map('strval', $gender_ids)));
+$gender_id = array_values(array_unique(array_map('strval', $gender_id)));
 $agegroup_ids = array_values(array_unique(array_map('intval', $agegroup_ids)));
 
-if (empty($gender_ids)) {
+if (empty($gender_id)) {
     echo json_encode([
         "status"=>"error",
         "message"=>"Please select at least one gender"
@@ -110,7 +110,7 @@ if (empty($agegroup_ids)) {
 $result = createEvent(
     $data['event_name'],
     $data['event_type'],
-    $gender_ids,
+    $gender_id,
     $agegroup_ids
 );
 

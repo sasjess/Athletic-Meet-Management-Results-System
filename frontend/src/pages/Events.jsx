@@ -37,10 +37,10 @@ const normalizeEvent = (event) => {
     ? [String(event.agegroup_id)]
     : [];
 
-  const genderIds = Array.isArray(event.gender_ids)
-    ? event.gender_ids
-    : typeof event.gender_ids === "string" && event.gender_ids
-    ? event.gender_ids.split(",").map((value) => value.trim()).filter(Boolean)
+  const genderIds = Array.isArray(event.gender_id)
+    ? event.gender_id
+    : typeof event.gender_id === "string" && event.gender_id
+    ? event.gender_id.split(",").map((value) => value.trim()).filter(Boolean)
     : event.gender_id
     ? [String(event.gender_id)]
     : [];
@@ -58,7 +58,7 @@ const normalizeEvent = (event) => {
     agegroup_ids: agegroupIds,
     age_group_labels: ageGroupLabelsForEvent,
     age_group_label: ageGroupLabelsForEvent[0] || "Unknown",
-    gender_ids: genderIds,
+    gender_id: genderIds,
     gender_labels: genderLabelsForEvent,
     gender_label: genderLabelsForEvent[0] || "Unknown",
     event_id: event.event_id,
@@ -80,8 +80,8 @@ const getEventAgeGroupLabels = (event) => {
 };
 
 const getEventGenderLabels = (event) => {
-  if (Array.isArray(event.gender_ids) && event.gender_ids.length > 0) {
-    return event.gender_ids.map((id) => genderLabels[id] || "Unknown");
+  if (Array.isArray(event.gender_id) && event.gender_id.length > 0) {
+    return event.gender_id.map((id) => genderLabels[id] || "Unknown");
   }
 
   if (Array.isArray(event.gender_labels) && event.gender_labels.length > 0) {
