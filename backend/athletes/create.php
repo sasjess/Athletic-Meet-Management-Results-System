@@ -1,29 +1,32 @@
 <?php
+// 1. ALLOW CORS HEADERS & CREDENTIALS
+header("Access-Control-Allow-Origin: http://localhost:5173"); 
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+header("Access-Control-Allow-Credentials: true");
+
+// 2. HANDLE THE BROWSER'S PREFLIGHT "OPTIONS" REQUEST ONCE
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require_once "../helpers/functions.php";
 require_once "../config/db.php";
-//require_once "athlete_model.php";
 require_once "../middleware/auth.php";
 require_once "../middleware/authorize.php";
 
+// Authenticate and authorize users
 $user = authenticate();
 authorize(['admin','meet_manager','data_entry_operator'], $user);
 
+// Final payload header response format
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-/* Handle preflight */
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
-
-/* Only POST */
+/* Only Allow POST requests past this point */
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode([
         "status" => "error",

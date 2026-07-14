@@ -1,32 +1,35 @@
 <?php
+// 1. ALLOW CORS HEADERS & CREDENTIALS
+header("Access-Control-Allow-Origin: http://localhost:5173"); 
+header("Access-Control-Allow-Methods: PUT, OPTIONS"); // Crucial: Allowed PUT method here
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+header("Access-Control-Allow-Credentials: true");
 
-header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: PUT, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-
-//require_once "athlete_model.php";
-require_once "../helpers/functions.php";
-require_once "../config/db.php";
-require_once "../middleware/auth.php";
-require_once "../middleware/authorize.php";
-
-$user = authenticate();
-authorize(['admin','meet_manager','data_entry_operator'], $user);
-
-
+// 2. HANDLE THE BROWSER'S PREFLIGHT "OPTIONS" REQUEST
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
-/* Allow only PUT */
+require_once "../helpers/functions.php";
+require_once "../config/db.php";
+require_once "../middleware/auth.php";
+require_once "../middleware/authorize.php";
+
+// Authenticate and authorize users
+$user = authenticate();
+authorize(['admin','meet_manager','data_entry_operator'], $user);
+
+// Final payload header response format
+header("Content-Type: application/json");
+
+/* Only Allow PUT requests past this point */
 if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
     echo json_encode([
         "status" => "error",
         "message" => "Only PUT method allowed"
     ]);
-    exit;
+    exit();
 }
 
 /* Read JSON */
