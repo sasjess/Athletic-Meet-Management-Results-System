@@ -1,0 +1,137 @@
+/* Meets Page */
+
+.meets-page {
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.meets-page h2 {
+  font-size: 28px;
+  color: #1f2937;
+  margin-bottom: 20px;
+}
+
+
+/* Form Card */
+
+.meet-form {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+
+/* Inputs */
+
+.meet-form input,
+.meet-form select {
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  background: #fff;
+  transition: 0.2s;
+}
+
+
+.meet-form input:focus,
+.meet-form select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+}
+
+
+/* Button */
+
+.meet-form button {
+  height: 42px;
+  width: 150px;
+  justify-self: start;
+}
+
+
+/* Table Container */
+
+.meets-table-container {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+
+/* Table */
+
+.meets-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+
+.meets-table th {
+  background: #2563eb;
+  color: white;
+  text-align: left;
+  padding: 12px;
+  font-size: 14px;
+}
+
+
+.meets-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  color: #374151;
+  font-size: 14px;
+}
+
+
+.meets-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+
+/* Status badges */
+
+.meets-table td:last-child {
+  font-weight: 600;
+}
+
+
+.status-upcoming {
+  color: #2563eb;
+}
+
+.status-ongoing {
+  color: #16a34a;
+}
+
+.status-completed {
+  color: #6b7280;
+}
+
+
+/* Responsive */
+
+@media (max-width: 900px) {
+
+  .meet-form {
+    grid-template-columns: 1fr;
+  }
+
+  .meet-form button {
+    width: 100%;
+  }
+
+
+  .meets-table-container {
+    overflow-x: auto;
+  }
+
+}

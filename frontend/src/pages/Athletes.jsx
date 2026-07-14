@@ -301,9 +301,9 @@ const Athletes = () => {
           </Button>
 
           {editingId && (
-            <button type="button" onClick={resetForm} className="btn-cancel">
+            <Button className="btn-secondary" type="button" onClick={resetForm} className="btn-cancel">
               Cancel
-            </button>
+            </Button>
           )}
         </form>
 

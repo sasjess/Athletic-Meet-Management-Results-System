@@ -1,0 +1,200 @@
+/* ==========================================================================
+   Schools.css - Stylesheet for Athletic Meet Management Results System
+   ========================================================================== */
+
+.schools-page {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #333;
+}
+
+/* Header Section */
+.schools-page .header {
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #f0f2f5;
+  padding-bottom: 1rem;
+}
+
+.schools-page .header h1 {
+  font-size: 2rem;
+  color: #1a252c;
+  margin: 0 0 0.5rem 0;
+}
+
+.schools-page .header p {
+  color: #6c757d;
+  margin: 0;
+}
+
+/* Feedback Notifications */
+.success-message,
+.error-message {
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Form Styling */
+.school-form {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  align-items: end;
+  margin-bottom: 2.5rem;
+}
+
+.school-form input,
+.school-form select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  background-color: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.school-form input:focus,
+.school-form select:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.25);
+}
+
+/* Handle Form Button Alignment and Grouping */
+.school-form button {
+  width: 100%;
+  padding: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Search Container Bar */
+.search-container {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 350px;
+  padding: 0.6rem 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #4a90e2;
+  max-width: 400px;
+}
+
+/* Data Table Container */
+.table-box {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  overflow-x: auto; /* Enables horizontal scroll on tiny screens */
+  border: 1px solid #e9ecef;
+}
+
+.school-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.school-table th {
+  background-color: #f8f9fa;
+  color: #495057;
+  padding: 1rem;
+  font-weight: 600;
+  border-bottom: 2px solid #dee2e6;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+.school-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #dee2e6;
+  vertical-align: middle;
+}
+
+.school-table tr:hover {
+  background-color: #fcfcfc;
+}
+
+/* Row Item Table Badges or Defaults */
+.school-table td:nth-child(5) {
+  color: #6c757d;
+}
+
+/* Action Table Buttons Styling */
+.school-table button {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  transition: background-color 0.15s ease;
+}
+
+.school-table button.edit {
+  background-color: #e3f2fd;
+  color: #0d47a1;
+}
+
+.school-table button.edit:hover {
+  background-color: #bbdefb;
+}
+
+.school-table button.delete {
+  background-color: #ffebee;
+  color: #b71c1c;
+}
+
+.school-table button.delete:hover {
+  background-color: #ffcdd2;
+}
+
+/* Responsive Structural Overrides */
+@media (max-width: 768px) {
+  .school-form {
+    grid-template-columns: 1fr;
+  }
+  
+  .search-container {
+    justify-content: fill;
+  }
+
+  .search-input {
+    max-width: 100%;
+  }
+}

@@ -1,89 +1,88 @@
+
+
+
+/* ==========================================================================
+   athlete.css - Stylesheet for Athletic Meet Management Results System
+   ========================================================================== */
+
 .athletes-page {
-  margin-left: 20px;
-  padding: 10px;
-  background: #f4f6fb;
-  min-height: 100vh;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #333;
 }
 
-/* Header */
-.header h1 {
-  font-size: 28px;
-  color: #1a3a5c;
+/* Header Section */
+.athletes-page .header {
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #f0f2f5;
+  padding-bottom: 1rem;
 }
 
-.header p {
-  color: #778;
+.athletes-page .header h1 {
+  font-size: 2rem;
+  color: #1a252c;
+  margin: 0 0 0.5rem 0;
 }
 
-/* Form */
+.athletes-page .header p {
+  color: #6c757d;
+  margin: 0;
+}
+
+/* Form Styling - Converted to a modern responsive grid */
 .athlete-form {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  margin: 20px 0;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  align-items: end;
+  margin: 20px 0 2.5rem 0;
 }
 
 .athlete-form input,
 .athlete-form select {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-/* Buttons */
-.btn-primary2 {
-  background: #1a6fc4;
-  color: #fff;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-} 
-
-/* Table */
-.table-box {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-}
-
-.athlete-table {
   width: 100%;
-  border-collapse: collapse;
+  padding: 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  background-color: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.athlete-table th {
-  text-align: left;
-  padding: 12px;
-  color: #888;
-  border-bottom: 1px solid #eee;
+
+.athlete-form input:focus,
+.athlete-form select:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.25);
 }
 
-.athlete-table td {
-  padding: 12px;
-  border-bottom: 1px solid #f2f2f2;
-}
-
-.edit {
-  background: #1a6fc4;
+/* Primary Form Buttons */
+.btn-primary2 {
+  width: 100%;
+  background-color: #1a6fc4;
   color: #fff;
   border: none;
-  padding: 6px 10px;
-  border-radius: 6px;
-  margin-right: 5px;
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.delete {
-  background: #ef4444;
-  color: #fff;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 6px;
+.btn-primary2:hover {
+  background-color: #1459a0;
 }
+
+/* Section Divider */
 .section-divider {
   border: 0;
   height: 1px;
@@ -91,29 +90,145 @@
   margin: 2rem 0;
 }
 
+/* Search Container & Inputs */
 .search-container {
+  margin-bottom: 1.5rem;
   display: flex;
-  max-width: 400px;
-  margin-bottom: 1rem;
+  justify-content: flex-end;
   gap: 0.5rem;
+  max-width: 450px;
+  margin-left: auto; /* Aligns search bar to the right side */
 }
 
 .search-input {
   flex: 1;
   padding: 0.6rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 0.95rem;
+  border: 1px solid #ced4da;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #4a90e2;
 }
 
 .clear-search-btn {
-  padding: 0.6rem 1rem;
+  padding: 0.6rem 1.2rem;
   background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  color: #495057;
+  border: 1px solid #ced4da;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
   cursor: pointer;
+  transition: background-color 0.15s ease;
 }
 
 .clear-search-btn:hover {
   background-color: #e0e0e0;
+}
+
+/* Data Table Container */
+.table-box {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  overflow-x: auto;
+  border: 1px solid #e9ecef;
+  padding: 0; /* Let table elements touch the borders cleanly */
+}
+
+.athlete-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.athlete-table th {
+  background-color: #f8f9fa;
+  color: #495057;
+  padding: 1rem;
+  font-weight: 600;
+  border-bottom: 2px solid #dee2e6;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+.athlete-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #dee2e6;
+  vertical-align: middle;
+}
+
+.athlete-table tr:hover {
+  background-color: #fcfcfc;
+}
+
+/* Action Table Buttons */
+.athlete-table button {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.athlete-table button.edit {
+  background-color: #e3f2fd;
+  color: #0d47a1;
+  margin-right: 0.5rem;
+}
+
+.athlete-table button.edit:hover {
+  background-color: #bbdefb;
+}
+
+.athlete-table button.delete {
+  background-color: #ffebee;
+  color: #b71c1c;
+}
+
+.athlete-table button.delete:hover {
+  background-color: #ffcdd2;
+}
+
+/* Responsive Overrides */
+@media (max-width: 768px) {
+  .athlete-form {
+    grid-template-columns: 1fr;
+  }
+  
+  .search-container {
+    max-width: 100%;
+    justify-content: stretch;
+  }
+}
+
+/* 1. Ensure all standard input placeholders are a uniform light ash gray */
+.athlete-form input::placeholder {
+  color: #767779 !important;
+  opacity: 1; /* Fixes Firefox opacity rendering */
+}
+
+/* 2. Style the select dropdowns so their placeholder-like option looks ash gray too */
+.athlete-form select {
+  color: #333; /* Color for actual selected values (e.g. "Male", "School A") */
+}
+
+/* Style the select element only when the default "Select..." option is active */
+.athlete-form select:invalid,
+.athlete-form select:has(option[value=""]:checked) {
+  color: #767779; /* Match your ash placeholder color exactly */
+}
+
+/* Force the actual dropdown list options to stay readable black when opened */
+.athlete-form select option {
+  color: #333;
+  background-color: #fff;
 }
