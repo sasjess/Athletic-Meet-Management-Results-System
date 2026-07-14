@@ -20,11 +20,190 @@
   align-items: center;
 }
 
+/* ==========================================
+   Bulk Podium Entry Form Styles
+   ========================================== */
+.podium-insert-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+}
+
+.podium-insert-card h2 {
+  margin: 0 0 16px;
+  font-size: 1.25rem;
+  color: #111827;
+  font-weight: 600;
+}
+
+.form-meta-selectors {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.form-meta-selectors select,
+.form-meta-selectors input {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #fff;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.form-meta-selectors select:focus,
+.form-meta-selectors input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.divider {
+  border: 0;
+  height: 1px;
+  background: #e5e7eb;
+  margin: 20px 0;
+}
+
+/* Podium Placement Grid Layout */
+.podium-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.podium-row-input {
+  display: grid;
+  grid-template-columns: 140px 1fr 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.podium-row-input:hover {
+  transform: translateY(-1px);
+}
+
+.podium-row-input input {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.podium-row-input input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+/* Podiums (Specific Place Colors) */
+.podium-row-input.gold {
+  background: #fefcf0;
+  border-left: 5px solid #fbbf24;
+}
+
+.podium-row-input.silver {
+  background: #f9fafb;
+  border-left: 5px solid #9ca3af;
+}
+
+.podium-row-input.bronze {
+  background: #fffbf7;
+  border-left: 5px solid #d97706;
+}
+
+.medal-badge {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+/* ==========================================
+   Table & Results Listing Enhancements
+   ========================================== */
+.results-table-wrapper {
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.results-table th,
+.results-table td {
+  padding: 14px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.results-table th {
+  background: #f8fafc;
+  color: #111827;
+  font-weight: 600;
+}
+
+/* Row-Highlighting based on Podium Positions */
+.results-table tr.pos-1 td {
+  background-color: rgba(251, 191, 36, 0.05);
+}
+
+.results-table tr.pos-2 td {
+  background-color: rgba(156, 163, 175, 0.03);
+}
+
+.results-table tr.pos-3 td {
+  background-color: rgba(217, 119, 6, 0.02);
+}
+
+.bib-tag {
+  background: #f3f4f6;
+  color: #374151;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.points-pill {
+  background: #ecfdf5;
+  color: #047857;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+/* ==========================================
+   Search & Layout Containers
+   ========================================== */
 .search-panel {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
   margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .search-panel {
+    grid-template-columns: 1fr;
+  }
+  .podium-row-input {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
 }
 
 .search-card {
@@ -54,34 +233,23 @@
   min-width: 0;
 }
 
-.results-table-wrapper {
-  overflow-x: auto;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
-}
-
-.results-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.results-table th,
-.results-table td {
-  padding: 14px 12px;
-  text-align: left;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.results-table th {
-  background: #f8fafc;
-  color: #111827;
-}
-
+/* ==========================================
+   Alerts & Feedback Signals
+   ========================================== */
 .error-message {
   margin-bottom: 16px;
   padding: 12px 16px;
   border-radius: 10px;
   background: #fee2e2;
   color: #b91c1c;
+  border: 1px solid #fca5a5;
+}
+
+.success-message {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
 }
