@@ -15,6 +15,10 @@ require_once "../middleware/auth.php";
 $user = authenticate(); // Validates active login structure tokens
 
 $data = json_decode(file_get_contents("php://input"), true);
+file_put_contents(
+    __DIR__ . "/debug_podium.txt",
+    print_r($data, true)
+);
 
 if (empty($data['meet_id']) || empty($data['event_id']) || empty($data['results'])) {
     echo json_encode(["status" => "error", "message" => "Incomplete request validation profile parameters missing."]);
@@ -73,7 +77,7 @@ try {
 
         // Bind parameter mappings (Types: i = integer, s = string, d = double)
         $stmt->bind_param(
-            "iiiiisddid",
+            "iiiisddiii",
             $bib_no, 
             $event_id, 
             $meet_id, 

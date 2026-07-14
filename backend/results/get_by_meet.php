@@ -29,6 +29,7 @@ SELECT
     a.name AS athlete_name,
     s.school_name,
     e.event_name,
+    r.agegroup_id,
     r.performance_time,
     r.performance_distance,
     r.points,
@@ -45,6 +46,7 @@ WHERE r.meet_id = ?
 ORDER BY e.event_name ASC, r.position ASC, r.points DESC
 ";
 
+
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $meet_id);
 $stmt->execute();
@@ -56,3 +58,4 @@ while ($row = $result->fetch_assoc()) {
 }
 
 sendResponse("success", "Results loaded", $data);
+?>

@@ -83,7 +83,7 @@ function createEvent($name, $type, $gender_id, $agegroup_ids) {
     $conn->commit();
     return true;
 }
-function getAllEvents() {
+function getAllEvents($meetId = null) {
     global $conn;
 
     $sql = "
@@ -96,6 +96,14 @@ function getAllEvents() {
             ag.agegroup_id,
             ag.group_name AS age_group
         FROM events e
+    ";
+
+    // Only join through meet_events when a specific meet is requested
+    if ($meetId !== null) {
+        $sql .= " INNER JOIN meet_events me ON me.event_id = e.event_id ";
+    }
+
+    $sql .= "
         LEFT JOIN gender_events ge
             ON ge.event_id = e.event_id
         LEFT JOIN gender ge_gender
@@ -104,13 +112,27 @@ function getAllEvents() {
             ON ae.event_id = e.event_id
         LEFT JOIN age_groups ag
             ON ag.agegroup_id = ae.agegroup_id
+    ";
+
+    if ($meetId !== null) {
+        $sql .= " WHERE me.meet_id = ? ";
+    }
+
+    $sql .= "
         ORDER BY
             e.event_name ASC,
             ag.agegroup_id ASC,
             ge_gender.name ASC
     ";
 
-    $result = $conn->query($sql);
+    if ($meetId !== null) {
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $meetId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    } else {
+        $result = $conn->query($sql);
+    }
 
     $data = [];
     $eventsById = [];
@@ -155,7 +177,6 @@ function getAllEvents() {
 
     return array_values($eventsById);
 }
-
 function updateEvent($id, $name, $type, $gender_id, $agegroup_ids) {
     global $conn;
 

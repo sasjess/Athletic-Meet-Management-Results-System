@@ -28,7 +28,10 @@ require_once "../middleware/authorize.php";
 $user = authenticate();
 authorize(['admin','meet_manager','data_entry_operator'], $user);
 
-$data = getAllEvents();
+// Optional: filter to a specific meet's assigned events
+$meetId = isset($_GET['meet_id']) && $_GET['meet_id'] !== '' ? (int)$_GET['meet_id'] : null;
+
+$data = getAllEvents($meetId);
 
 // 2. FORMAT UNIFORMLY FOR YOUR FRONTEND LOADER
 echo json_encode([

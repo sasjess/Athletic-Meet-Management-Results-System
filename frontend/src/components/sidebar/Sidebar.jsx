@@ -14,7 +14,7 @@ const Sidebar = () => {
     { name: "Results", path: "/results" },
     { name: "Leaderboard", path: "/leaderboard" },
     { name: "Past Meets", path: "/past-meets" },
-    { name: "About", path: "/about" },
+    // { name: "About", path: "/about" },
   ];
 
   const adminItems = authorized

@@ -40,38 +40,7 @@ function fetchAll($stmt) {
 }
 
 try {
-    // STATS
-    $stats = [];
-
-    $stmt = $conn->prepare("SELECT COUNT(*) as total FROM schools");
-    $stmt->execute();
-    $stmt->bind_result($total);
-    $stmt->fetch();
-    $stats['totalSchools'] = (int)$total;
-    $stmt->close();
-
-    $stmt = $conn->prepare("SELECT COUNT(*) as total FROM athletes");
-    $stmt->execute();
-    $stmt->bind_result($total);
-    $stmt->fetch();
-    $stats['totalAthletes'] = (int)$total;
-    $stmt->close();
-
-    $stmt = $conn->prepare("SELECT COUNT(*) as total FROM events");
-    $stmt->execute();
-    $stmt->bind_result($total);
-    $stmt->fetch();
-    $stats['totalEvents'] = (int)$total;
-    $stmt->close();
-
-    $stmt = $conn->prepare("SELECT COUNT(*) as total FROM results");
-    $stmt->execute();
-    $stmt->bind_result($total);
-    $stmt->fetch();
-    $stats['totalResults'] = (int)$total;
-    $stmt->close();
-
-    // CURRENT MEET (only the ongoing meet)
+    // CURRENT MEET (only the ongoing meet) - fetched first since stats depend on it
     $currentMeet = null;
     $stmt = $conn->prepare("SELECT meet_id, year, meet_name, start_date, end_date, status FROM meets WHERE status = 'Ongoing' LIMIT 1");
     $stmt->execute();
@@ -80,6 +49,65 @@ try {
         $currentMeet = $row;
     }
     $stmt->close();
+
+    // STATS (scoped to the ongoing meet)
+    $stats = [
+        'totalSchools' => 0,
+        'totalAthletes' => 0,
+        'totalEvents' => 0,
+        'totalResults' => 0,
+    ];
+
+    if ($currentMeet && isset($currentMeet['meet_id'])) {
+        $meetIdForStats = $currentMeet['meet_id'];
+
+        // Total events assigned to the ongoing meet
+        $stmt = $conn->prepare("SELECT COUNT(DISTINCT me.event_id) as total FROM meet_events me WHERE me.meet_id = ?");
+        $stmt->bind_param('i', $meetIdForStats);
+        $stmt->execute();
+        $stmt->bind_result($total);
+        $stmt->fetch();
+        $stats['totalEvents'] = (int)$total;
+        $stmt->close();
+
+        // Total distinct athletes entered in events belonging to the ongoing meet
+        $stmt = $conn->prepare("
+            SELECT COUNT(DISTINCT ae.bib_no) as total
+            FROM athlete_event ae
+            JOIN meet_events me ON ae.event_id = me.event_id
+            WHERE me.meet_id = ?
+        ");
+        $stmt->bind_param('i', $meetIdForStats);
+        $stmt->execute();
+        $stmt->bind_result($total);
+        $stmt->fetch();
+        $stats['totalAthletes'] = (int)$total;
+        $stmt->close();
+
+        // Total distinct schools with athletes entered in the ongoing meet
+        $stmt = $conn->prepare("
+            SELECT COUNT(DISTINCT a.school_id) as total
+            FROM athlete_event ae
+            JOIN meet_events me ON ae.event_id = me.event_id
+            JOIN athletes a ON ae.bib_no = a.bib_no
+            WHERE me.meet_id = ? AND a.school_id IS NOT NULL
+        ");
+        $stmt->bind_param('i', $meetIdForStats);
+        $stmt->execute();
+        $stmt->bind_result($total);
+        $stmt->fetch();
+        $stats['totalSchools'] = (int)$total;
+        $stmt->close();
+
+        // Total results recorded for the ongoing meet
+        $stmt = $conn->prepare("SELECT COUNT(*) as total FROM results r WHERE r.meet_id = ?");
+        $stmt->bind_param('i', $meetIdForStats);
+        $stmt->execute();
+        $stmt->bind_result($total);
+        $stmt->fetch();
+        $stats['totalResults'] = (int)$total;
+        $stmt->close();
+    }
 
     // UPCOMING EVENTS for the ongoing meet (if any)
     $upcomingEvents = [];
@@ -100,16 +128,21 @@ try {
         $upcomingEvents = fetchAll($stmt);
     }
 
-    // RECENT RESULTS
-    $sql = "SELECT r.id, r.bib_no, a.name AS athlete_name, s.school_name, r.event_id, e.event_name, r.performance_time, r.performance_distance, r.points, r.position, r.created_at
-            FROM results r
-            JOIN athletes a ON r.bib_no = a.bib_no
-            LEFT JOIN schools s ON a.school_id = s.school_id
-            LEFT JOIN events e ON r.event_id = e.event_id
-            ORDER BY r.created_at DESC
-            LIMIT 10";
-    $stmt = $conn->prepare($sql);
-    $recentResults = fetchAll($stmt);
+    // RECENT RESULTS (ONGOING MEET ONLY)
+    $recentResults = [];
+    if ($currentMeet && isset($currentMeet['meet_id'])) {
+        $sql = "SELECT r.id, r.bib_no, a.name AS athlete_name, s.school_name, r.event_id, e.event_name, r.performance_time, r.performance_distance, r.points, r.position, r.created_at
+                FROM results r
+                JOIN athletes a ON r.bib_no = a.bib_no
+                LEFT JOIN schools s ON a.school_id = s.school_id
+                LEFT JOIN events e ON r.event_id = e.event_id
+                WHERE r.meet_id = ?
+                ORDER BY r.created_at DESC
+                LIMIT 10";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('i', $currentMeet['meet_id']);
+        $recentResults = fetchAll($stmt);
+    }
 
     // PAST MEETS
     $sql = "SELECT meet_id, year, meet_name, start_date, end_date, status
@@ -120,37 +153,51 @@ try {
     $stmt = $conn->prepare($sql);
     $pastMeets = fetchAll($stmt);
 
-    // TOP ATHLETES (top 10 by total points)
-    $sql = "SELECT a.bib_no, a.name AS athlete_name, s.school_name, COALESCE(SUM(r.points),0) AS total_points
-            FROM results r
-            JOIN athletes a ON r.bib_no = a.bib_no
-            LEFT JOIN schools s ON a.school_id = s.school_id
-            GROUP BY a.bib_no
-            ORDER BY total_points DESC
-            LIMIT 10";
-    $stmt = $conn->prepare($sql);
-    $topAthletes = fetchAll($stmt);
+    // TOP ATHLETES (top 10 by total points, ONGOING MEET ONLY)
+    $topAthletes = [];
+    if ($currentMeet && isset($currentMeet['meet_id'])) {
+        $sql = "SELECT a.bib_no, a.name AS athlete_name, s.school_name, COALESCE(SUM(r.points),0) AS total_points
+                FROM results r
+                JOIN athletes a ON r.bib_no = a.bib_no
+                LEFT JOIN schools s ON a.school_id = s.school_id
+                WHERE r.meet_id = ?
+                GROUP BY a.bib_no
+                ORDER BY total_points DESC
+                LIMIT 10";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('i', $currentMeet['meet_id']);
+        $topAthletes = fetchAll($stmt);
+    }
 
-    // TOP SCHOOLS (overall and by gender)
-    $sqlOverall = "SELECT s.school_id, s.school_name, COALESCE(SUM(r.points),0) AS total_points
-                   FROM results r
-                   JOIN athletes a ON r.bib_no = a.bib_no
-                   JOIN schools s ON a.school_id = s.school_id
-                   GROUP BY s.school_id
-                   ORDER BY total_points DESC
-                   LIMIT 10";
-    $stmt = $conn->prepare($sqlOverall);
-    $topSchoolsOverall = fetchAll($stmt);
+    // TOP SCHOOLS (overall and by gender, ONGOING MEET ONLY)
+    $topSchoolsOverall = [];
+    $rowsByGender = [];
 
-    $sqlByGender = "SELECT s.school_id, s.school_name, s.gender_id, g.name AS gender_name, COALESCE(SUM(r.points),0) AS total_points
-                    FROM results r
-                    JOIN athletes a ON r.bib_no = a.bib_no
-                    JOIN schools s ON a.school_id = s.school_id
-                    LEFT JOIN gender g ON s.gender_id = g.gender_id
-                    GROUP BY s.school_id, s.gender_id
-                    ORDER BY total_points DESC";
-    $stmt = $conn->prepare($sqlByGender);
-    $rowsByGender = fetchAll($stmt);
+    if ($currentMeet && isset($currentMeet['meet_id'])) {
+        $sqlOverall = "SELECT s.school_id, s.school_name, COALESCE(SUM(r.points),0) AS total_points
+                       FROM results r
+                       JOIN athletes a ON r.bib_no = a.bib_no
+                       JOIN schools s ON a.school_id = s.school_id
+                       WHERE r.meet_id = ?
+                       GROUP BY s.school_id
+                       ORDER BY total_points DESC
+                       LIMIT 10";
+        $stmt = $conn->prepare($sqlOverall);
+        $stmt->bind_param('i', $currentMeet['meet_id']);
+        $topSchoolsOverall = fetchAll($stmt);
+
+        $sqlByGender = "SELECT s.school_id, s.school_name, s.gender_id, g.name AS gender_name, COALESCE(SUM(r.points),0) AS total_points
+                        FROM results r
+                        JOIN athletes a ON r.bib_no = a.bib_no
+                        JOIN schools s ON a.school_id = s.school_id
+                        LEFT JOIN gender g ON s.gender_id = g.gender_id
+                        WHERE r.meet_id = ?
+                        GROUP BY s.school_id, s.gender_id
+                        ORDER BY total_points DESC";
+        $stmt = $conn->prepare($sqlByGender);
+        $stmt->bind_param('i', $currentMeet['meet_id']);
+        $rowsByGender = fetchAll($stmt);
+    }
 
     // Organize by gender map
     $topSchoolsByGender = [];

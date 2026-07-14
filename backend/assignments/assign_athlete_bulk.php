@@ -20,11 +20,17 @@ header("Content-Type: application/json");
 
 $data = json_decode(file_get_contents("php://input"), true);
 $bib_no               = $data['bib_no'] ?? null;
+$meet_id              = $data['meet_id'] ?? null;
 $individual_event_ids = $data['individual_event_ids'] ?? [];
 $relay_event_ids      = $data['relay_event_ids'] ?? [];
 
 if (!$bib_no) {
     echo json_encode(["status" => "error", "message" => "Missing athlete identity registration value."]);
+    exit();
+}
+
+if (!$meet_id) {
+    echo json_encode(["status" => "error", "message" => "Missing meet_id — cannot register events without an active meet."]);
     exit();
 }
 
@@ -41,16 +47,16 @@ $all_event_ids = array_merge($individual_event_ids, $relay_event_ids);
 $conn->begin_transaction();
 
 try {
-    // Optional: Clear old active entries for this athlete if doing an overwrite update setup
-    $delete_stmt = $conn->prepare("DELETE FROM athlete_event WHERE bib_no = ?");
-    $delete_stmt->bind_param("i", $bib_no);
+    // Only clear this athlete's entries for THIS meet — past meets' history stays intact
+    $delete_stmt = $conn->prepare("DELETE FROM athlete_event WHERE bib_no = ? AND meet_id = ?");
+    $delete_stmt->bind_param("ii", $bib_no, $meet_id);
     $delete_stmt->execute();
 
     // Loop through and insert each row sequentially
     if (!empty($all_event_ids)) {
-        $insert_stmt = $conn->prepare("INSERT INTO athlete_event (bib_no, event_id, heat_number) VALUES (?, ?, 1)");
+        $insert_stmt = $conn->prepare("INSERT INTO athlete_event (bib_no, event_id, meet_id, heat_number) VALUES (?, ?, ?, 1)");
         foreach ($all_event_ids as $event_id) {
-            $insert_stmt->bind_param("ii", $bib_no, $event_id);
+            $insert_stmt->bind_param("iii", $bib_no, $event_id, $meet_id);
             $insert_stmt->execute();
         }
     }

@@ -1,121 +1,369 @@
-/* Inherits structural layout definitions from Athletes.css layout styles */
-.display-block-form {
+/* ============================================================
+   EventAssignment.css
+   Namespaced with `ea-` / `event-assignment-` prefixes to avoid
+   colliding with other pages' global class names (e.g. Athletes.css).
+   ============================================================ */
+
+.event-assignment-page {
+  --ea-surface: #ffffff;
+  --ea-surface-sunken: #f7f8fa;
+  --ea-border: #e3e6ea;
+  --ea-border-strong: #cfd4da;
+
+  --ea-text: #1a1d23;
+  --ea-text-muted: #667085;
+  --ea-text-faint: #98a2b3;
+
+  --ea-accent: #2563eb;
+  --ea-accent-bg: #eaf1ff;
+
+  --ea-success: #16a34a;
+  --ea-success-bg: #eefbf1;
+  --ea-success-text: #14532d;
+
+  --ea-danger: #dc2626;
+  --ea-danger-bg: #fdecec;
+  --ea-danger-text: #7f1d1d;
+
+  --ea-space-1: 0.25rem;
+  --ea-space-2: 0.5rem;
+  --ea-space-3: 0.75rem;
+  --ea-space-4: 1rem;
+  --ea-space-5: 1.5rem;
+  --ea-space-6: 2rem;
+
+  --ea-radius-sm: 6px;
+  --ea-radius-md: 10px;
+  --ea-radius-pill: 999px;
+
+  --ea-transition: 150ms ease-in-out;
+  --ea-shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --ea-shadow-md: 0 4px 12px rgba(16, 24, 40, 0.08);
+
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: var(--ea-space-6) var(--ea-space-5);
+  box-sizing: border-box;
+  color: var(--ea-text);
+  display: block; /* explicit — guards against any inherited flex/grid from a parent collision */
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.ea-header {
+  text-align: left;
+  margin-bottom: var(--ea-space-5);
+  padding-bottom: var(--ea-space-4);
+  border-bottom: 1px solid var(--ea-border);
+}
+
+.ea-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--ea-space-1) 0;
+  color: var(--ea-text);
+}
+
+.ea-header > p {
+  font-size: 0.95rem;
+  color: var(--ea-text-muted);
+  margin: 0;
+}
+
+.ea-active-meet-note {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ea-space-2);
+  margin-top: var(--ea-space-3);
+  padding: var(--ea-space-2) var(--ea-space-4);
+  background-color: var(--ea-accent-bg);
+  color: var(--ea-accent);
+  border-radius: var(--ea-radius-pill);
+  font-size: 0.85rem;
+}
+
+.ea-active-meet-note strong {
+  font-weight: 600;
+  color: #1e3a8a;
+}
+
+.ea-inline-warning {
+  display: inline-block;
+  margin-top: var(--ea-space-3);
+  padding: var(--ea-space-2) var(--ea-space-4);
+  font-size: 0.85rem;
+  background-color: var(--ea-danger-bg);
+  color: var(--ea-danger-text);
+  border-left: 3px solid var(--ea-danger);
+  border-radius: var(--ea-radius-sm);
+}
+
+/* ============================================================
+   SHARED STATUS BANNERS (kept global/unprefixed — used consistently
+   across every page in this app for success/error feedback)
+   ============================================================ */
+
+.success-message,
+.error-message {
+  display: block;
+  padding: 0.85rem 1.2rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+  border-left: 4px solid transparent;
+}
+
+.success-message {
+  background-color: #e8f5e9;
+  color: #1b5e20;
+  border-left-color: #4caf50;
+}
+
+.error-message {
+  background-color: #fdecea;
+  color: #c62828;
+  border-left-color: #e53935;
+}
+
+/* ============================================================
+   FORM CARD
+   ============================================================ */
+
+.ea-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem !important;
-  max-width: 100% !important;
+  align-items: stretch;
+  gap: var(--ea-space-5);
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--ea-surface);
+  border: 1px solid var(--ea-border);
+  border-radius: var(--ea-radius-md);
+  padding: var(--ea-space-5);
+  box-shadow: var(--ea-shadow-sm);
 }
 
-.athlete-meta-badge {
-  background-color: #e3f2fd;
-  color: #0d47a1;
-  padding: 0.85rem 1.2rem;
-  border-radius: 4px;
-  font-size: 0.95rem;
-  text-align: left;
-  border-left: 4px solid #1e88e5;
-}
+/* ============================================================
+   ATHLETE SEARCH
+   ============================================================ */
 
-.checkbox-section {
-  text-align: left;
-  margin-top: 0.5rem;
-}
-
-.checkbox-section h3 {
-  font-size: 1.1rem;
-  color: #444;
-  margin-bottom: 0.8rem;
-  border-bottom: 2px solid #eaeaea;
-  padding-bottom: 0.3rem;
-}
-
-.checkbox-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1rem;
-}
-
-.checkbox-card {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.85rem 1rem;
-  background: #ffffff;
-  border: 1px solid #dcdcdc;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.15s ease-in-out;
-  user-select: none;
-}
-
-.checkbox-card:hover {
-  background: #f9f9f9;
-  border-color: #b5b5b5;
-}
-
-.checkbox-card.checked {
-  background: #e8f5e9;
-  border-color: #4caf50;
-  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.1);
-}
-
-.checkbox-card input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-  accent-color: #4caf50;
-}
-
-.no-data-msg {
-  color: #888;
-  font-style: italic;
-  font-size: 0.9rem;
-  padding: 0.5rem 0;
-}
-.search-selection-box {
+.ea-search-box {
   position: relative;
-  width: 100% !important;
+  width: 100%;
   text-align: left;
 }
 
-/* Lengthen the actual input element box itself */
-.search-selection-box .search-input {
-  width: 100% !important;
-  box-sizing: border-box; /* Makes sure internal padding doesn't pop it out of line */
-  padding: 0.85rem 1.2rem; /* Matches your premium field sizes */
+.ea-search-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--ea-space-3) var(--ea-space-4);
   font-size: 1rem;
+  border: 1px solid var(--ea-border-strong);
+  border-radius: var(--ea-radius-sm);
+  background-color: var(--ea-surface);
+  color: var(--ea-text);
+  transition: border-color var(--ea-transition), box-shadow var(--ea-transition);
 }
-.search-results-dropdown {
+
+.ea-search-input:focus {
+  outline: none;
+  border-color: var(--ea-accent);
+  box-shadow: 0 0 0 3px var(--ea-accent-bg);
+}
+
+.ea-search-dropdown {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 4px);
   left: 0;
   right: 0;
-  background: #ffffff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  max-height: 220px;
+  background: var(--ea-surface);
+  border: 1px solid var(--ea-border);
+  border-radius: var(--ea-radius-sm);
+  max-height: 240px;
   overflow-y: auto;
-  z-index: 999;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  z-index: 20;
+  box-shadow: var(--ea-shadow-md);
 }
 
-.search-result-item {
-  padding: 0.75rem 1rem;
+.ea-search-result {
+  padding: var(--ea-space-3) var(--ea-space-4);
+  border-bottom: 1px solid var(--ea-surface-sunken);
+  font-size: 0.9rem;
+  color: var(--ea-text);
   cursor: pointer;
-  border-bottom: 1px solid #f0f0f0;
-  font-size: 0.95rem;
-  color: #333;
+  transition: background-color var(--ea-transition);
 }
 
-.search-result-item:last-child {
+.ea-search-result:last-child {
   border-bottom: none;
 }
 
-.search-result-item:hover {
-  background-color: #f1f5f9;
-  color: #000;
+.ea-search-result:hover {
+  background-color: var(--ea-surface-sunken);
 }
 
-.search-result-item small {
-  color: #666;
+.ea-search-result strong {
+  font-variant-numeric: tabular-nums;
+}
+
+.ea-search-result small {
+  color: var(--ea-text-muted);
+}
+
+/* ============================================================
+   ATHLETE META BADGE
+   ============================================================ */
+
+.ea-badge {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--ea-accent-bg);
+  color: #1e3a8a;
+  padding: var(--ea-space-3) var(--ea-space-4);
+  border-radius: var(--ea-radius-sm);
+  border-left: 3px solid var(--ea-accent);
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+/* ============================================================
+   EVENT SECTIONS
+   ============================================================ */
+
+.ea-section {
+  width: 100%;
+  text-align: left;
+}
+
+.ea-section h3 {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--ea-space-2);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ea-text);
+  margin: 0 0 var(--ea-space-3) 0;
+  padding-bottom: var(--ea-space-2);
+  border-bottom: 2px solid var(--ea-surface-sunken);
+}
+
+.ea-limit-alert,
+.ea-limit-info {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.ea-limit-alert {
+  color: var(--ea-danger);
+}
+
+.ea-limit-info {
+  color: var(--ea-success);
+}
+
+.ea-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--ea-space-3);
+  width: 100%;
+}
+
+.ea-card {
+  display: flex;
+  align-items: center;
+  gap: var(--ea-space-3);
+  padding: var(--ea-space-3) var(--ea-space-4);
+  background: var(--ea-surface);
+  border: 1px solid var(--ea-border);
+  border-radius: var(--ea-radius-sm);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--ea-transition), border-color var(--ea-transition),
+    box-shadow var(--ea-transition);
+}
+
+.ea-card:hover {
+  background: var(--ea-surface-sunken);
+  border-color: var(--ea-border-strong);
+}
+
+.ea-card.checked {
+  background: var(--ea-success-bg);
+  border-color: var(--ea-success);
+  box-shadow: 0 2px 6px rgba(22, 163, 74, 0.12);
+}
+
+.ea-card.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ea-card input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--ea-success);
+  flex-shrink: 0;
+}
+
+.ea-card span {
+  font-size: 0.92rem;
+}
+
+.ea-empty {
+  color: var(--ea-text-faint);
+  font-style: italic;
+  font-size: 0.9rem;
+  padding: var(--ea-space-2) 0;
+}
+
+/* ============================================================
+   SUBMIT ACTION
+   ============================================================ */
+
+.ea-submit {
+  align-self: flex-start;
+  padding: var(--ea-space-3) var(--ea-space-6);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: var(--ea-radius-sm);
+  transition: opacity var(--ea-transition), transform var(--ea-transition);
+}
+
+.ea-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ea-submit:not(:disabled):active {
+  transform: translateY(1px);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 640px) {
+  .event-assignment-page {
+    padding: var(--ea-space-5) var(--ea-space-4);
+  }
+
+  .ea-form {
+    padding: var(--ea-space-4);
+  }
+
+  .ea-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ea-submit {
+    width: 100%;
+    align-self: stretch;
+    text-align: center;
+  }
 }
