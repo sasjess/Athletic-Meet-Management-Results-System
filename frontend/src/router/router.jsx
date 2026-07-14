@@ -14,6 +14,7 @@ import Schools from "../pages/Schools";
 import Events from "../pages/Events";
 import Meets from "../pages/Meets";
 import AssignEventsToMeet from "../pages/AssignEventsToMeet";
+import  EventAssignment from "../pages/assignEventsToAthletes";
 
 import ProtectedRoute from "../components/ProtectedRoute";
 
@@ -105,6 +106,15 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Schools />
+      </ProtectedRoute>
+    ),
+  },
+
+  {
+    path: "/assign-events-to-athletes",
+    element: (
+      <ProtectedRoute>
+        < EventAssignment />
       </ProtectedRoute>
     ),
   },

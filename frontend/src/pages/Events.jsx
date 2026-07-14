@@ -206,8 +206,39 @@ const Events = () => {
       return;
     }
 
+    // 🧠 1. NORMALIZE USER INPUT STRING FOR VALIDATION
+    // This turns "100 m", "100m", and "  100  M  " all into "100m"
+    const incomingNormalized = form.event_name.toLowerCase().replace(/\s+/g, "");
+
+    // 🧠 2. CHECK AGAINST CURRENTLY LOADED EVENTS FOR DUPLICATES
+    const isDuplicate = events.some((evt) => {
+      if (!evt.event_name) return false;
+      
+      const existingNormalized = evt.event_name.toLowerCase().replace(/\s+/g, "");
+      
+      // If the standardized name matches, check if it shares overlapping age groups and genders
+      const sharedAgeGroup = evt.agegroup_ids?.some(id => agegroupIds.includes(String(id)));
+      const sharedGender = evt.gender_id?.some(id => genderIds.includes(String(id)));
+
+      return incomingNormalized === existingNormalized && sharedAgeGroup && sharedGender;
+    });
+
+    if (isDuplicate) {
+      setError(`An event matching "${form.event_name.trim()}" already exists for these selected categories!`);
+      return;
+    }
+
+    // 🧠 3. PRETTIFY EVENT NAME BEFORE SAVING
+    // Ensures if they type "100m" or "100   m" it standardizes uniformly as "100 m"
+    let standardizedName = form.event_name.trim();
+    if (/^\d+m$/i.test(incomingNormalized)) {
+      // Matches formats like 100m, 200m -> converts to "100 m", "200 m"
+      const distance = incomingNormalized.match(/\d+/)[0];
+      standardizedName = `${distance} m`;
+    }
+
     const payload = {
-      event_name: form.event_name.trim(),
+      event_name: standardizedName,
       event_type: form.event_type,
       gender_id: genderIds,
       agegroup_id: agegroupIds,
@@ -316,6 +347,7 @@ const Events = () => {
             <option value="">Select Type</option>
             <option value="Track">Track</option>
             <option value="Field">Field</option>
+            <option value="Relay">Relay</option>
           </select>
 
           <div className="age-group-picker" ref={ageGroupDropdownRef}>

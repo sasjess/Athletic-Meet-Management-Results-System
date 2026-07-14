@@ -24,6 +24,7 @@ const Sidebar = () => {
         { name: "Meets", path: "/meets" },
         { name: "Events", path: "/events" },
         { name: "Meets Events", path: "/assign-events-to-meet" },
+        { name: "Athletes Events", path: "/assign-events-to-athletes" },
       ]
     : [];
 
