@@ -33,7 +33,7 @@ if (!$data) {
 
 $required = [
     'bib_no','event_id','meet_id','agegroup_id',
-    'gender_id','stage_id','heat_no','position'
+    'gender_id','stage_id','position'
 ];
 
 foreach ($required as $field) {
@@ -156,7 +156,6 @@ $stmt->bind_param(
     $data['performance_time'],
     $data['performance_distance'],
     $data['stage_id'],
-    $data['heat_no'],
     $data['position'],
     $points
 );
