@@ -1,0 +1,101 @@
+/* ==========================
+   Data Table Container
+========================== */
+
+.data-table-container {
+  width: 100%;
+}
+
+/* ==========================
+   Action Bar
+========================== */
+
+.action-bar {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 12px;
+
+  margin-bottom: 15px;
+}
+
+.action-bar button {
+  padding: 10px 22px;
+
+  border: none;
+
+  border-radius: 6px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  background: #2563eb;
+
+  color: white;
+
+  transition: 0.3s;
+}
+
+.action-bar button:hover {
+  transform: translateY(-2px);
+}
+
+.action-bar button:disabled {
+  background: #cbd5e1;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+/* ==========================
+   Table
+========================== */
+
+.data-table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  background: white;
+
+  border-radius: 10px;
+
+  overflow: hidden;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.data-table th {
+  background: #2563eb;
+
+  color: white;
+
+  padding: 14px;
+
+  text-align: left;
+}
+
+.data-table td {
+  padding: 13px;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.data-table tbody tr:hover {
+  background: #eff6ff;
+}
+
+/* Checkbox */
+
+.data-table input[type="checkbox"] {
+  width: 16px;
+
+  height: 16px;
+
+  cursor: pointer;
+}

@@ -23,7 +23,7 @@ $user = authenticate();
 authorize(['admin','meet_manager','data_entry_operator'], $user);
 
 /* Fetch all schools */
-$result = $conn->query("SELECT school_id, school_name FROM schools ORDER BY school_name ASC");
+$result = $conn->query("SELECT school_id, school_name ,province,district,city FROM schools ORDER BY school_name ASC");
 
 if (!$result) {
     echo json_encode(["status" => "error", "message" => "Query execution failed"]);

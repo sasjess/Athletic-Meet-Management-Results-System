@@ -1,109 +1,197 @@
 <?php
 
-include "../config/db.php";
-include "../helpers/functions.php";
-require_once "../middleware/auth.php";
-require_once "../middleware/authorize.php";
-
-$user = authenticate();
-authorize(['admin','meet_manager','data_entry_operator'], $user);
-
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin:*");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-/* Handle preflight */
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
+
+if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
+
     http_response_code(200);
     exit();
 }
 
-/* Only POST */
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+
+
+require_once "../config/db.php";
+require_once "../middleware/auth.php";
+require_once "../middleware/authorize.php";
+
+
+
+$user = authenticate();
+
+authorize(
+    [
+        "admin",
+        "meet_manager",
+        "data_entry_operator"
+    ],
+    $user
+);
+
+
+
+if ($_SERVER['REQUEST_METHOD'] != "POST") {
+
     echo json_encode([
+
         "status" => "error",
-        "message" => "Only POST method allowed"
+        "message" => "Only POST allowed"
+
     ]);
+
     exit();
 }
 
-/* Read JSON input */
-$data = json_decode(file_get_contents("php://input"), true);
 
-/* Check input */
+
+
+$data = json_decode(
+    file_get_contents("php://input"),
+    true
+);
+
+
+
 if (!$data) {
+
     echo json_encode([
+
         "status" => "error",
-        "message" => "Invalid JSON input"
+        "message" => "Invalid JSON"
+
     ]);
+
     exit();
 }
 
-/* Assign values */
-$school_name = trim($data['school_name'] ?? '');
-$province    = trim($data['province'] ?? '');
-$district    = trim($data['district'] ?? '');
-$city        = trim($data['city'] ?? '');
 
-/* =========================
-   VALIDATION
-========================= */
+
+
+$school_name = trim($data['school_name'] ?? '');
+$province = trim($data['province'] ?? '');
+$district = trim($data['district'] ?? '');
+$city = trim($data['city'] ?? '');
+$gender_id = $data['gender_id'] ?? '';
+
+
+
 $errors = [];
 
-/* Required fields */
-if ($school_name === '' || !isValidSchoolName($school_name)) {
-    $errors[] = "Invalid school_name (letters and spaces only)";
-}
 
-if ($province === '' || !isValidLocation($province)) {
-    $errors[] = "Invalid province (letters only)";
-}
 
-if ($district === '' || !isValidLocation($district)) {
-    $errors[] = "Invalid district (letters only)";
-}
+if ($school_name == "")
+    $errors[] = "School name required";
 
-/* Optional city */
-if ($city !== '' && !isValidLocation($city)) {
-    $errors[] = "Invalid city (letters only)";
-}
 
-/* RETURN ALL ERRORS */
+if ($province == "")
+    $errors[] = "Province required";
+
+
+if ($district == "")
+    $errors[] = "District required";
+
+
+if ($gender_id == "")
+    $errors[] = "Gender required";
+
+
+
 if (!empty($errors)) {
+
+
     echo json_encode([
+
         "status" => "error",
         "errors" => $errors
+
     ]);
+
+
     exit();
 }
 
-/* =========================
-   INSERT QUERY
-========================= */
-$stmt = $conn->prepare("
-    INSERT INTO schools (school_name, province, district, city)
-    VALUES (?, ?, ?, ?)
-");
 
-$stmt->bind_param("ssss", $school_name, $province, $district, $city);
 
-/* Execute */
-if (!$stmt->execute()) {
+
+$stmt = $conn->prepare(
+
+    "INSERT INTO schools
+(
+school_name,
+province,
+district,
+city,
+gender_id
+)
+
+VALUES
+(?,?,?,?,?)"
+
+);
+
+
+
+if (!$stmt) {
+
     echo json_encode([
+
         "status" => "error",
-        "message" => "Failed to create school: " . $conn->error
+        "message" => $conn->error
+
     ]);
+
     exit();
 }
 
-/* SUCCESS */
-echo json_encode([
-    "status" => "success",
-    "message" => "School created successfully",
-    "data" => [
-        "school_id" => $stmt->insert_id
-    ]
-]);
 
-exit();
+
+$stmt->bind_param(
+
+    "sssss",
+
+    $school_name,
+    $province,
+    $district,
+    $city,
+    $gender_id
+
+);
+
+
+
+
+if ($stmt->execute()) {
+
+
+    echo json_encode([
+
+        "status" => "success",
+
+        "message" => "School created successfully",
+
+        "data" => [
+
+            "school_id" => $stmt->insert_id
+
+        ]
+
+    ]);
+} else {
+
+
+    echo json_encode([
+
+        "status" => "error",
+
+        "message" => $stmt->error
+
+    ]);
+}
