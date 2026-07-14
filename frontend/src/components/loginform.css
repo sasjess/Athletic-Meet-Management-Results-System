@@ -225,7 +225,8 @@
 
 .auth-header {
   padding: 28px 30px 12px;
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  background: linear-gradient(180deg, #0b6c81 0%, #06274f 100%);;
+  /* background: linear-gradient(135deg, #2563eb, #1d4ed8); */
   color: #fff;
 }
 
@@ -279,7 +280,7 @@
 }
 
 .forgot-link a {
-  color: #2563eb;
+  color: #145780;
   text-decoration: none;
   font-size: 14px;
   font-weight: 600;
@@ -311,7 +312,7 @@
 .auth-btn {
   width: 100%;
   padding: 16px;
-  background: #1d4ed8;
+  background: #1e849a;
   color: #ffffff;
   border: none;
   border-radius: 14px;
@@ -322,7 +323,7 @@
 }
 
 .auth-btn:hover:not(:disabled) {
-  background: #1e40af;
+  background: #6eb5cb;
   transform: translateY(-1px);
 }
 

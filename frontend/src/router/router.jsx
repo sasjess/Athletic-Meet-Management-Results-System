@@ -13,6 +13,7 @@ import Athletes from "../pages/Athletes";
 import Schools from "../pages/Schools";
 import Events from "../pages/Events";
 import Meets from "../pages/Meets";
+import AssignEventsToMeet from "../pages/AssignEventsToMeet";
 
 import ProtectedRoute from "../components/ProtectedRoute";
 
@@ -86,6 +87,15 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Meets />
+      </ProtectedRoute>
+    ),
+  },
+
+  {
+    path: "/assign-events-to-meet",
+    element: (
+      <ProtectedRoute>
+        <AssignEventsToMeet />
       </ProtectedRoute>
     ),
   },
