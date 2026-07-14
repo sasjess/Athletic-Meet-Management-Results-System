@@ -16,7 +16,6 @@ const CreateResult = () => {
     performance_time: "",
     performance_distance: "",
     stage_id: "",
-    heat_no: "",
     position: "",
     points: "",
   });
@@ -33,7 +32,6 @@ const CreateResult = () => {
     if (!formData.agegroup_id) newErrors.agegroup_id = "Age group is required";
     if (!formData.gender_id) newErrors.gender_id = "Gender is required";
     if (!formData.stage_id) newErrors.stage_id = "Stage ID is required";
-    if (!formData.heat_no) newErrors.heat_no = "Heat number is required";
     if (!formData.position) newErrors.position = "Position is required";
 
     return newErrors;
@@ -79,7 +77,6 @@ const CreateResult = () => {
       performance_time: "",
       performance_distance: "",
       stage_id: "",
-      heat_no: "",
       position: "",
       points: "",
     });
@@ -140,7 +137,7 @@ const CreateResult = () => {
               </div>
 
               <FormField label="Stage ID" name="stage_id" value={formData.stage_id} onChange={handleChange} error={errors.stage_id} type="number" />
-              <FormField label="Heat Number" name="heat_no" value={formData.heat_no} onChange={handleChange} error={errors.heat_no} type="number" />
+              {/* <FormField label="Heat Number" name="heat_no" value={formData.heat_no} onChange={handleChange} error={errors.heat_no} type="number" /> */}
               <FormField label="Position" name="position" value={formData.position} onChange={handleChange} error={errors.position} type="number" />
 
               <FormField label="Performance Time" name="performance_time" value={formData.performance_time} onChange={handleChange} type="text" />
