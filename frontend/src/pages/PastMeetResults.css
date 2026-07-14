@@ -1,0 +1,198 @@
+/* ==========================================================================
+   Results.css - Stylesheet for Athletic Meet Management Results System
+   ========================================================================== */
+
+.results-page {
+  padding: 2rem;
+  width: 100%;       /* Take up 100% of the viewport width */
+  max-width: 100%;   /* Prevent any capping */
+  margin: 0;
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #333;
+}
+
+/* Header Section */
+.results-page .results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #f0f2f5;
+  padding-bottom: 1.5rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.results-page .results-header h1 {
+  font-size: 2rem;
+  color: #1a252c;
+  margin: 0 0 0.5rem 0;
+}
+
+.results-page .results-header p {
+  color: #6c757d;
+  margin: 0;
+}
+
+/* Actions Area */
+.results-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* Error Message */
+.error-message {
+  padding: 1rem;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+/* Default print-header hidden on web screen */
+.print-header {
+  display: none;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.print-header h2 {
+  font-size: 24px;
+  margin: 0 0 5px 0;
+  color: #1a252c;
+}
+
+.print-header p {
+  font-size: 16px;
+  color: #6c757d;
+  margin: 0;
+}
+
+/* Results Table Wrapper */
+.results-table-wrapper {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow-x: auto; /* Scroll horizontally on tiny screens */
+  border: 1px solid #e9ecef;
+}
+
+/* Results Table */
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.results-table th {
+  background-color: #f8f9fa;
+  color: #495057;
+  padding: 1rem;
+  font-weight: 600;
+  border-bottom: 2px solid #dee2e6;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+.results-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #dee2e6;
+  vertical-align: middle;
+}
+
+.results-table tbody tr:hover {
+  background-color: #fcfcfc;
+}
+
+/* Accent Column Highlights */
+.results-table td:nth-child(1) {
+  font-weight: bold;
+  color: #6c757d; /* Rank column */
+}
+
+.results-table td:nth-child(7) {
+  font-weight: 600; /* Position column */
+}
+
+.results-table td:nth-child(8) {
+  font-weight: bold;
+  color: #2e7d32; /* Points column */
+}
+
+/* Loading/Empty State Layouts */
+.results-page p {
+  color: #6c757d;
+  font-size: 1rem;
+}
+
+/* Responsive Structural Adjustments */
+@media (max-width: 768px) {
+  .results-page {
+    padding: 1rem;
+  }
+
+  .results-page .results-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .results-actions {
+    width: 100%;
+  }
+
+  .results-actions button {
+    flex: 1;
+  }
+}
+
+/* ==========================================================================
+   Print-Specific Formatting (Triggered by window.print())
+   ========================================================================== */
+@media print {
+  /* Hide overall global site layout wrapping (like sidebars and navs) */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Only make our table wrapper/print area visible */
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+
+  /* Reposition the printed table to the top-left of the physical page */
+  .print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Reveal the clean header metadata on the physical sheet */
+  .print-header {
+    display: block !important;
+    border-bottom: 2px dashed #000;
+    padding-bottom: 15px;
+  }
+
+  /* Compact the table padding slightly so it fits beautifully on paper */
+  .results-table th,
+  .results-table td {
+    padding: 8px 12px !important;
+    border-bottom: 1px solid #333 !important;
+    font-size: 12px !important;
+    color: #000 !important;
+  }
+
+  .results-table th {
+    background-color: #f0f0f0 !important;
+    border-bottom: 2px solid #000 !important;
+  }
+}
