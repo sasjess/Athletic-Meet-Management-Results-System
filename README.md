@@ -1,4 +1,4 @@
-# Athletic Meet Management & Results System
+# Athletic Meet & Results Management System
 
 A web application for managing athletic meets, schools, athletes, events, event entries, and competition results. The project consists of a React frontend, a PHP backend, and a MySQL database.
 
